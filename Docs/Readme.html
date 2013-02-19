@@ -1,0 +1,611 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<title>MPlayer for Windows (2013-02-18)</title>
+	<style type="text/css">
+		a {text-decoration:none; color:#0000FF}
+		a:hover {background-color: #CCCCCC}
+		a:visited {color: 003399}
+	</style>
+	<base target="_blank">
+</head>
+
+<body><pre>
+MPlayer for Windows
+packaged and maintained by LoRd MuldeR
+<a href="http://mulder.at.gg/">http://mulder.at.gg/</a>
+
+Last Update: 2013-02-18 (Build #104)
+
+
+1. Package Contents
+-------------------
+
+* MPlayer on Win32 by Sherpya, SVN-r35917 (2013-02-18)
+* SMPlayer front-end by RVM, v0.8.3 (SVN-r5027)
+* MPUI front-end by Martin Fiedler, v1.2-pre3 (Build 38)
+* Binary Codecs for MPlayer (2011-01-31)
+* Installer created with Unicode NSIS, v2.46
+
+
+2. Anti-Virus Warning
+---------------------
+
+Occasionally your Antivirus program may mistakenly detect "malware"
+(virus, trojan, worm, etc.) in some of the files here. This is called a
+"false-positive" and the files are actually innocent/clean. It´s an
+error in your specific Antivirus software.
+
+In case you encounter such problems, goto <a href="http://www.virustotal.com/">http://www.virustotal.com/</a>
+and check the file again with multiple Antivirus engines! And take care
+with results like "suspicious" , "generic" or "packed". Those are *not*
+real hits, they are just wild speculation.
+
+Apparently Antivirus programs tend to suspect installers/uninstaller
+created with NSIS. Furthermore some Antivirus programs blindly suspect
+all UPX´d (packed) executables of being malware. Obviously this is a
+stupid generalization, so please ignore those warnings!
+
+Last but not least: Always keep in mind that this is OpenSource
+software! If you don´t trust the people providing the pre-compiled
+binaries, download the source codes and compile them yourself.
+
+DON´T SUBMIT ANY VIRUS/TROJAN REPORTS, UNLESS YOU HAVE VERIFIED THE
+INFECTION WITH MULTIPLE ANTIVIRUS ENGNINES. THANKS!
+
+
+3. License
+----------
+
+MPlayer for Windows (Installer)
+Copyright (C) 2004-2013 LoRd_MuldeR &lt;mulder2@gmx.de>&gt;
+
+MPlayer - The Movie Player
+Copyright (C) 2000-2013 The MPlayer Team &lt;http://www.mplayerhq.hu/&gt;
+
+SMPlayer - GUI front-end for MPlayer
+Copyright (C) 2006-2013 Ricardo Villalba &lt;rvm@users.sf.net&gt;
+
+MPUI - MPlayer for Windows
+Copyright (C) 2005 Martin J. Fiedler
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+<a href="http://www.gnu.org/licenses/gpl-2.0.txt">http://www.gnu.org/licenses/gpl-2.0.txt</a>
+
+
+4. Copyright
+------------
+
+MPlayer was originally written by Árpád Gereöffy and has been extended and
+worked on by many more since then, see the AUTHORS file for an (incomplete)
+list. You are free to use it under the terms of the GNU General Public License,
+as described in the LICENSE file.
+
+MPlayer as a whole is copyrighted by the MPlayer team. Individual copyright
+notices can be found in the file headers. Furthermore, MPlayer includes code
+from several external sources:
+
+Name:       FFmpeg
+Version:    Subversion HEAD
+Homepage:   http://www.ffmpeg.org
+Directory:  libavcodec, libavformat, libavutil, libpostproc
+Copyright:  Many, see individual files for copyright notices.
+License:    GNU Lesser General Public License, some parts GNU General Public
+            License, GNU General Public License when combined
+
+Name:       FAAD2
+Version:    2.1 beta (20040915 CVS snapshot) + fixes and portability patches
+Homepage:   http://www.audiocoding.com
+Directory:  libfaad2
+Copyright:  2003-2004 M. Bakker, Ahead Software AG, http://www.nero.com
+License:    GNU General Public License
+
+Name:       GSM 06.10 library
+Version:    patchlevel 10
+Homepage:   http://kbs.cs.tu-berlin.de/~jutta/toast.html
+Directory:  libmpcodecs/native/
+Copyright:  1992 by Jutta Degener and Carsten Bormann, TU Berlin
+License:    permissive, see libmpcodecs/native/xa_gsm.c
+
+Name:       liba52
+Version:    0.7.4 + patches
+Homepage:   http://liba52.sourceforge.net/
+Directory:  liba52
+Copyright:  1999-2000 Aaron Holtzman &lt;aholtzma@ess.engr.uvic.ca&gt;
+            2000-2001 Michel Lespinasse &lt;walken@zoy.org&gt;
+            2000 Yuqing Deng &lt;Yuqing_Deng@brown.edu&gt;
+            2002 Nick Kurshev
+            2004 Romain Dolbeau &lt;romain@dolbeau.org&gt;
+License:    GNU General Public License
+
+Name:       libdvdcss
+Version:    Subversion r208 (post 1.2.9 release)
+Homepage:   http://developers.videolan.org/libdvdcss/
+Directory:  libdvdcss
+Copyright:  1998-2006 VideoLAN
+License:    GNU General Public License
+
+Name:       libdvdread
+Version:    0.9.7 + patches
+Homepage:   http://www.dtek.chalmers.se/groups/dvd/development.shtml
+Directory:  dvdread
+Copyright:  1998, 1999 Eric Smith &lt;eric@brouhaha.com&gt;
+            1999 Christian Wolff for convergence integrated media
+            2000-2001 Billy Biggs &lt;vektor@dumbterm.net&gt;,
+            2001-2002 Samuel Hocevar &lt;sam@zoy.org&gt;,
+            2000-2003 Björn Englund &lt;d4bjorn@dtek.chalmers.se&gt;,
+            2000-2003 Håkan Hjort &lt;d95hjort@dtek.chalmers.se&gt;
+License:    GNU General Public License
+
+Name:       libmpeg2
+Version:    0.4.1 + patches
+Homepage:   http://libmpeg2.sourceforge.net/
+Directory:  libmpeg2
+Copyright:  1999-2000 Aaron Holtzman &lt;aholtzma@ess.engr.uvic.ca&gt;
+            2000-2003 Michel Lespinasse &lt;walken@zoy.org&gt;
+            2002-2003 Falk Hueffner &lt;falk@debian.org&gt;
+            2003 David S. Miller &lt;davem@redhat.com&gt;
+            2003 Regis Duchesne &lt;hpreg@zoy.org&gt;
+            2003 Peter Gubanov &lt;peter@elecard.net.ru&gt;
+License:    GNU General Public License
+
+Name:       mpg123
+Version:    0.59s + significant changes
+Homepage:   http://www.mpg123.de/
+Directory:  mp3lib
+Copyright:  1995-1999 by Michael Hipp
+            2004 Romain Dolbeau &lt;romain@dolbeau.org&gt;
+            2006 Zuxy Meng &lt;zuxy.meng@gmail.com&gt;
+License:    GNU General Public License
+
+Name:       Tremor
+Version:    1.0 + parts CVS from December 2004 + patches
+Homepage:   http://xiph.org/
+Directory:  tremor
+Copyright:  1994-2002, Xiph.org Foundation http://www.xiph.org/
+License:    BSD-like, see tremor/COPYING
+
+Name:       avifile DLL loader
+Version:    0.47 + patches + CVS updates
+Homepage:   http://avifile.sourceforge.net/
+Directory:  loader/
+Copyright:  1993 Robert J. Amstadt
+            1994 Eric Youndale & Erik Bos
+            1995 Thomas Sandford
+            1995-1996 Alexandre Julliard
+            1996-1998 Marcus Meissner
+            1996 Martin von Loewis
+            2000-2001 Eugene Kuznetsov (divx@euro.ru)
+License:    GNU General Public License
+
+Name:       dvbstream
+Version:    0.4.3-pre3 (CVS checkout)
+Homepage:   http://sourceforge.net/projects/dvbtools/
+Directory:  stream/dvbin.h stream/rtp.[ch] stream/stream_dvb.c
+Copyright:  2001-2002 Dave Chapman &lt;dave@dchapman.com&gt;
+License:    GNU General Public License
+
+Name:       librtsp
+Version:    xine CVS 2003/04/10 + patches
+Homepage:   http://www.xinehq.de
+Directory:  stream/librtsp/
+Copyright:  2000-2002 the xine project
+License:    GNU General Public License
+
+Name:       realrtsp
+Version:    xine CVS 2003/04/17 + patches
+Homepage:   http://www.xinehq.de
+Directory:  stream/realrtsp/
+Copyright:  2002 the xine project
+License:    GNU General Public License
+
+Name:       pnm protocol implementation
+Version:    xine CVS 2002/12/26 + patches
+Homepage:   http://www.xinehq.de
+Directory:  stream/pnm.[ch]
+Copyright:  2000-2002 the xine project
+License:    GNU General Public License
+
+Name:       id3edit
+Version:    1.9 + patches
+Homepage:   http://id3edit.sourceforge.net/
+Directory:  libmpdemux/genres.h
+Copyright:  2001 Jason Carter
+License:    GNU General Public License
+
+Name:       FreeSDP
+Version:    0.4.1
+Homepage:   https://savannah.nongnu.org/projects/freesdp/
+Directory:  stream/freesdp/
+Copyright:  2001-2003 Federico Montesino Pouzols &lt;fedemp@suidzer0.org&gt;
+License:    GNU General Public License
+
+Name:       MJPEG Tools
+Version:    post 2001-12-03 release or CVS snapshot
+Homepage:   http://mjpeg.sourceforge.net/
+Directory:  libmpdemux/yuv4mpeg*
+Copyright:  2001 Matthew J. Marjanovic &lt;maddog@mir.com&gt;
+            2001 Andrew Stevens &lt;andrew.stevens@philips.com&gt;
+License:    GNU General Public License
+
+Name:       NuppelVideo / RTJPEG
+Version:    0.52a + patches
+Homepage:   http://web.archive.org/web/20060219034716/http://frost.htu.tuwien.ac.at/~roman/nuppelvideo/
+Directory:  libmpcodecs/native/rtjpegn.[ch] libmpdemux/nuppelvideo.h
+Copyright:  1998 Justin Schoeman (justin@suntiger.ee.up.ac.za)
+            1998, 1999 Joerg Walter &lt;trouble@moes.pmnet.uni-oldenburg.de&gt;
+            1999 Wim Taymans &lt;wim.taymans@tvd.be&gt;
+License:    GNU General Public License
+
+Name:       ReactOS
+Version:    r25937
+Homepage:   http://www.reactos.org/
+Directory:  vidix/dhahelperwin/ntverp.h vidix/dhahelperwin/common.ver
+Copyright:  Alex Ionescu (alex.ionescu@reactos.org)
+License:    GNU General Public License
+
+
+5. Version History
+------------------
+
+[2013-02-18]
+* Completely new and improved installer!
+* Added optimized builds for Core2, Nehalem, Bulldozer and K8+SSE3
+* MPlayer binaries updated to SVN-r35917
+* SMPlayer updated to Version 0.8.3 (SVN-r5072)
+* QT Runtime Libs updated to Version 4.8.4
+
+[2011-06-09]
+* MPlayer binaries updated to SVN-r33574
+* Removed 'float' decoders from codecs.conf
+
+[2011-05-25]
+* MPlayer binaries updated to SVN-r33488
+* SMPlayer updated to Version 0.6.9 (SVN-r3607)
+* QT Runtime Libs updated to Version 4.7.3
+
+[2011-04-14]
+* MPlayer binaries updated to SVN-r33216
+* SMPlayer updated to Version 0.6.9 (SVN-r3604)
+
+[2011-03-27]
+* MPlayer binaries updated to SVN-r33124
+* Fixed multi-threading (was broken with MPlayer SVN-r33107)
+* WARNING: Option "Draw video using slices" causes video distortions or crash!
+* Various installer bugfixes
+
+[2011-03-26]
+* MPlayer binaries updated to SVN-r33107
+* No "MT" builds anymore, as the MT-branch has been merged into FFmpeg
+* UAC Plugin for NSIS updated to Version 0.2.2d
+* QT Runtime Libs updated to Version 4.7.2
+* Updated binary Codecs to the package released on 2011-01-31
+
+[2010-10-17]
+* MPlayer binaries updated to SVN-r32492
+* QT Runtime Libs updated to Version 4.7.0
+
+[2010-09-12]
+* MPlayer binaries updated to SVN-r32198
+* SMPlayer updated to Version 0.6.9 (SVN-r3584)
+* QT Runtime Libs updated to Version 4.6.3
+
+[2010-05-22]
+* MPlayer binaries updated to SVN-r31170
+* SMPlayer updated to Version 0.6.9 (SVN-r3532)
+
+[2010-04-16]
+* MPlayer binaries updated to SVN-r31027
+* SMPlayer updated to Version 0.6.9 (SVN-r3488)
+
+[2010-03-23]
+* MPlayer binaries updated to SVN-r30945
+* SMPlayer updated to Version 0.6.8 (SVN-r3478)
+
+[2010-03-17]
+* MPlayer binaries updated to SVN-r30886
+
+[2010-03-02]
+* MPlayer binaries updated to SVN-r30815
+* SMPlayer updated to Version 0.6.8 (SVN-r3468)
+* "Generic" (RTM) build is up-to-date again
+
+[2010-02-26]
+* MPlayer binaries updated to SVN-r30725
+* Reverted the "Generic" (RTM) build to SVN-r30521
+
+[2010-02-24]
+* MPlayer binaries updated to SVN-r30687
+* SMPlayer updated to Version 0.6.8 (SVN-r3439)
+* Using FFmpeg-MT buils from now on ("Pentium 4" and "Athlon XP" only!)
+* QT Runtime Libs updated to Version 4.6.2
+
+[2010-02-06]
+* MPlayer binaries updated to SVN-r30521
+* SMPlayer updated to Version 0.6.8 (SVN-r3423)
+* Update CPU detection code
+
+[2010-01-23]
+* MPlayer binaries updated to SVN-r30369
+* QT Runtime Libs updated to Version 4.6.1
+
+[2010-01-17]
+* MPlayer binaries updated to SVN-r30322
+* SMPlayer updated to Version 0.6.8 (SVN-r3392)
+
+[2009-12-20]
+* MPlayer binaries updated to SVN-r30075
+* SMPlayer updated to Version 0.6.8 (SVN-r3355)
+* Clean-up the "VirtualStore" on Vista/Win7
+
+[2009-12-06]
+* SMPlayer updated to Version 0.6.8 (SVN-r3336)
+* NSIS updated to Version 2.46
+* QT Runtime Libs updated to Version 4.6.0
+* UMUI updated to 2009-12-06
+
+[2009-11-11]
+* MPlayer binaries updated to SVN-r29851
+* SMPlayer updated to Version 0.6.8 (SVN-r3306)
+* File permission workaround for UAC
+
+[2009-10-12]
+* SMPlayer updated to Version 0.6.8 (SVN-r3286)
+* QT Runtime Libs updated to Version 4.5.3
+
+[2009-07-24]
+* SMPlayer updated to Version 0.6.8 (SVN-r3213)
+* NSIS updated to Version 2.45
+* Now using the UAC Plugin for NSIS
+* UMUI updated to 2009-06-14
+* QT Runtime Libs updated to Version 4.5.2
+
+[2009-06-12]
+* MPlayer binaries updated to SVN-r29355
+* SMPlayer updated to Version 0.6.7 (SVN-r3073)
+* Fix buttons for Windows 7 and Vista (again)
+
+[2009-05-18]
+* MPlayer binaries updated to SVN-r29312
+* SMPlayer updated to Version 0.6.7 (SVN-r3042)
+* Fix buttons for Windows 7 (and Vista)
+
+[2009-05-10]
+* MPlayer binaries updated to SVN-r29280
+* SMPlayer updated to Version 0.6.7 (SVN-r3017)
+
+[2009-04-27]
+* MPlayer binaries updated to SVN-r29238
+* SMPlayer updated to Version 0.6.7 (SVN-r2987)
+* QT Runtime Libs updated to Version 4.5.1
+
+[2009-03-12]
+* SMPlayer updated to Version 0.6.7 (SVN-r2831)
+* Installer updates
+
+[2009-03-05]
+* QT Runtime Libs updated to Version 4.5.0
+* SMPlayer updated to Version 0.6.6 (SVN-r2818)
+* NSIS updated to Version 2.43
+* UMUI updated to 2009-02-06
+
+[2009-01-18]
+* SMPlayer updated to Version 0.6.6 (SVN-r2697)
+* Add an option to enable/disable UPX to the installer
+* Minor installer improvements
+
+[2009-01-14]
+* MPlayer binaries updated to SVN-r28311
+* SMPlayer updated to Version 0.6.6 (SVN-r2680)
+
+[2008-12-11]
+* MPlayer binaries updated to SVN-r28126
+* SMPlayer updated to Version 0.6.5 (SVN-r2420)
+
+[2008-11-25]
+* SMPlayer updated to Version 0.6.5 (SVN-r2301)
+* Workaround for "startup delay" annoyance
+
+[2008-11-13]
+* SMPlayer updated to Version 0.6.5 (SVN-r2231)
+
+[2008-11-05]
+* SMPlayer updated to Version 0.6.4 (SVN-r2188)
+
+[2008-10-27]
+* SMPlayer updated to Version 0.6.4 (SVN-r2102)
+* Installer improvements
+
+[2008-10-23]
+* MPlayer binaries updated to SVN-r27811
+* SMPlayer updated to Version 0.6.3 (SVN-r2083)
+
+[2008-10-15]
+* MPlayer binaries updated to SVN-r27770
+* SMPlayer updated to Version 0.6.3 (SVN-r2030)
+* NSIS downgraded to v2.38, because v2.40 is broken
+
+[2008-10-11]
+* SMPlayer updated to Version 0.6.3 (SVN-r1997)
+* NSIS updated to Version 2.40
+* QT Runtime Libs updated to Version 4.4.3
+* UMUI updated to 2008-10-11
+
+[2008-09-29]
+* SMPlayer updated to Version 0.6.3.1 (SVN-r1904)
+
+[2008-09-27]
+* SMPlayer updated to Version 0.6.3 (SVN-r1882)
+* QT Runtime Libs updated to Version 4.4.2
+* UMUI updated to 2008-09-20
+
+[2008-09-17]
+* SMPlayer updated to Version 0.6.2 (SVN-r1814)
+
+[2008-09-03]
+* SMPlayer updated to Version 0.6.2 (SVN-r1738)
+* QT Runtime Libs updated to Version 4.4.1
+* UMUI updated to 2008-08-16
+
+[2008-08-15]
+* SMPlayer updated to Version 0.6.2 (SVN-r1661)
+
+[2008-07-26]
+* SMPlayer updated to Version 0.6.1 (SVN-r1583)
+* NSIS updated to v2.38, UMUI updated to 2008-07-19
+* Workaround for "Vista missing buttons" bug
+
+[2008-07-19]
+* MPlayer binaries updated to SVN-r27323
+
+[2008-07-17]
+* MPlayer binaries updated to SVN-r27305
+* SMPlayer updated to Version 0.6.1 (SVN-r1573)
+
+[2008-07-13]
+* SMPlayer updated to Version 0.6.1 (SVN-r1566)
+* Tweaked automated CPU type detection
+
+[2008-07-02]
+* SMPlayer updated to Version 0.6.1 (SVN-r1515)
+* Installer improvements
+
+[2008-06-27]
+* SMPlayer updated to Version 0.6.1 (SVN-r1505)
+* Installer improvements
+
+[2008-06-16]
+* MPlayer binaries updated to SVN-r27081
+* Uninstaller bugfix (reported by Guti)
+
+[2008-06-14]
+* SMPlayer updated to Version 0.6.1 (SVN-r1390)
+* Installer updates
+
+[2008-06-01]
+* MPlayer binaries updated to SVN-r26924
+* SMPlayer updated to Version 0.6.1 (SVN-r1321)
+* Added CPU detection code to the installer
+
+[2008-05-27]
+* MPlayer binaries updated to SVN-r26874
+* SMPlayer updated to Version 0.6.0 (SVN-r1299)
+* Ported the installer to NSIS UltraModern UI
+
+[2008-05-13]
+* SMPlayer updated to Version 0.6.0 Final
+* Updated UPX from Version 3.02 to 3.03
+
+[2008-05-08]
+* SMPlayer updated to Version 0.6.0 (SVN-r1227)
+* NSIS updated to Version 2.37
+* Qt Runtime Libraries updated to Version 4.4.0
+
+[2008-04-26]
+* SMPlayer updated to Version 0.6.0 (SVN-r1188)
+* Installer updates
+
+[2008-04-14]
+* MPlayer binaries updated to SVN-r26446
+* SMPlayer updated to Version 0.6.0 (SVN-r1117)
+
+[2008-04-13]
+* MPlayer binaries updated to SVN-r26430
+* SMPlayer updated to Version 0.6.0 (SVN-r1087)
+* The SSE crash in MPlayer was fixed
+
+[2008-04-05]
+* MPlayer binaries updated to SVN-r26334
+* SMPlayer updated to Version 0.6.0 (SVN-r1067)
+* NSIS updated to Version 2.36
+
+[2008-02-10]
+* MPlayer binaries updated to SVN-r25962
+* SMPlayer updated to Version 0.6.0 (SVN-r827)
+* NSIS updated to Version 2.35
+
+[2008-01-20]
+* MPlayer binaries updated to SVN-r25803
+* SMPlayer updated to Version 0.5.62 (SVN-r693)
+* MPUI compatibility fixes (Build 38)
+
+[2007-12-27]
+* Installer updated to NSIS Modern UI 2.0
+* SMPlayer updated to Version 0.5.62 (SVN-r538)
+* NSIS updated to Version 2.34
+
+[2007-12-24]
+* MPlayer binaries updated to SVN-r25513
+* SMPlayer updated to Version 0.5.62 (SVN-r533)
+
+[2007-11-18]
+* MPlayer binaries updated to SVN-r25088
+* SMPlayer updated to Version 0.5.62 (SVN-r418)
+* QT Runtime Libs updated to Version 4.3.2
+* NSIS updated to Version 2.33
+
+[2007-11-02]
+* MPlayer binaries updated to SVN-r24930
+* SMPlayer updated to Version 0.5.61+SVN-r348
+
+[2007-10-11]
+* MPlayer binaries updated to SVN-r24762
+* SMPlayer updated to Version 0.5.61+SVN-r159
+
+[2007-10-10]
+* MPlayer binaries updated to Version 1.0rc2 (SVN-r24722)
+* SMPlayer updated to Version 0.5.60+SVN-r158
+* Binary Codec Package updated to 2007-10-07
+* AutoUpdate tool improved
+
+
+6. Web Links
+------------
+
+MPlayer - The Movie Player:
+<a href="http://www.mplayerhq.hu/">http://www.mplayerhq.hu/</a>
+
+MPlayer binaries for Win32:
+<a href="http://oss.netfarm.it/mplayer-win32.php">http://oss.netfarm.it/mplayer-win32.php</a>
+
+Windows compiles by Celtic Druid:
+<a href="http://celticdruid.no-ip.com/xvid/">http://celticdruid.no-ip.com/xvid/</a>
+
+SMPlayer front-end for MPlayer:
+<a href="http://smplayer.sourceforge.net/">http://smplayer.sourceforge.net/</a>
+
+MPUI - MPlayer for Windows:
+<a href="http://mpui.sourceforge.net/">http://mpui.sourceforge.net/</a>
+
+
+7. Help and Support
+-------------------
+
+For MPlayer usage questions, feature requests and bug reports use the mailing list:
+<a href="http://lists.mplayerhq.hu/mailman/listinfo/mplayer-users">http://lists.mplayerhq.hu/mailman/listinfo/mplayer-users</a>
+
+SMPlayer bug reports and feature requests belong to:
+<a href="http://smplayer.berlios.de/forums/">http://smplayer.berlios.de/forums/</a>
+
+For feedback about this packge, please visit Doom9´s Forum:
+<a href="http://forum.doom9.org/showthread.php?t=138725">http://forum.doom9.org/showthread.php?t=138725</a>
+
+
+eof</pre></body>
+
+</html>
