@@ -351,14 +351,13 @@ FunctionEnd
 ; INSTALL SECTIONS
 ;--------------------------------------------------------------------------------
 
-Section "-PreInit"
-	SetShellVarContext all
-SectionEnd
-
 Section "-Clean Up"
 	${PrintProgress} "$(MPLAYER_LANG_STATUS_INST_CLEAN)"
-	
-	; Uninstall old version (Setup v1)
+
+	SetShellVarContext all
+	SetOutPath "$INSTDIR"
+
+	; Uninstall old version (aka "Setup v1")
 	ClearErrors
 	ReadRegStr $0 HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{DB9E4EAB-2717-499F-8D56-4CC8A644AB60}" "InstallLocation"
 	${IfNot} ${Errors}
@@ -373,6 +372,19 @@ Section "-Clean Up"
 	; Clean registry
 	DeleteRegKey HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{DB9E4EAB-2717-499F-8D56-4CC8A644AB60}"
 	DeleteRegValue HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Run" "MPlayerForWindows_UpdateReminder"
+
+	; Make sure MPlayer isn't running
+	${Do}
+		ClearErrors
+		Delete "$INSTDIR\MPlayer.exe"
+		Delete "$INSTDIR\SMPlayer.exe"
+		Delete "$INSTDIR\MPUI.exe"
+		${If} ${Errors}
+			${IfCmd} MessageBox MB_TOPMOST|MB_ICONEXCLAMATION|MB_OKCANCEL "$(MPLAYER_LANG_STILL_RUNNING)" IDCANCEL ${||} Abort ${|}
+		${Else}
+			${Break}
+		${EndIf}
+	${Loop}
 
 	; Clean the install folder
 	Delete "$INSTDIR\*.exe"
@@ -394,27 +406,20 @@ Section "-Clean Up"
 	Delete "$0\*.m3u8"
 	Delete "$0\mplayer\config"
 	Delete "$0\mplayer\*.conf"
-	
-	; Make sure MPlayer isn't running
-	${Do}
-		Delete "$INSTDIR\MPlayer.exe"
-		Delete "$INSTDIR\SMPlayer.exe"
-		Delete "$INSTDIR\MPUI.exe"
-		${If} ${FileExists} "$INSTDIR\MPlayer.exe"
-		${OrIf} ${FileExists} "$INSTDIR\SMPlayer.exe"
-		${OrIf} ${FileExists} "$INSTDIR\MPUI.exe"
-			${IfCmd} MessageBox MB_TOPMOST|MB_ICONEXCLAMATION|MB_OKCANCEL "$(MPLAYER_LANG_STILL_RUNNING)" IDCANCEL ${||} Abort ${|}
-		${Else}
-			${Break}
-		${EndIf}
-	${Loop}
 SectionEnd
 
 Section "!MPlayer r${MPLAYER_REVISION}" SECID_MPLAYER
 	SectionIn 1 2 RO
 	${PrintProgress} "$(MPLAYER_LANG_STATUS_INST_MPLAYER)"
 	SetOutPath "$INSTDIR"
-	
+
+	; Assert
+	${If} $SelectedCPUType < 2
+	${OrIf} $SelectedCPUType > 6
+		MessageBox MB_TOPMOST|MB_ICONEXCLAMATION|MB_OK "Internal error: Invalid CPU type selection detected!"
+		Abort
+	${EndIf}
+
 	; MPlayer.exe
 	${If} $SelectedCPUType == 2
 		DetailPrint "$(MPLAYER_LANG_SELECTED_TYPE): core2"
@@ -436,7 +441,7 @@ Section "!MPlayer r${MPLAYER_REVISION}" SECID_MPLAYER
 		DetailPrint "$(MPLAYER_LANG_SELECTED_TYPE): generic"
 		File "Builds\MPlayer-generic\MPlayer.exe"
 	${EndIf}
-	
+
 	; Other MPlayer-related files
 	File "Builds\MPlayer-generic\dsnative.dll"
 	SetOutPath "$INSTDIR\mplayer"
@@ -445,20 +450,29 @@ Section "!MPlayer r${MPLAYER_REVISION}" SECID_MPLAYER
 	File "Builds\MPlayer-generic\fonts\fonts.conf"
 	SetOutPath "$INSTDIR\fonts\conf.d"
 	File "Builds\MPlayer-generic\fonts\conf.d\*.conf"
-	
+
 	; Documents
 	SetOutPath "$INSTDIR"
+	File "GPL.txt"
 	File "/oname=Manual.html" "Builds\MPlayer-generic\MPlayer.man.html"
 	File "Docs\Readme.html"
 	SetOutPath "$INSTDIR\legal_stuff"
 	File "Docs\legal_stuff\*.txt"
-	
+
 	; Write version tag
-	Delete "$INSTDIR\version.tag"
+	${Do}
+		ClearErrors
+		Delete "$INSTDIR\version.tag"
+		${If} ${Errors}
+			${IfCmd} MessageBox MB_TOPMOST|MB_ICONEXCLAMATION|MB_OKCANCEL "$(MPLAYER_LANG_TAG_WRITE)" IDCANCEL ${||} Abort ${|}
+		${Else}
+			${Break}
+		${EndIf}
+	${Loop}
 	WriteINIStr "$INSTDIR\version.tag" "mplayer_version" "build_no" "${MPLAYER_BUILDNO}"
 	WriteINIStr "$INSTDIR\version.tag" "mplayer_version" "pkg_date" "${MPLAYER_DATE}"
 	SetFileAttributes "$INSTDIR\version.tag" FILE_ATTRIBUTE_READONLY
-	
+
 	; Set file access rights
 	${MakeFilePublic} "$INSTDIR\mplayer\config"
 	${MakeFilePublic} "$INSTDIR\fonts\fonts.conf"
@@ -480,7 +494,11 @@ Section "!MPUI $(MPLAYER_LANG_FRONT_END) v${MPUI_VERSION}" SECID_MPUI
 	${MakeFilePublic} "$INSTDIR\MPUI.ini"
 	
 	; Setup initial config
+	ClearErrors
 	WriteINIStr "$INSTDIR\MPUI.ini" "MPUI" "Params" "-vo direct3d"
+	${If} ${Errors}
+		${IfCmd} MessageBox MB_TOPMOST|MB_ICONSTOP|MB_DEFBUTTON2|MB_OKCANCEL "$(MPLAYER_LANG_CONFIG_MPUI)" IDCANCEL ${||} Abort ${|}
+	${EndIf}
 SectionEnd
 
 Section "!SMPlayer $(MPLAYER_LANG_FRONT_END) v${SMPLAYER_VERSION}" SECID_SMPLAYER
@@ -519,11 +537,15 @@ Section "!SMPlayer $(MPLAYER_LANG_FRONT_END) v${SMPLAYER_VERSION}" SECID_SMPLAYE
 	
 	; Setup initial config
 	${StrRep} $0 "$INSTDIR\MPlayer.exe" "\" "/"
+	ClearErrors
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General" "mplayer_bin" "$0"
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General" "driver\vo" "direct3d"
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui" "gui" "DefaultGUI"
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui" "iconset" "Oxygen-Refit"
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui" "style" "Plastique"
+	${If} ${Errors}
+		${IfCmd} MessageBox MB_TOPMOST|MB_ICONSTOP|MB_DEFBUTTON2|MB_OKCANCEL "$(MPLAYER_LANG_CONFIG_SMPLAYER)" IDCANCEL ${||} Abort ${|}
+	${EndIf}
 SectionEnd
 
 Section "!$(MPLAYER_LANG_BIN_CODECS) (${CODECS_DATE})"
@@ -663,6 +685,21 @@ Section "-Update Registry"
 	WriteRegDWORD HKLM "${MPlayerRegPath}" "NoRepair" 1
 SectionEnd
 
+Section "-Protect Files"
+	SetFileAttributes "$INSTDIR\MPlayer.exe" FILE_ATTRIBUTE_READONLY
+	SetFileAttributes "$INSTDIR\dsnative.dll" FILE_ATTRIBUTE_READONLY
+	SetFileAttributes "$INSTDIR\MPUI.exe" FILE_ATTRIBUTE_READONLY
+	SetFileAttributes "$INSTDIR\SMPlayer.exe" FILE_ATTRIBUTE_READONLY
+	SetFileAttributes "$INSTDIR\QtCore4.dll" FILE_ATTRIBUTE_READONLY
+	SetFileAttributes "$INSTDIR\QtGui4.dll" FILE_ATTRIBUTE_READONLY
+	SetFileAttributes "$INSTDIR\QtNetwork4.dll" FILE_ATTRIBUTE_READONLY
+	SetFileAttributes "$INSTDIR\QtXml4.dll" FILE_ATTRIBUTE_READONLY
+	SetFileAttributes "$INSTDIR\dsnative.dll" FILE_ATTRIBUTE_READONLY
+	SetFileAttributes "$INSTDIR\libgcc_s_dw2-1.dll" FILE_ATTRIBUTE_READONLY
+	SetFileAttributes "$INSTDIR\mingwm10.dll" FILE_ATTRIBUTE_READONLY
+	SetFileAttributes "$INSTDIR\zlib1.dll" FILE_ATTRIBUTE_READONLY
+SectionEnd
+
 Section "-Finished"
 	${PrintStatus} "$(MUI_TEXT_FINISH_TITLE)"
 SectionEnd
@@ -761,7 +798,7 @@ FunctionEnd
 	LockedList::AddModule "\MPlayer.exe"
 	LockedList::AddModule "\SMPlayer.exe"
 	LockedList::AddModule "\MPUI.exe"
-	LockedList::Dialog /autonext /heading "$(MPLAYER_LANG_LOCKEDLIST_HEADING)" /noprograms "$(MPLAYER_LANG_LOCKEDLIST_NOPROG)" /searching  "$(MPLAYER_LANG_LOCKEDLIST_SEARCH)" /colheadings "$(MPLAYER_LANG_LOCKEDLIST_COLHDR1)" "$(MPLAYER_LANG_LOCKEDLIST_COLHDR2)"
+	LockedList::Dialog /autonext /ignore "$(MPLAYER_LANG_IGNORE)" /heading "$(MPLAYER_LANG_LOCKEDLIST_HEADING)" /noprograms "$(MPLAYER_LANG_LOCKEDLIST_NOPROG)" /searching  "$(MPLAYER_LANG_LOCKEDLIST_SEARCH)" /colheadings "$(MPLAYER_LANG_LOCKEDLIST_COLHDR1)" "$(MPLAYER_LANG_LOCKEDLIST_COLHDR2)"
 	Pop $R0
 !macroend
 
