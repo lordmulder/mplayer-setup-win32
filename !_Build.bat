@@ -1,7 +1,7 @@
 @echo off
 
 REM Build Number and other version info
-set "BUILD_NO=104"
+set "BUILD_NO=106"
 set "MPLAYER_REVISION=35917"
 set "SMPLAYER_VERSION=0.8.3 (SVN-r5072)"
 set "MPUI_VERSION=1.2-pre3 (Build 38)"
@@ -36,6 +36,14 @@ echo.
 
 REM Create outputfolder, if not exists yet
 mkdir "%~dp0\.Release" 2> NUL
+
+REM Build update tool
+"%MAKE_NSIS%" "/DMPLAYER_BUILDNO=%BUILD_NO%" "/DMPLAYER_DATE=%ISO_DATE%" "/DUPX_PATH=%UPX_PATH%" "/DMPLAYER_OUTFILE=%~dp0\.Release\.Updater.exe" "%~dp0\MPUI_Updater.nsi"
+
+if errorlevel 1 (
+	pause
+	goto:eof
+)
 
 REM Build main installer
 "%MAKE_NSIS%" "/DMPLAYER_BUILDNO=%BUILD_NO%" "/DMPLAYER_DATE=%ISO_DATE%" "/DMPLAYER_REVISION=%MPLAYER_REVISION%" "/DSMPLAYER_VERSION=%SMPLAYER_VERSION%" "/DMPUI_VERSION=%MPUI_VERSION%" "/DCODECS_DATE=%CODECS_DATE%" "/DUPX_PATH=%UPX_PATH%" "/DMPLAYER_OUTFILE=%~dp0\.Release\MPUI.%ISO_DATE%.sfx" "%~dp0\MPUI_Setup.nsi"

@@ -19,6 +19,7 @@
 ; // http://www.gnu.org/licenses/gpl-2.0.txt
 ; ///////////////////////////////////////////////////////////////////////////////
 
+
 !define PrintProgress "!insertmacro _PrintProgress"
 !define PrintStatus "!insertmacro _PrintStatus"
 

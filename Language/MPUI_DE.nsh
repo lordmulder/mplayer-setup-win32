@@ -20,6 +20,7 @@
 ; ///////////////////////////////////////////////////////////////////////////////
 
 LangString MPLAYER_LANG_APPLYING_TWEAKS          ${LANG_GERMAN} "Anpassungen werden gerade übernommen..."
+LangString MPLAYER_LANG_AUTO_UPDATE              ${LANG_GERMAN} "Auto-Update"
 LangString MPLAYER_LANG_BIN_CODECS               ${LANG_GERMAN} "Binäre Codecs"
 LangString MPLAYER_LANG_COMPRESS_FILES           ${LANG_GERMAN} "Programmdateien optimieren"
 LangString MPLAYER_LANG_COMPRESSING              ${LANG_GERMAN} "Komprimiere"

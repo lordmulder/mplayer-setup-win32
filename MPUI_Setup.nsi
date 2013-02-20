@@ -60,10 +60,10 @@
   !error "UPX_PATH is not defined !!!"
 !endif
 
-;UUID
+; UUID
 !define MPlayerRegPath "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{97D341C8-B0D1-4E4A-A49A-C30B52F168E9}"
 
-;Web-Site
+; Web-Site
 !define MPlayerWebSite "http://mplayerhq.hu/"
 
 
