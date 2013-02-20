@@ -203,6 +203,7 @@ VIAddVersionKey "Website" "${MPlayerWebSite}"
 !define MUI_FINISHPAGE_TITLE_3LINES
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE "Docs\License.txt"
+!define MUI_PAGE_CUSTOMFUNCTION_SHOW CheckForUpdate
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro  MUI_PAGE_COMPONENTS
 !insertmacro MUI_PAGE_STARTMENU Application $StartMenuFolder
@@ -295,7 +296,9 @@ Function .onInit
 	!insertmacro INSTALLOPTIONS_EXTRACT_AS "Dialogs\Page_CPU.ini"    "Page_CPU.ini"
 	!insertmacro INSTALLOPTIONS_EXTRACT_AS "Dialogs\Page_Tweaks.ini" "Page_Tweaks.ini"
 	
-	${IfCmd} MessageBox MB_TOPMOST|MB_ICONEXCLAMATION|MB_OKCANCEL|MB_DEFBUTTON2 "Note: This is an early pre-release version for test only!" IDCANCEL ${||} Quit ${|}
+	!ifdef PRE_RELEASE
+		${IfCmd} MessageBox MB_TOPMOST|MB_ICONEXCLAMATION|MB_OKCANCEL|MB_DEFBUTTON2 "Note: This is an early pre-release version for test only!" IDCANCEL ${||} Quit ${|}
+	!endif
 	
 	; --------
 
@@ -368,10 +371,12 @@ Section "-Clean Up"
 		Delete "$PLUGINSDIR\Uninstall-V1.exe"
 		BringToFront
 	${EndIf}
-	
+
 	; Clean registry
 	DeleteRegKey HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{DB9E4EAB-2717-499F-8D56-4CC8A644AB60}"
+	DeleteRegKey HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{DB9E4EAB-2717-499F-8D56-4CC8A644AB60}"
 	DeleteRegValue HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Run" "MPlayerForWindows_UpdateReminder"
+	DeleteRegValue HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Run" "MPlayerForWindows_UpdateReminder"
 
 	; Make sure MPlayer isn't running
 	${Do}
@@ -443,6 +448,7 @@ Section "!MPlayer r${MPLAYER_REVISION}" SECID_MPLAYER
 	${EndIf}
 
 	; Other MPlayer-related files
+	File ".Compile\Updater.exe"
 	File "Builds\MPlayer-generic\dsnative.dll"
 	SetOutPath "$INSTDIR\mplayer"
 	File "Builds\MPlayer-generic\mplayer\config"
@@ -683,6 +689,16 @@ Section "-Update Registry"
 	WriteRegStr HKLM "${MPlayerRegPath}" "URLUpdateInfo" "http://mulder.at.gg/"
 	WriteRegDWORD HKLM "${MPlayerRegPath}" "NoModify" 1
 	WriteRegDWORD HKLM "${MPlayerRegPath}" "NoRepair" 1
+	
+	; Reset auto update interval
+	DeleteRegValue HKLM "${MPlayerRegPath}" "LastUpdateCheck"
+	DeleteRegValue HKCU "${MPlayerRegPath}" "LastUpdateCheck"
+SectionEnd
+
+Section "$(MPLAYER_LANG_INST_AUTOUPDATE)" SECID_AUTOUPDATE
+	SectionIn 1 2
+	DetailPrint "$(MPLAYER_LANG_WRITING_REGISTRY)"
+	WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Run" "MPlayerForWindows_AutoUpdateV2" '"$INSTDIR\Updater.exe" /AutoCheck'
 SectionEnd
 
 Section "-Protect Files"
@@ -769,6 +785,7 @@ Section "Uninstall"
 
 	; Registry
 	DeleteRegKey HKLM "${MPlayerRegPath}"
+	DeleteRegKey HKCU "${MPlayerRegPath}"
 
 	${PrintStatus} "$(MUI_UNTEXT_FINISH_TITLE)"
 SectionEnd
@@ -785,6 +802,16 @@ Function .onSelChange
 		SectionGetFlags ${SECID_MPUI} $0
 		IntOp $0 $0 | ${SF_SELECTED}
 		SectionSetFlags ${SECID_MPUI} $0
+	${EndIf}
+
+	${IfNot} ${SectionIsSelected} ${SECID_AUTOUPDATE}
+		StrCpy $0 "nope"
+		${IfCmd} MessageBox MB_TOPMOST|MB_ICONEXCLAMATION|MB_YESNO|MB_DEFBUTTON2 "$(MPLAYER_LANG_SEL_AUTOUPDATE)" IDNO ${||} StrCpy $0 "ok" ${|}
+		${If} "$0" == "ok"
+			SectionGetFlags ${SECID_AUTOUPDATE} $0
+			IntOp $0 $0 | ${SF_SELECTED}
+			SectionSetFlags ${SECID_AUTOUPDATE} $0
+		${EndIf}
 	${EndIf}
 FunctionEnd
 
@@ -955,6 +982,22 @@ Function SetTweaksPage_Show
 		${IfThen} $2 == 1 ${|} IntOp $SelectedTweaks $SelectedTweaks | $0 ${|}
 		IntOp $0 $0 << 1
 	${Next}
+FunctionEnd
+
+
+;--------------------------------------------------------------------------------
+; CHECK FOR UPDATE MODE
+;--------------------------------------------------------------------------------
+
+Function CheckForUpdate
+	${StdUtils.GetParameter} $0 "Update" "?"
+	${IfNot} "$0" == "?"
+		FindWindow $1 "#32770" "" $HWNDPARENT
+		GetDlgItem $2 $1 1019
+		EnableWindow $2 0
+		GetDlgItem $1 $0 1001
+		EnableWindow $1 0
+	${EndIf}
 FunctionEnd
 
 

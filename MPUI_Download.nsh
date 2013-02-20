@@ -42,17 +42,23 @@ Var dl_tmp
 
 ; ----------------------------------------------------------------------------
 
-!define DownloadFile.Get  '!insertmacro _DownloadFile "inetc::get"'
-!define DownloadFile.Post '!insertmacro _DownloadFile "inetc::post"'
+!define DownloadFile.Get  '!insertmacro _DownloadFile "get" ""'
+!define DownloadFile.Post '!insertmacro _DownloadFile "post"'
 
 !define user_agent "Mozilla/5.0 (X11; Linux i686; rv:7.0.1) Gecko/20111106 IceCat/7.0.1"
 
-!macro _DownloadFile action dl_url dl_post destfile
+!macro _DownloadFile action dl_post status_txt dl_url destfile
 	StrCpy $errors 0
 
 	${Do}
+		${SetStatus} "${status_txt}"
 		DetailPrint "$(MPLAYER_LANG_DL_PROGRESS)"
-		${action} "${dl_post}" /CONNECTTIMEOUT 30 /RECEIVETIMEOUT 30 /CANCELTEXT "$(^CancelBtn)" /USERAGENT "${user_agent}" "${dl_url}" "${destfile}" /END
+		!if "${action}" == "get"
+			inetc::get /CONNECTTIMEOUT 30 /RECEIVETIMEOUT 30 /CANCELTEXT "$(^CancelBtn)" /USERAGENT "${user_agent}" /SILENT "${dl_url}" "${destfile}" /END
+		!endif
+		!if "${action}" == "post"
+			inetc::post "${dl_post}" /CONNECTTIMEOUT 30 /RECEIVETIMEOUT 30 /CANCELTEXT "$(^CancelBtn)" /USERAGENT "${user_agent}" /CAPTION "${status_txt}" /POPUP "" "${dl_url}" "${destfile}" /END
+		!endif
 		Pop $dl_tmp
 
 		${IfThen} "$dl_tmp" == "OK" ${|} ${Break} ${|}
@@ -72,7 +78,7 @@ Var dl_tmp
 			Abort "$(MPLAYER_LANG_DL_FAILED)"
 		${EndIf}
 
-		IntOp $errors $errors + 1
+		IntOp $errors $errors + 3
 		DetailPrint "$(MPLAYER_LANG_DL_ERROR): $dl_tmp"
 
 		${If} $errors > 5
@@ -83,7 +89,7 @@ Var dl_tmp
 			Abort "$(MPLAYER_LANG_DL_FAILED)"
 		${Else}
 			${SetStatus} "$(MPLAYER_LANG_DL_RESTARTING)"
-			Sleep 1250
+			Sleep 333
 		${EndIf}
 	${Loop}
 

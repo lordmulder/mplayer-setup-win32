@@ -35,11 +35,11 @@ echo Build #%BUILD_NO%, Date: %ISO_DATE%
 echo.
 
 REM Create outputfolder, if not exists yet
+mkdir "%~dp0\.Compile" 2> NUL
 mkdir "%~dp0\.Release" 2> NUL
 
 REM Build update tool
-"%MAKE_NSIS%" "/DMPLAYER_BUILDNO=%BUILD_NO%" "/DMPLAYER_DATE=%ISO_DATE%" "/DUPX_PATH=%UPX_PATH%" "/DMPLAYER_OUTFILE=%~dp0\.Release\.Updater.exe" "%~dp0\MPUI_Updater.nsi"
-
+"%MAKE_NSIS%" "/DMPLAYER_BUILDNO=%BUILD_NO%" "/DMPLAYER_DATE=%ISO_DATE%" "/DUPX_PATH=%UPX_PATH%" "/DMPLAYER_OUTFILE=%~dp0\.Compile\Updater.exe" "%~dp0\MPUI_Updater.nsi"
 if errorlevel 1 (
 	pause
 	goto:eof
@@ -47,7 +47,6 @@ if errorlevel 1 (
 
 REM Build main installer
 "%MAKE_NSIS%" "/DMPLAYER_BUILDNO=%BUILD_NO%" "/DMPLAYER_DATE=%ISO_DATE%" "/DMPLAYER_REVISION=%MPLAYER_REVISION%" "/DSMPLAYER_VERSION=%SMPLAYER_VERSION%" "/DMPUI_VERSION=%MPUI_VERSION%" "/DCODECS_DATE=%CODECS_DATE%" "/DUPX_PATH=%UPX_PATH%" "/DMPLAYER_OUTFILE=%~dp0\.Release\MPUI.%ISO_DATE%.sfx" "%~dp0\MPUI_Setup.nsi"
-
 if errorlevel 1 (
 	pause
 	goto:eof
@@ -55,7 +54,6 @@ if errorlevel 1 (
 
 REM Build installer wrapper
 "%MAKE_NSIS%" "/DMPLAYER_BUILDNO=%BUILD_NO%" "/DMPLAYER_DATE=%ISO_DATE%" "/DMPLAYER_REVISION=%MPLAYER_REVISION%" "/DUPX_PATH=%UPX_PATH%" "/DMPLAYER_SRCFILE=%~dp0\.Release\MPUI.%ISO_DATE%.sfx" "/DMPLAYER_OUTFILE=%~dp0\.Release\MPUI.%ISO_DATE%.exe" "%~dp0\MPUI_Wrapper.nsi"
-
 if errorlevel 1 (
 	pause
 	goto:eof
