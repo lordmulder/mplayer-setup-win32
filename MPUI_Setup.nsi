@@ -206,8 +206,8 @@ VIAddVersionKey "Website" "${MPlayerWebSite}"
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro  MUI_PAGE_COMPONENTS
 !insertmacro MUI_PAGE_STARTMENU Application $StartMenuFolder
-Page Custom SelectCPUPage_Show SelectCPUPage_Validate ""
-Page Custom SetTweaksPage_Show SetTweaksPage_Validate ""
+Page Custom SelectCPUPage_Show SelectCPUPage_Validate
+Page Custom SetTweaksPage_Show
 Page Custom LockedListPage_Show
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_PAGE_FINISH
@@ -841,21 +841,29 @@ Function SelectCPUPage_Show
 		${EndIf}
 	${Next}
 
+	; Display dialog
 	!insertmacro MUI_HEADER_TEXT "$(MPLAYER_LANG_SELECT_CPU_HEAD)" "$(MPLAYER_LANG_SELECT_CPU_TEXT)"
 	!insertmacro INSTALLOPTIONS_DISPLAY "Page_CPU.ini"
-FunctionEnd
 
-Function SelectCPUPage_Validate
-	StrCpy $SelectedCPUType 0
-	
 	; Read new selection from dialog
+	StrCpy $SelectedCPUType 0
 	${For} $0 2 6
 		!insertmacro INSTALLOPTIONS_READ $1 "Page_CPU.ini" "Field $0" "State"
 		${IfThen} $1 == 1 ${|} StrCpy $SelectedCPUType $0 ${|}
 	${Next}
+FunctionEnd
+
+Function SelectCPUPage_Validate
+	; Read new selection from dialog
+	StrCpy $2 0
+	${For} $0 2 6
+		!insertmacro INSTALLOPTIONS_READ $1 "Page_CPU.ini" "Field $0" "State"
+		${IfThen} $1 == 1 ${|} StrCpy $2 $0 ${|}
+	${Next}
 	
-	${If} $SelectedCPUType < 2
-	${OrIf} $SelectedCPUType > 6
+	; Validate selection
+	${If} $2 < 2
+	${OrIf} $2 > 6
 		MessageBox MB_ICONSTOP "Oups, invalid selection detected!"
 		Abort
 	${EndIf}
@@ -936,13 +944,10 @@ Function SetTweaksPage_Show
 	!insertmacro INSTALLOPTIONS_WRITE "Page_Tweaks.ini" "Field 3" "Text" "$(MPLAYER_LANG_TWEAKS_OPENGL)"
 	!insertmacro INSTALLOPTIONS_WRITE "Page_Tweaks.ini" "Field 4" "Text" "$(MPLAYER_LANG_TWEAKS_VOLNORM)"
 
+	; Display dialog
 	!insertmacro MUI_HEADER_TEXT "$(MPLAYER_LANG_TWEAKS_HEAD)" "$(MPLAYER_LANG_TWEAKS_TEXT)"
 	!insertmacro INSTALLOPTIONS_DISPLAY "Page_Tweaks.ini"
-FunctionEnd
 
-Function SetTweaksPage_Validate
-	StrCpy $SelectedTweaks 0
-	
 	; Read new selection from dialog
 	StrCpy $0 1
 	${For} $1 2 4
