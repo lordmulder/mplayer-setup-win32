@@ -597,7 +597,7 @@ Section "-Create Shortcuts"
 			CreateShortCut "$SMPROGRAMS\$StartMenuFolder\SMPlayer.lnk" "$INSTDIR\SMPlayer.exe"
 		${EndIf}
 
-		CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(MPLAYER_LANG_SHORTCUT_UPDATE).lnk" "$INSTDIR\Updater.exe"
+		CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(MPLAYER_LANG_SHORTCUT_UPDATE).lnk" "$INSTDIR\Updater.exe" "/L=$LANGUAGE"
 		CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(MPLAYER_LANG_SHORTCUT_README).lnk" "$INSTDIR\Readme.html"
 		CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(MPLAYER_LANG_SHORTCUT_MANUAL).lnk" "$INSTDIR\Manual.html"
 		
@@ -699,7 +699,7 @@ SectionEnd
 Section "$(MPLAYER_LANG_INST_AUTOUPDATE)" SECID_AUTOUPDATE
 	SectionIn 1 2
 	DetailPrint "$(MPLAYER_LANG_WRITING_REGISTRY)"
-	WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Run" "MPlayerForWindows_AutoUpdateV2" '"$INSTDIR\Updater.exe" /AutoCheck'
+	WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Run" "MPlayerForWindows_AutoUpdateV2" '"$INSTDIR\Updater.exe" /L=$LANGUAGE /AutoCheck'
 SectionEnd
 
 Section "-Protect Files"
