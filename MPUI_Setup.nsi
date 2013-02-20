@@ -597,6 +597,7 @@ Section "-Create Shortcuts"
 			CreateShortCut "$SMPROGRAMS\$StartMenuFolder\SMPlayer.lnk" "$INSTDIR\SMPlayer.exe"
 		${EndIf}
 
+		CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(MPLAYER_LANG_SHORTCUT_UPDATE).lnk" "$INSTDIR\Updater.exe"
 		CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(MPLAYER_LANG_SHORTCUT_README).lnk" "$INSTDIR\Readme.html"
 		CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(MPLAYER_LANG_SHORTCUT_MANUAL).lnk" "$INSTDIR\Manual.html"
 		
@@ -706,6 +707,7 @@ Section "-Protect Files"
 	SetFileAttributes "$INSTDIR\dsnative.dll" FILE_ATTRIBUTE_READONLY
 	SetFileAttributes "$INSTDIR\MPUI.exe" FILE_ATTRIBUTE_READONLY
 	SetFileAttributes "$INSTDIR\SMPlayer.exe" FILE_ATTRIBUTE_READONLY
+	SetFileAttributes "$INSTDIR\Updater.exe" FILE_ATTRIBUTE_READONLY
 	SetFileAttributes "$INSTDIR\QtCore4.dll" FILE_ATTRIBUTE_READONLY
 	SetFileAttributes "$INSTDIR\QtGui4.dll" FILE_ATTRIBUTE_READONLY
 	SetFileAttributes "$INSTDIR\QtNetwork4.dll" FILE_ATTRIBUTE_READONLY
@@ -995,8 +997,8 @@ Function CheckForUpdate
 		FindWindow $1 "#32770" "" $HWNDPARENT
 		GetDlgItem $2 $1 1019
 		EnableWindow $2 0
-		GetDlgItem $1 $0 1001
-		EnableWindow $1 0
+		GetDlgItem $2 $1 1001
+		EnableWindow $2 0
 	${EndIf}
 FunctionEnd
 
