@@ -304,9 +304,11 @@ Function .onInit
 	
 	; --------
 
-	File "/oname=$PLUGINSDIR\Splash.gif" "Resources\Splash.gif"
-	newadvsplash::show 3000 1000 500 -1 /NOCANCEL "$PLUGINSDIR\Splash.gif"
-	Delete /REBOOTOK "$PLUGINSDIR\Splash.gif"
+	${IfNot} ${Silent}
+		File "/oname=$PLUGINSDIR\Splash.gif" "Resources\Splash.gif"
+		newadvsplash::show 3000 1000 500 -1 /NOCANCEL "$PLUGINSDIR\Splash.gif"
+		Delete /REBOOTOK "$PLUGINSDIR\Splash.gif"
+	${EndIf}
 FunctionEnd
 
 Function un.onInit
@@ -420,34 +422,33 @@ Section "!MPlayer r${MPLAYER_REVISION}" SECID_MPLAYER
 	${PrintProgress} "$(MPLAYER_LANG_STATUS_INST_MPLAYER)"
 	SetOutPath "$INSTDIR"
 
-	; Assert
-	${If} $SelectedCPUType < 2
-	${OrIf} $SelectedCPUType > 6
-		MessageBox MB_TOPMOST|MB_ICONEXCLAMATION|MB_OK "Internal error: Invalid CPU type selection detected!"
-		Abort
+	; Detect
+	${If} ${Silent}
+		Call DetectCPUType
+		StrCpy $SelectedCPUType $DetectedCPUType
 	${EndIf}
 
 	; MPlayer.exe
-	${If} $SelectedCPUType == 2
-		DetailPrint "$(MPLAYER_LANG_SELECTED_TYPE): core2"
-		File "Builds\MPlayer-core2\MPlayer.exe"
-	${EndIf}
-	${If} $SelectedCPUType == 3
-		DetailPrint "$(MPLAYER_LANG_SELECTED_TYPE): corei7"
-		File "Builds\MPlayer-corei7\MPlayer.exe"
-	${EndIf}
-	${If} $SelectedCPUType == 4
-		DetailPrint "$(MPLAYER_LANG_SELECTED_TYPE): k8-sse3"
-		File "Builds\MPlayer-k8-sse3\MPlayer.exe"
-	${EndIf}
-	${If} $SelectedCPUType == 5
-		DetailPrint "$(MPLAYER_LANG_SELECTED_TYPE): bdver1"
-		File "Builds\MPlayer-bdver1\MPlayer.exe"
-	${EndIf}
-	${If} $SelectedCPUType == 6
-		DetailPrint "$(MPLAYER_LANG_SELECTED_TYPE): generic"
-		File "Builds\MPlayer-generic\MPlayer.exe"
-	${EndIf}
+	${Select} $SelectedCPUType
+		${Case} "2"
+			DetailPrint "$(MPLAYER_LANG_SELECTED_TYPE): core2"
+			File "Builds\MPlayer-core2\MPlayer.exe"
+		${Case} "3"
+			DetailPrint "$(MPLAYER_LANG_SELECTED_TYPE): corei7"
+			File "Builds\MPlayer-corei7\MPlayer.exe"
+		${Case} "4"
+			DetailPrint "$(MPLAYER_LANG_SELECTED_TYPE): k8-sse3"
+			File "Builds\MPlayer-k8-sse3\MPlayer.exe"
+		${Case} "5"
+			DetailPrint "$(MPLAYER_LANG_SELECTED_TYPE): bdver1"
+			File "Builds\MPlayer-bdver1\MPlayer.exe"
+		${Case} "6"
+			DetailPrint "$(MPLAYER_LANG_SELECTED_TYPE): generic"
+			File "Builds\MPlayer-generic\MPlayer.exe"
+		${CaseElse}
+			MessageBox MB_TOPMOST|MB_ICONEXCLAMATION|MB_OK "Internal error: Invalid CPU type selection detected!"
+			Abort
+	${EndSelect}
 
 	; Other MPlayer-related files
 	File ".Compile\Updater.exe"
