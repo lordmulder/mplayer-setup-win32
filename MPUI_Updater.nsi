@@ -194,8 +194,13 @@ SectionEnd
 Section "-Select Mirror"
 	${SetStatus} "$(MPLAYER_LANG_UPD_STATUS_MIRROR)"
 	StrCpy $Update_MirrorURL "http://www.example.com/"
-	${StdUtils.RandMinMax} $0 0 8
-	
+
+	; Randomize some more
+	${For} $1 1 42
+		${StdUtils.RandMax} $0 8
+	${Next}
+
+	; Select the mirror now!
 	${Select} $0
 		${Case} "0"
 			StrCpy $Update_MirrorURL "http://mulder.brhack.net/"
