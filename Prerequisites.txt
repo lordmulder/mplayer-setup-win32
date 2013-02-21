@@ -1,0 +1,40 @@
+-------------
+Prerequisites
+-------------
+
+The following tools are needed to compile the installer:
+
+(1) Nullsoft Scriptable Install System (Unicode Edition) v2.46.5
+    http://www.scratchpaper.com/
+    http://code.google.com/p/unsis/downloads/list
+
+(2) StdUtils plug-in for NSIS
+    http://nsis.sourceforge.net/StdUtils_plug-in
+
+(3) CPUFeatures plug-in for NSIS
+    http://nsis.sourceforge.net/CPUFeatures_plug-in
+
+(4) Aero plug-in for NSIS
+    http://nsis.sourceforge.net/Aero_plug-in
+
+(5) AccessControl plug-in for NSIS
+    http://nsis.sourceforge.net/AccessControl_plug-in
+
+(6) NewAdvSplash plug-in for NSIS
+    http://nsis.sourceforge.net/NewAdvSplash_plug-in
+
+
+The following software will be bundled in the installer:
+
+(1) MPlayer on Windows, by Gianluigi Tiesi
+    http://oss.netfarm.it/mplayer-win32.php
+
+(2) SMPlayer front-end, by RVM
+    http://sourceforge.net/projects/smplayer
+
+(3) MPUI front-end, by Martin Fiedler
+    http://sourceforge.net/projects/mpui/
+
+(4) Binary Codecs, by The MPlayer Team
+    http://www.mplayerhq.hu/MPlayer/releases/codecs/
+
