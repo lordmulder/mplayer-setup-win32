@@ -88,7 +88,7 @@ OutFile "${MPLAYER_OUTFILE}"
 ;--------------------------------------------------------------------------------
 
 SetCompressor /SOLID /FINAL LZMA
-SetCompressorDictSize 128
+SetCompressorDictSize 112
 
 !packhdr "$%TEMP%\exehead.tmp" '"${UPX_PATH}\upx.exe" --brute "$%TEMP%\exehead.tmp"'
 

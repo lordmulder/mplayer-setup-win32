@@ -73,8 +73,7 @@ Var dl_tmp
 		${If} "$dl_tmp" == "Cancelled"
 			${SetStatus} "$(MPLAYER_LANG_DL_ABORTED)"
 			DetailPrint "$(MPLAYER_LANG_DL_ERROR): $dl_tmp"
-			${IfCmd} MessageBox MB_TOPMOST|MB_RETRYCANCEL|MB_ICONEXCLAMATION "$(MPLAYER_LANG_DL_USER_ABORTED)" IDRETRY ${||} ${Continue} ${|}
-			MessageBox MB_TOPMOST|MB_ICONSTOP "$(MPLAYER_LANG_DL_UPDATE_FAILED)"
+			${IfCmd} MessageBox MB_TOPMOST|MB_RETRYCANCEL|MB_ICONSTOP "$(MPLAYER_LANG_DL_USER_ABORTED)" IDRETRY ${||} ${Continue} ${|}
 			Abort "$(MPLAYER_LANG_DL_FAILED)"
 		${EndIf}
 
@@ -84,8 +83,7 @@ Var dl_tmp
 		${If} $errors > 5
 			${SetStatus} "$(MPLAYER_LANG_DL_FAILED)"
 			StrCpy $errors 0
-			${IfCmd} MessageBox MB_TOPMOST|MB_RETRYCANCEL|MB_ICONEXCLAMATION "$(MPLAYER_LANG_DL_FAILED_MSG) $dl_tmp$\n$(MPLAYER_LANG_DL_RETRY)" IDRETRY ${||} ${Continue} ${|}
-			MessageBox MB_TOPMOST|MB_ICONSTOP "$(MPLAYER_LANG_DL_UPDATE_FAILED)"
+			MessageBox MB_TOPMOST|MB_ICONSTOP "$(MPLAYER_LANG_DL_FAILED_MSG) $dl_tmp$\n$\n$(MPLAYER_LANG_DL_RETRY)"
 			Abort "$(MPLAYER_LANG_DL_FAILED)"
 		${Else}
 			${SetStatus} "$(MPLAYER_LANG_DL_RESTARTING)"

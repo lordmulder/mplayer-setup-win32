@@ -1,7 +1,7 @@
 @echo off
 
 REM Build Number and other version info
-set "BUILD_NO=106"
+set "BUILD_NO=107"
 set "MPLAYER_REVISION=35917"
 set "SMPLAYER_VERSION=0.8.3 (SVN-r5072)"
 set "MPUI_VERSION=1.2-pre3 (Build 38)"
@@ -16,6 +16,14 @@ set "UPX_PATH=%~dp0\Utils\UPX.exe"
 REM --------------------------------------------------------------------------
 REM Do NOT modify any lines below!
 REM --------------------------------------------------------------------------
+
+echo ---------------------------------------------------------
+echo BUILD_NO: %BUILD_NO%
+echo MPLAYER_REVISION: %MPLAYER_REVISION%
+echo SMPLAYER_VERSION: %SMPLAYER_VERSION%
+echo MPUI_VERSION: %MPUI_VERSION%
+echo CODECS_DATE: %CODECS_DATE%
+echo ---------------------------------------------------------
 
 REM Get current Date
 set ISO_DATE=
