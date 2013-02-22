@@ -911,59 +911,72 @@ FunctionEnd
 Function DetectCPUType
 	StrCpy $DetectedCPUType 6 ;generic
 	StrCpy $DetectedCPUCores 2
-	
+
 	Banner::show /NOUNLOAD "$(MPLAYER_LANG_DETECTING)"
-	
+
 	${CPUFeatures.GetCount} $0
 	${IfNot} $0 == "error"
 		StrCpy $DetectedCPUCores $0
 	${EndIf}
-	
+
 	; Check supported features
 	${CPUFeatures.GetVendor} $0
 	${CPUFeatures.CheckFeature} "MMX1"   $1
-	${CPUFeatures.CheckFeature} "SSE3"   $2
-	${CPUFeatures.CheckFeature} "SSSE3"  $3
-	${CPUFeatures.CheckFeature} "SSE4.2" $4
-	${CPUFeatures.CheckFeature} "AVX1"   $5
-	${CPUFeatures.CheckFeature} "FMA4"   $6
-	
+	${CPUFeatures.CheckFeature} "3DNOW"  $2
+	${CPUFeatures.CheckFeature} "SSE3"   $3
+	${CPUFeatures.CheckFeature} "SSSE3"  $4
+	${CPUFeatures.CheckFeature} "SSE4.2" $5
+	${CPUFeatures.CheckFeature} "AVX1"   $6
+	${CPUFeatures.CheckFeature} "FMA4"   $7
+
+	Banner::destroy
+
 	!ifdef CPU_DETECT_DEBUG
-		MessageBox MB_TOPMOST `Vendor = $0`
-		MessageBox MB_TOPMOST `"MMX1" = $1`
-		MessageBox MB_TOPMOST `"SSE3" = $2`
-		MessageBox MB_TOPMOST `"SSSE3" = $3`
-		MessageBox MB_TOPMOST `"SSE4.2" = $4`
-		MessageBox MB_TOPMOST `""AVX1" = $5`
-		MessageBox MB_TOPMOST `"FMA4" = $6`
+		StrCpy $9 `Vendor = $0`
+		StrCpy $9 `$9$\n"MMX1" = $1`
+		StrCpy $9 `$9$\n"3DNOW" = $2`
+		StrCpy $9 `$9$\n"SSE3" = $3`
+		StrCpy $9 `$9$\n"SSSE3" = $4`
+		StrCpy $9 `$9$\n"SSE4.2" = $5`
+		StrCpy $9 `$9$\n"AVX1" = $6`
+		StrCpy $9 `$9$\n"FMA4" = $7`
+		MessageBox MB_TOPMOST `$9`
 	!endif
-	
+
 	; Make sure we have at least MMX
 	${IfThen} $1 != "yes" ${|} Return ${|}
 
 	; Select the "best" model for Intel's
 	${If} $0 == "Intel"
-		${If} $2 == "yes" 
-		${AndIf} $3 == "yes" 
-			StrCpy $DetectedCPUType 2 ;Core2
-			${IfThen} $4 == "yes" ${|} StrCpy $DetectedCPUType 3 ${|} ;Nehalem
+		; Core2 (SSE3 + SSSE3)
+		${If} $3 == "yes" 
+		${AndIf} $4 == "yes" 
+			StrCpy $DetectedCPUType 2 ;
+		${EndIf}
+		; Nehalem (SSE3 + SSSE3 + SSE4.2)
+		${If} $3 == "yes" 
+		${AndIf} $4 == "yes" 
+		${AndIf} $5 == "yes" 
+			StrCpy $DetectedCPUType 3
 		${EndIf}
 	${EndIf}
 
 	; Select the "best" model for AMD's
 	${If} $0 == "AMD"
+		; K8+SSE3 (3DNow! + SSE3)
 		${If} $2 == "yes" 
-			StrCpy $DetectedCPUType 4 ;K8+SSE3
-			${If} $3 == "yes" 
-			${AndIf} $4 == "yes" 
-			${AndIf} $5 == "yes" 
-			${AndIf} $6 == "yes" 
-				StrCpy $DetectedCPUType 5 ;Bulldozer
-			${EndIf}
+		${AndIf} $3 == "yes" 
+			StrCpy $DetectedCPUType 4
+		${EndIf}
+		; Bulldozer (SSE3 + SSSE3 + SSE4.2 + AVX + FMA4)
+		${If} $3 == "yes" 
+		${AndIf} $4 == "yes" 
+		${AndIf} $5 == "yes" 
+		${AndIf} $6 == "yes" 
+		${AndIf} $7 == "yes" 
+			StrCpy $DetectedCPUType 5
 		${EndIf}
 	${EndIf}
-	
-	Banner::destroy
 FunctionEnd
 
 
