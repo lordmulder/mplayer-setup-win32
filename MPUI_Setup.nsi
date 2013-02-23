@@ -372,7 +372,7 @@ Section "-Clean Up"
 		File "/oname=$PLUGINSDIR\Uninstall-V1.exe" "Resources\Uninstall-V1.exe"
 		HideWindow
 		ExecWait '"$PLUGINSDIR\Uninstall-V1.exe" _?=$0'
-		Delete "$PLUGINSDIR\Uninstall-V1.exe"
+		Delete /REBOOTOK "$PLUGINSDIR\Uninstall-V1.exe"
 		BringToFront
 	${EndIf}
 
@@ -796,9 +796,13 @@ Section "Uninstall"
 		RMDir /r "$0"
 	${EndIf}
 
-	; Registry
+	; Registry Keys
 	DeleteRegKey HKLM "${MPlayerRegPath}"
 	DeleteRegKey HKCU "${MPlayerRegPath}"
+
+	; Auto Update
+	DeleteRegValue HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Run" "MPlayerForWindows_AutoUpdateV2"
+	DeleteRegValue HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Run" "MPlayerForWindows_AutoUpdateV2"
 
 	${PrintStatus} "$(MUI_UNTEXT_FINISH_TITLE)"
 SectionEnd
