@@ -51,6 +51,7 @@ LangString MPLAYER_LANG_LOCKEDLIST_NOPROG        ${LANG_ENGLISH} "No programs th
 LangString MPLAYER_LANG_LOCKEDLIST_SEARCH        ${LANG_ENGLISH} "Searching, please wait..."
 LangString MPLAYER_LANG_LOCKEDLIST_TEXT          ${LANG_ENGLISH} "Checking for running instances of LameXP."
 LangString MPLAYER_LANG_MPLAYER_WIN32            ${LANG_ENGLISH} "MPlayer for Windows"
+LangString MPLAYER_LANG_MPUI_DEFAULT_LANGUAGE    ${LANG_ENGLISH} "en"
 LangString MPLAYER_LANG_SEL_AUTOUPDATE           ${LANG_ENGLISH} "It is highly recommended to check for updates regularly! Really deactivate?"
 LangString MPLAYER_LANG_SELCHANGE                ${LANG_ENGLISH} "You must select either MPUI or SMPlayer!"
 LangString MPLAYER_LANG_SELECT_CPU_HEAD          ${LANG_ENGLISH} "CPU Type Selection"

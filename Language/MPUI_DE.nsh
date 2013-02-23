@@ -51,6 +51,7 @@ LangString MPLAYER_LANG_LOCKEDLIST_NOPROG        ${LANG_GERMAN} "Es müssen keine
 LangString MPLAYER_LANG_LOCKEDLIST_SEARCH        ${LANG_GERMAN} "Suche, bitte warten..."
 LangString MPLAYER_LANG_LOCKEDLIST_TEXT          ${LANG_GERMAN} "Suche nach laufenden Instanzen von MPlayer."
 LangString MPLAYER_LANG_MPLAYER_WIN32            ${LANG_GERMAN} "MPlayer für Windows"
+LangString MPLAYER_LANG_MPUI_DEFAULT_LANGUAGE    ${LANG_GERMAN} "de"
 LangString MPLAYER_LANG_SEL_AUTOUPDATE           ${LANG_GERMAN} "Es wird dringend empfohlen regelmäßig nach Updates zu suchen! Wirklich deaktivieren?"
 LangString MPLAYER_LANG_SELCHANGE                ${LANG_GERMAN} "Sie müssen entweder MPUI oder SMPlayer auswählen!"
 LangString MPLAYER_LANG_SELECT_CPU_HEAD          ${LANG_GERMAN} "CPU-Type Auswahl"

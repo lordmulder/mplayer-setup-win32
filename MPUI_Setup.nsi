@@ -505,6 +505,7 @@ Section "!MPUI $(MPLAYER_LANG_FRONT_END) v${MPUI_VERSION}" SECID_MPUI
 	; Setup initial config
 	ClearErrors
 	WriteINIStr "$INSTDIR\MPUI.ini" "MPUI" "Params" "-vo direct3d -lavdopts threads=$DetectedCPUCores"
+	WriteINIStr "$INSTDIR\MPUI.ini" "MPUI" "Locale" "$(MPLAYER_LANG_MPUI_DEFAULT_LANGUAGE)"
 	${If} ${Errors}
 		${IfCmd} MessageBox MB_TOPMOST|MB_ICONSTOP|MB_DEFBUTTON2|MB_OKCANCEL "$(MPLAYER_LANG_CONFIG_MPUI)" IDCANCEL ${||} Abort ${|}
 	${EndIf}
