@@ -59,6 +59,7 @@ LangString MPLAYER_LANG_SELECT_CPU_HINT          ${LANG_ENGLISH} "Note: Selectin
 LangString MPLAYER_LANG_SELECT_CPU_TEXT          ${LANG_ENGLISH} "Selecting the optimal MPlayer build for your system can improve the playback performance!"
 LangString MPLAYER_LANG_SELECT_CPU_TYPE          ${LANG_ENGLISH} "Select your CPU type:"
 LangString MPLAYER_LANG_SELECTED_TYPE            ${LANG_ENGLISH} "Selected CPU type"
+LangString MPLAYER_LANG_SHORTCUT_APPREG          ${LANG_ENGLISH} "Manage Filte-Type Associations"
 LangString MPLAYER_LANG_SHORTCUT_MANUAL          ${LANG_ENGLISH} "Manual"
 LangString MPLAYER_LANG_SHORTCUT_README          ${LANG_ENGLISH} "Readme File"
 LangString MPLAYER_LANG_SHORTCUT_SITE_MPLAYER    ${LANG_ENGLISH} "Official MPlayer Web-Site"
