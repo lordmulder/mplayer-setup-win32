@@ -608,9 +608,12 @@ Section "-Create Shortcuts"
 		${EndIf}
 
 		CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(MPLAYER_LANG_SHORTCUT_UPDATE).lnk" "$INSTDIR\Updater.exe" "/L=$LANGUAGE"
-		CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(MPLAYER_LANG_SHORTCUT_APPREG).lnk" "$INSTDIR\AppRegGUI.exe"
 		CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(MPLAYER_LANG_SHORTCUT_README).lnk" "$INSTDIR\Readme.html"
 		CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(MPLAYER_LANG_SHORTCUT_MANUAL).lnk" "$INSTDIR\Manual.html"
+
+		${If} ${AtLeastWinVista}
+			CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(MPLAYER_LANG_SHORTCUT_APPREG).lnk" "$INSTDIR\AppRegGUI.exe"
+		${EndIf}
 		
 		${CreateWebLink} "$SMPROGRAMS\$StartMenuFolder\$(MPLAYER_LANG_SHORTCUT_SITE_MULDERS).url" "http://www.mulder.at.gg/"
 		${CreateWebLink} "$SMPROGRAMS\$StartMenuFolder\$(MPLAYER_LANG_SHORTCUT_SITE_MPWIN32).url" "http://oss.netfarm.it/mplayer-win32.php"
@@ -705,8 +708,10 @@ Section "-Update Registry"
 	WriteRegStr HKLM "${MPlayerRegPath}" "UninstallString" '"$INSTDIR\Uninstall.exe"'
 	WriteRegStr HKLM "${MPlayerRegPath}" "DisplayName" "$(MPLAYER_LANG_MPLAYER_WIN32)"
 	WriteRegStr HKLM "${MPlayerRegPath}" "DisplayIcon" "$INSTDIR\MPlayer.exe,0"
+	WriteRegStr HKLM "${MPlayerRegPath}" "DisplayVersion" "${MPLAYER_DATE}"
 	WriteRegStr HKLM "${MPlayerRegPath}" "URLInfoAbout" "http://mulder.at.gg/"
 	WriteRegStr HKLM "${MPlayerRegPath}" "URLUpdateInfo" "http://mulder.at.gg/"
+	WriteRegStr HKLM "${MPlayerRegPath}" "Publisher" "The MPlayer Team"
 	WriteRegDWORD HKLM "${MPlayerRegPath}" "NoModify" 1
 	WriteRegDWORD HKLM "${MPlayerRegPath}" "NoRepair" 1
 
@@ -716,9 +721,11 @@ Section "-Update Registry"
 	DeleteRegKey HKCU "SOFTWARE\Classes\MPlayerForWindowsV2.File"
 	${If} ${FileExists} "$INSTDIR\MPUI.exe"
 		WriteRegStr HKLM "SOFTWARE\Classes\MPlayerForWindowsV2.File\shell\open\command" "" '"$INSTDIR\MPUI.exe" "%1"'
+		WriteRegStr HKLM "SOFTWARE\Classes\MPlayerForWindowsV2.File\shell\open\DefaultIcon" "" "$INSTDIR\MPUI.exe,0"
 	${EndIf}
 	${If} ${FileExists} "$INSTDIR\SMPlayer.exe"
 		WriteRegStr HKLM "SOFTWARE\Classes\MPlayerForWindowsV2.File\shell\open\command" "" '"$INSTDIR\SMPlayer.exe" "%1"'
+		WriteRegStr HKLM "SOFTWARE\Classes\MPlayerForWindowsV2.File\shell\open\DefaultIcon" "" "$INSTDIR\SMPlayer.exe,1"
 	${EndIf}
 
 	; Register App
@@ -729,38 +736,38 @@ Section "-Update Registry"
 	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities" "ApplicationName" "$(MPLAYER_LANG_MPLAYER_WIN32)"
 	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities" "ApplicationDescription" "$(MPLAYER_LANG_MPLAYER_WIN32)"
 	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities" "ApplicationDescription" "$(MPLAYER_LANG_MPLAYER_WIN32)"
-	
+
 	; File Associations
-	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities\FileAssociations" ".256"  "MPlayerForWindowsV2.File"
-	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities\FileAssociations" ".3GP"  "MPlayerForWindowsV2.File"
-	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities\FileAssociations" ".ASF"  "MPlayerForWindowsV2.File"
-	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities\FileAssociations" ".AVI"  "MPlayerForWindowsV2.File"
-	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities\FileAssociations" ".BIN"  "MPlayerForWindowsV2.File"
-	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities\FileAssociations" ".DAT"  "MPlayerForWindowsV2.File"
-	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities\FileAssociations" ".DIVX" "MPlayerForWindowsV2.File"
-	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities\FileAssociations" ".EVO"  "MPlayerForWindowsV2.File"
-	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities\FileAssociations" ".FLV"  "MPlayerForWindowsV2.File"
-	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities\FileAssociations" ".M2V"  "MPlayerForWindowsV2.File"
-	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities\FileAssociations" ".M2TS" "MPlayerForWindowsV2.File"
-	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities\FileAssociations" ".MKA"  "MPlayerForWindowsV2.File"
-	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities\FileAssociations" ".MKV"  "MPlayerForWindowsV2.File"
-	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities\FileAssociations" ".MOV"  "MPlayerForWindowsV2.File"
-	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities\FileAssociations" ".MP2"  "MPlayerForWindowsV2.File"
-	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities\FileAssociations" ".MP3"  "MPlayerForWindowsV2.File"
-	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities\FileAssociations" ".MP4"  "MPlayerForWindowsV2.File"
-	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities\FileAssociations" ".MPEG" "MPlayerForWindowsV2.File"
-	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities\FileAssociations" ".MPG"  "MPlayerForWindowsV2.File"
-	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities\FileAssociations" ".MPV"  "MPlayerForWindowsV2.File"
-	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities\FileAssociations" ".NSV"  "MPlayerForWindowsV2.File"
-	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities\FileAssociations" ".OGG"  "MPlayerForWindowsV2.File"
-	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities\FileAssociations" ".OGM"  "MPlayerForWindowsV2.File"
-	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities\FileAssociations" ".RM"   "MPlayerForWindowsV2.File"
-	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities\FileAssociations" ".RMVB" "MPlayerForWindowsV2.File"
-	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities\FileAssociations" ".TS"   "MPlayerForWindowsV2.File"
-	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities\FileAssociations" ".VOB"  "MPlayerForWindowsV2.File"
-	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities\FileAssociations" ".WAV"  "MPlayerForWindowsV2.File"
-	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities\FileAssociations" ".WMV"  "MPlayerForWindowsV2.File"
-	
+	${RegisterFileExtCapability} "256"
+	${RegisterFileExtCapability} "3GP"
+	${RegisterFileExtCapability} "ASF"
+	${RegisterFileExtCapability} "AVI"
+	${RegisterFileExtCapability} "BIN"
+	${RegisterFileExtCapability} "DAT"
+	${RegisterFileExtCapability} "DIVX"
+	${RegisterFileExtCapability} "EVO"
+	${RegisterFileExtCapability} "FLV"
+	${RegisterFileExtCapability} "M2V"
+	${RegisterFileExtCapability} "M2TS"
+	${RegisterFileExtCapability} "MKA"
+	${RegisterFileExtCapability} "MKV"
+	${RegisterFileExtCapability} "MOV"
+	${RegisterFileExtCapability} "MP2"
+	${RegisterFileExtCapability} "MP3"
+	${RegisterFileExtCapability} "MP4"
+	${RegisterFileExtCapability} "MPEG"
+	${RegisterFileExtCapability} "MPG"
+	${RegisterFileExtCapability} "MPV"
+	${RegisterFileExtCapability} "NSV"
+	${RegisterFileExtCapability} "OGG"
+	${RegisterFileExtCapability} "OGM"
+	${RegisterFileExtCapability} "RM"
+	${RegisterFileExtCapability} "RMVB"
+	${RegisterFileExtCapability} "TS"
+	${RegisterFileExtCapability} "VOB"
+	${RegisterFileExtCapability} "WAV"
+	${RegisterFileExtCapability} "WMV"
+
 	; Reset auto update interval
 	DeleteRegValue HKLM "${MPlayerRegPath}" "LastUpdateCheck"
 	DeleteRegValue HKCU "${MPlayerRegPath}" "LastUpdateCheck"

@@ -93,7 +93,7 @@ Function _Imp_PackAll
 
 	${DoUntil} ${Errors}
 		DetailPrint "$(MPLAYER_LANG_COMPRESSING): $2"
-		NsExec::Exec '"$PLUGINSDIR\UPX.exe" "$0\$2"'
+		NsExec::Exec '"$PLUGINSDIR\UPX.exe" --compress-icons=0 "$0\$2"'
 		FindNext $1 $2
 	${Loop}
 
@@ -123,4 +123,12 @@ FunctionEnd
 !macro _GetVirtualStorePath out path
 	StrCpy ${out} '${path}' "" 3
 	StrCpy ${out} '$LOCALAPPDATA\VirtualStore\$0'
+!macroend
+
+; ----------------------------------------------------------------------------
+
+!define RegisterFileExtCapability "!insertmacro _RegisterFileExtCapability"
+
+!macro _RegisterFileExtCapability ext
+	WriteRegStr HKLM "${MPlayerRegPath}\Capabilities\FileAssociations" ".${ext}"  "MPlayerForWindowsV2.File"
 !macroend
