@@ -139,6 +139,7 @@ Var DetectedCPUType
 Var DetectedCPUCores
 Var SelectedCPUType
 Var SelectedTweaks
+Var UpdateInstall
 
 
 ;--------------------------------------------------------------------------------
@@ -253,6 +254,7 @@ Function .onInit
 	StrCpy $DetectedCPUType 0
 	StrCpy $DetectedCPUCores 0
 	StrCpy $SelectedTweaks 0
+	StrCpy $NotUpdateInstall 1
 
 	InitPluginsDir
 
@@ -1103,29 +1105,33 @@ FunctionEnd
 ; CHECK FOR UPDATE MODE
 ;--------------------------------------------------------------------------------
 
-!macro EnablePathEditable flag
+!macro EnablePathEditable flag show_msg
+	${IfNot} $NotUpdateInstall == ${flag}
 		FindWindow $1 "#32770" "" $HWNDPARENT
 		GetDlgItem $2 $1 1019
 		EnableWindow $2 ${flag}
 		GetDlgItem $2 $1 1001
 		EnableWindow $2 ${flag}
+		!if ${show_msg} == 1
+			MessageBox MB_OK|MB_ICONINFORMATION "$(MPLAYER_LANG_FORCE_UPDATE)" /SD IDOK
+		!endif
+		StrCpy $NotUpdateInstall ${flag}
+	${EndIf}
 !macroend
 
 Function CheckForUpdate
 	${StdUtils.GetParameter} $0 "Update" "?"
 	${IfNot} "$0" == "?"
-		!insertmacro EnablePathEditable 0
+		!insertmacro EnablePathEditable 0 0
 		Return
 	${EndIf}
 	
-	${IfNot} ${Silent}
-	${AndIf} ${FileExists} "$INSTDIR\MPlayer.exe"
-		!insertmacro EnablePathEditable 0
-		MessageBox MB_ICONINFORMATION "$(MPLAYER_LANG_FORCE_UPDATE)"
+	${If} ${FileExists} "$INSTDIR\MPlayer.exe"
+		!insertmacro EnablePathEditable 0 1
 		Return
 	${EndIf}
 
-	!insertmacro EnablePathEditable 1
+	!insertmacro EnablePathEditable 1 0
 FunctionEnd
 
 
