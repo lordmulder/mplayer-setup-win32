@@ -139,7 +139,7 @@ Var DetectedCPUType
 Var DetectedCPUCores
 Var SelectedCPUType
 Var SelectedTweaks
-Var UpdateInstall
+Var NotUpdateInstall
 
 
 ;--------------------------------------------------------------------------------
