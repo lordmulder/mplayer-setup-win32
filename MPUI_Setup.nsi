@@ -723,11 +723,11 @@ Section "-Update Registry"
 	DeleteRegKey HKCU "SOFTWARE\Classes\MPlayerForWindowsV2.File"
 	${If} ${FileExists} "$INSTDIR\MPUI.exe"
 		WriteRegStr HKLM "SOFTWARE\Classes\MPlayerForWindowsV2.File\shell\open\command" "" '"$INSTDIR\MPUI.exe" "%1"'
-		WriteRegStr HKLM "SOFTWARE\Classes\MPlayerForWindowsV2.File\shell\open\DefaultIcon" "" "$INSTDIR\MPUI.exe,0"
+		WriteRegStr HKLM "SOFTWARE\Classes\MPlayerForWindowsV2.File\DefaultIcon" "" "$INSTDIR\MPUI.exe,0"
 	${EndIf}
 	${If} ${FileExists} "$INSTDIR\SMPlayer.exe"
 		WriteRegStr HKLM "SOFTWARE\Classes\MPlayerForWindowsV2.File\shell\open\command" "" '"$INSTDIR\SMPlayer.exe" "%1"'
-		WriteRegStr HKLM "SOFTWARE\Classes\MPlayerForWindowsV2.File\shell\open\DefaultIcon" "" "$INSTDIR\SMPlayer.exe,1"
+		WriteRegStr HKLM "SOFTWARE\Classes\MPlayerForWindowsV2.File\DefaultIcon" "" "$INSTDIR\SMPlayer.exe,1"
 	${EndIf}
 
 	; Register App
