@@ -1106,17 +1106,17 @@ FunctionEnd
 ;--------------------------------------------------------------------------------
 
 !macro EnablePathEditable flag show_msg
+!if ${show_msg} == 1
 	${IfNot} $NotUpdateInstall == ${flag}
-		FindWindow $1 "#32770" "" $HWNDPARENT
-		GetDlgItem $2 $1 1019
-		EnableWindow $2 ${flag}
-		GetDlgItem $2 $1 1001
-		EnableWindow $2 ${flag}
-		!if ${show_msg} == 1
-			MessageBox MB_OK|MB_ICONINFORMATION "$(MPLAYER_LANG_FORCE_UPDATE)" /SD IDOK
-		!endif
+		MessageBox MB_OK|MB_ICONINFORMATION "$(MPLAYER_LANG_FORCE_UPDATE)" /SD IDOK
 		StrCpy $NotUpdateInstall ${flag}
 	${EndIf}
+!endif
+	FindWindow $1 "#32770" "" $HWNDPARENT
+	GetDlgItem $2 $1 1019
+	EnableWindow $2 ${flag}
+	GetDlgItem $2 $1 1001
+	EnableWindow $2 ${flag}
 !macroend
 
 Function CheckForUpdate
