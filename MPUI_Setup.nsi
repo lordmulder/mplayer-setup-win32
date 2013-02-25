@@ -1103,15 +1103,29 @@ FunctionEnd
 ; CHECK FOR UPDATE MODE
 ;--------------------------------------------------------------------------------
 
+!macro EnablePathEditable flag
+		FindWindow $1 "#32770" "" $HWNDPARENT
+		GetDlgItem $2 $1 1019
+		EnableWindow $2 ${flag}
+		GetDlgItem $2 $1 1001
+		EnableWindow $2 ${flag}
+!macroend
+
 Function CheckForUpdate
 	${StdUtils.GetParameter} $0 "Update" "?"
 	${IfNot} "$0" == "?"
-		FindWindow $1 "#32770" "" $HWNDPARENT
-		GetDlgItem $2 $1 1019
-		EnableWindow $2 0
-		GetDlgItem $2 $1 1001
-		EnableWindow $2 0
+		!insertmacro EnablePathEditable 0
+		Return
 	${EndIf}
+	
+	${IfNot} ${Silent}
+	${AndIf} ${FileExists} "$INSTDIR\MPlayer.exe"
+		!insertmacro EnablePathEditable 0
+		MessageBox MB_ICONINFORMATION "$(MPLAYER_LANG_FORCE_UPDATE)"
+		Return
+	${EndIf}
+
+	!insertmacro EnablePathEditable 1
 FunctionEnd
 
 

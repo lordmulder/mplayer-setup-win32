@@ -38,6 +38,7 @@ LangString MPLAYER_LANG_DL_RETRY                 ${LANG_GERMAN} "Prüfen Sie Ihre
 LangString MPLAYER_LANG_DL_SUCCESSFULL           ${LANG_GERMAN} "Erfolgreich."
 LangString MPLAYER_LANG_DL_UPDATE_FAILED         ${LANG_GERMAN} "Update fehlgeschlagen, bitte versuchen Sie es erneut!"
 LangString MPLAYER_LANG_DL_USER_ABORTED          ${LANG_GERMAN} "Download wurde vom Benutzer abgebrochen!"
+LangString MPLAYER_LANG_FORCE_UPDATE             ${LANG_GERMAN} "Ihre bestehende MPlayer für Windows Installation wird aktualisiert!"
 LangString MPLAYER_LANG_FRONT_END                ${LANG_GERMAN} "Oberfläche"
 LangString MPLAYER_LANG_IGNORE                   ${LANG_GERMAN} "Ignorieren"
 LangString MPLAYER_LANG_INST_AUTOUPDATE          ${LANG_GERMAN} "Automatisch alle 30 Tage nach Updates suchen"

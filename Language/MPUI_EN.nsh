@@ -38,6 +38,7 @@ LangString MPLAYER_LANG_DL_RETRY                 ${LANG_ENGLISH} "Please check y
 LangString MPLAYER_LANG_DL_SUCCESSFULL           ${LANG_ENGLISH} "Successfull."
 LangString MPLAYER_LANG_DL_UPDATE_FAILED         ${LANG_ENGLISH} "Download process failed. Please try again!"
 LangString MPLAYER_LANG_DL_USER_ABORTED          ${LANG_ENGLISH} "Download was aborted by the user!"
+LangString MPLAYER_LANG_FORCE_UPDATE             ${LANG_ENGLISH} "Your existing MPlayer for Windows installation will be upgraded!"
 LangString MPLAYER_LANG_FRONT_END                ${LANG_ENGLISH} "front-end"
 LangString MPLAYER_LANG_IGNORE                   ${LANG_ENGLISH} "Ignore"
 LangString MPLAYER_LANG_INST_AUTOUPDATE          ${LANG_ENGLISH} "Automatically check for updates every 30 days"
