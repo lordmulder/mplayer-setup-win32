@@ -412,9 +412,15 @@ Section "-Clean Up"
 	
 	; Now deal with Virtual Store
 	${GetVirtualStorePath} $0 "$INSTDIR"
+	Delete "$0\*.exe"
+	Delete "$0\*.dll"
 	Delete "$0\*.ini"
+	Delete "$0\*.txt"
+	Delete "$0\*.html"
+	Delete "$0\*.htm"
 	Delete "$0\*.ass"
 	Delete "$0\*.m3u8"
+	Delete "$0\*.tag"
 	Delete "$0\mplayer\config"
 	Delete "$0\mplayer\*.conf"
 SectionEnd
@@ -460,6 +466,7 @@ Section "!MPlayer r${MPLAYER_REVISION}" SECID_MPLAYER
 	File "Builds\MPlayer-generic\dsnative.dll"
 	SetOutPath "$INSTDIR\mplayer"
 	File "Builds\MPlayer-generic\mplayer\config"
+	File "Builds\MPlayer-generic\mplayer\subfont.ttf"
 	SetOutPath "$INSTDIR\fonts"
 	File "Builds\MPlayer-generic\fonts\fonts.conf"
 	SetOutPath "$INSTDIR\fonts\conf.d"
@@ -544,6 +551,7 @@ Section "!SMPlayer $(MPLAYER_LANG_FRONT_END) v${SMPLAYER_VERSION}" SECID_SMPLAYE
 
 	; Set file access rights
 	${MakeFilePublic} "$INSTDIR\SMPlayer.ini"
+	${MakeFilePublic} "$INSTDIR\SMPlayer_files.ini"
 	${MakeFilePublic} "$INSTDIR\favorites.m3u8"
 	${MakeFilePublic} "$INSTDIR\radio.m3u8"
 	${MakeFilePublic} "$INSTDIR\tv.m3u8"
@@ -553,20 +561,22 @@ Section "!SMPlayer $(MPLAYER_LANG_FRONT_END) v${SMPLAYER_VERSION}" SECID_SMPLAYE
 	; Setup initial config
 	${StrRep} $0 "$INSTDIR\MPlayer.exe" "\" "/"
 	ClearErrors
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "mplayer_bin"          "$0"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "driver\vo"            "direct3d"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "autosync"             "true"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "autosync_factor"      "30"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "use_audio_equalizer"  "false"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "use_scaletempo"       "0"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "osd"                  "1"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "file_settings_method" "normal"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "performance" "threads"              "$DetectedCPUCores"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "performance" "priority"             "1"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "performance" "frame_drop"           "true"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui"         "gui"                  "DefaultGUI"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui"         "iconset"              "Oxygen-Refit"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui"         "style"                "Plastique"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "config_version"             "3"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "mplayer_bin"                "$0"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "driver\vo"                  "direct3d"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "autosync"                   "true"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "autosync_factor"            "30"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "use_audio_equalizer"        "false"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "use_scaletempo"             "0"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "osd"                        "1"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "file_settings_method"       "normal"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "performance" "threads"                    "$DetectedCPUCores"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "performance" "priority"                   "1"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "performance" "frame_drop"                 "true"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui"         "gui"                        "DefaultGUI"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui"         "iconset"                    "Oxygen-Refit"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui"         "style"                      "Plastique"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "advanced"    "mplayer_additional_options" ""
 	
 	${If} ${Errors}
 		${IfCmd} MessageBox MB_TOPMOST|MB_ICONSTOP|MB_DEFBUTTON2|MB_OKCANCEL "$(MPLAYER_LANG_CONFIG_SMPLAYER)" IDCANCEL ${||} Abort ${|}
