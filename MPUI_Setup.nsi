@@ -559,6 +559,7 @@ Section "!SMPlayer $(MPLAYER_LANG_FRONT_END) v${SMPLAYER_VERSION}" SECID_SMPLAYE
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "autosync_factor"      "30"
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "use_audio_equalizer"  "false"
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "use_scaletempo"       "0"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "osd"                  "1"
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "file_settings_method" "normal"
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "performance" "threads"              "$DetectedCPUCores"
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "performance" "priority"             "1"
