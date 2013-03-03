@@ -553,12 +553,20 @@ Section "!SMPlayer $(MPLAYER_LANG_FRONT_END) v${SMPLAYER_VERSION}" SECID_SMPLAYE
 	; Setup initial config
 	${StrRep} $0 "$INSTDIR\MPlayer.exe" "\" "/"
 	ClearErrors
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General" "mplayer_bin" "$0"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General" "driver\vo" "direct3d"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui" "gui" "DefaultGUI"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui" "iconset" "Oxygen-Refit"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui" "style" "Plastique"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "performance" "threads" "$DetectedCPUCores"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "mplayer_bin"          "$0"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "driver\vo"            "direct3d"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "autosync"             "true"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "autosync_factor"      "30"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "use_audio_equalizer"  "false"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "use_scaletempo"       "0"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "file_settings_method" "normal"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "performance" "threads"              "$DetectedCPUCores"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "performance" "priority"             "1"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "performance" "frame_drop"           "true"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui"         "gui"                  "DefaultGUI"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui"         "iconset"              "Oxygen-Refit"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui"         "style"                "Plastique"
+	
 	${If} ${Errors}
 		${IfCmd} MessageBox MB_TOPMOST|MB_ICONSTOP|MB_DEFBUTTON2|MB_OKCANCEL "$(MPLAYER_LANG_CONFIG_SMPLAYER)" IDCANCEL ${||} Abort ${|}
 	${EndIf}
@@ -768,6 +776,7 @@ Section "-Update Registry"
 	${RegisterFileExtCapability} "TS"
 	${RegisterFileExtCapability} "VOB"
 	${RegisterFileExtCapability} "WAV"
+	${RegisterFileExtCapability} "WEBM"
 	${RegisterFileExtCapability} "WMV"
 
 	; Reset auto update interval
