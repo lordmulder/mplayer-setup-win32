@@ -197,7 +197,7 @@ Section "-Select Mirror"
 
 	; Randomize some more
 	${For} $1 1 42
-		${StdUtils.RandMax} $0 9
+		${StdUtils.RandMax} $0 10
 	${Next}
 
 	; Select the mirror now!
@@ -215,12 +215,14 @@ Section "-Select Mirror"
 		${Case} "5"
 			StrCpy $Update_MirrorURL "http://mulder.webuda.com/"
 		${Case} "6"
-			StrCpy $Update_MirrorURL "http://lamexp.sourceforge.net/"
+			StrCpy $Update_MirrorURL "http://mulder.byethost13.com/"
 		${Case} "7"
-			StrCpy $Update_MirrorURL "http://lordmulder.github.com/LameXP/"
+			StrCpy $Update_MirrorURL "http://lamexp.sourceforge.net/"
 		${Case} "8"
-			StrCpy $Update_MirrorURL "http://lord_mulder.bitbucket.org/"
+			StrCpy $Update_MirrorURL "http://lordmulder.github.com/LameXP/"
 		${Case} "9"
+			StrCpy $Update_MirrorURL "http://lord_mulder.bitbucket.org/"
+		${Case} "10"
 			StrCpy $Update_MirrorURL "http://www.tricksoft.de/"
 		${CaseElse}
 			Abort "This is not supposed to happen!"

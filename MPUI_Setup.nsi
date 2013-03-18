@@ -636,7 +636,7 @@ Section "-Create Shortcuts"
 			CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(MPLAYER_LANG_SHORTCUT_APPREG).lnk" "$INSTDIR\AppRegGUI.exe"
 		${EndIf}
 		
-		${CreateWebLink} "$SMPROGRAMS\$StartMenuFolder\$(MPLAYER_LANG_SHORTCUT_SITE_MULDERS).url" "http://www.mulder.at.gg/"
+		${CreateWebLink} "$SMPROGRAMS\$StartMenuFolder\$(MPLAYER_LANG_SHORTCUT_SITE_MULDERS).url" "http://muldersoft.com/"
 		${CreateWebLink} "$SMPROGRAMS\$StartMenuFolder\$(MPLAYER_LANG_SHORTCUT_SITE_MPWIN32).url" "http://oss.netfarm.it/mplayer-win32.php"
 		${CreateWebLink} "$SMPROGRAMS\$StartMenuFolder\$(MPLAYER_LANG_SHORTCUT_SITE_MPLAYER).url" "http://www.mplayerhq.hu/"
 
@@ -730,8 +730,8 @@ Section "-Update Registry"
 	WriteRegStr HKLM "${MPlayerRegPath}" "DisplayName" "$(MPLAYER_LANG_MPLAYER_WIN32)"
 	WriteRegStr HKLM "${MPlayerRegPath}" "DisplayIcon" "$INSTDIR\MPlayer.exe,0"
 	WriteRegStr HKLM "${MPlayerRegPath}" "DisplayVersion" "${MPLAYER_DATE}"
-	WriteRegStr HKLM "${MPlayerRegPath}" "URLInfoAbout" "http://mulder.at.gg/"
-	WriteRegStr HKLM "${MPlayerRegPath}" "URLUpdateInfo" "http://mulder.at.gg/"
+	WriteRegStr HKLM "${MPlayerRegPath}" "URLInfoAbout" "http://muldersoft.com/"
+	WriteRegStr HKLM "${MPlayerRegPath}" "URLUpdateInfo" "http://muldersoft.com/"
 	WriteRegStr HKLM "${MPlayerRegPath}" "Publisher" "The MPlayer Team"
 	WriteRegDWORD HKLM "${MPlayerRegPath}" "NoModify" 1
 	WriteRegDWORD HKLM "${MPlayerRegPath}" "NoRepair" 1
