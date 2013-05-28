@@ -561,7 +561,7 @@ Section "!SMPlayer $(MPLAYER_LANG_FRONT_END) v${SMPLAYER_VERSION}" SECID_SMPLAYE
 	; Setup initial config
 	${StrRep} $0 "$INSTDIR\MPlayer.exe" "\" "/"
 	ClearErrors
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "config_version"             "3"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "config_version"             "4"
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "mplayer_bin"                "$0"
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "driver\vo"                  "direct3d"
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "autosync"                   "true"
@@ -577,6 +577,7 @@ Section "!SMPlayer $(MPLAYER_LANG_FRONT_END) v${SMPLAYER_VERSION}" SECID_SMPLAYE
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui"         "iconset"                    "Oxygen-Refit"
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui"         "style"                      "Plastique"
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "advanced"    "mplayer_additional_options" ""
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "smplayer"    "check_for_new_version"      "false"
 	
 	${If} ${Errors}
 		${IfCmd} MessageBox MB_TOPMOST|MB_ICONSTOP|MB_DEFBUTTON2|MB_OKCANCEL "$(MPLAYER_LANG_CONFIG_SMPLAYER)" IDCANCEL ${||} Abort ${|}
