@@ -448,9 +448,6 @@ Section "!MPlayer r${MPLAYER_REVISION}" SECID_MPLAYER
 			DetailPrint "$(MPLAYER_LANG_SELECTED_TYPE): k8-sse3"
 			File "Builds\MPlayer-k8-sse3\MPlayer.exe"
 		${Case} "5"
-			DetailPrint "$(MPLAYER_LANG_SELECTED_TYPE): bdver1"
-			File "Builds\MPlayer-bdver1\MPlayer.exe"
-		${Case} "6"
 			DetailPrint "$(MPLAYER_LANG_SELECTED_TYPE): generic"
 			File "Builds\MPlayer-generic\MPlayer.exe"
 		${CaseElse}
@@ -561,23 +558,24 @@ Section "!SMPlayer $(MPLAYER_LANG_FRONT_END) v${SMPLAYER_VERSION}" SECID_SMPLAYE
 	; Setup initial config
 	${StrRep} $0 "$INSTDIR\MPlayer.exe" "\" "/"
 	ClearErrors
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "config_version"             "4"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "mplayer_bin"                "$0"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "driver\vo"                  "direct3d"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "autosync"                   "true"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "autosync_factor"            "30"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "use_audio_equalizer"        "false"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "use_scaletempo"             "0"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "osd"                        "1"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"    "file_settings_method"       "normal"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "performance" "threads"                    "$DetectedCPUCores"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "performance" "priority"                   "1"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "performance" "frame_drop"                 "true"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui"         "gui"                        "DefaultGUI"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui"         "iconset"                    "Oxygen-Refit"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui"         "style"                      "Plastique"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "advanced"    "mplayer_additional_options" ""
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "smplayer"    "check_for_new_version"      "false"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "config_version"             "4"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "mplayer_bin"                "$0"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "driver\vo"                  "direct3d"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "autosync"                   "true"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "autosync_factor"            "30"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "use_audio_equalizer"        "false"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "use_scaletempo"             "0"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "osd"                        "1"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "file_settings_method"       "normal"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "performance"    "threads"                    "$DetectedCPUCores"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "performance"    "priority"                   "1"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "performance"    "frame_drop"                 "true"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui"            "gui"                        "DefaultGUI"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui"            "iconset"                    "Oxygen-Refit"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui"            "style"                      "Plastique"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "advanced"       "mplayer_additional_options" ""
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "smplayer"       "check_for_new_version"      "false"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "update_checker" "enabled"                    "false"
 	
 	${If} ${Errors}
 		${IfCmd} MessageBox MB_TOPMOST|MB_ICONSTOP|MB_DEFBUTTON2|MB_OKCANCEL "$(MPLAYER_LANG_CONFIG_SMPLAYER)" IDCANCEL ${||} Abort ${|}
@@ -964,7 +962,7 @@ FunctionEnd
 Function SelectCPUPage_Show
 	; Detect CPU type, if not detected yet
 	${If} $DetectedCPUType < 2
-	${OrIf} $DetectedCPUType > 6
+	${OrIf} $DetectedCPUType > 5
 		Call DetectCPUType
 		!insertmacro INSTALLOPTIONS_READ $0 "Page_CPU.ini" "Field $DetectedCPUType" "Text"
 		!insertmacro INSTALLOPTIONS_WRITE "Page_CPU.ini" "Field $DetectedCPUType" "Text" "$0  <---"
@@ -972,14 +970,14 @@ Function SelectCPUPage_Show
 
 	; Make sure the current selection is valid
 	${IfThen} $SelectedCPUType < 2 ${|} StrCpy $SelectedCPUType $DetectedCPUType ${|}
-	${IfThen} $SelectedCPUType > 6 ${|} StrCpy $SelectedCPUType $DetectedCPUType ${|}
+	${IfThen} $SelectedCPUType > 5 ${|} StrCpy $SelectedCPUType $DetectedCPUType ${|}
 
 	; Translate
 	!insertmacro INSTALLOPTIONS_WRITE "Page_CPU.ini" "Field 1" "Text" "$(MPLAYER_LANG_SELECT_CPU_TYPE)"
-	!insertmacro INSTALLOPTIONS_WRITE "Page_CPU.ini" "Field 7" "Text" "$(MPLAYER_LANG_SELECT_CPU_HINT)"
+	!insertmacro INSTALLOPTIONS_WRITE "Page_CPU.ini" "Field 6" "Text" "$(MPLAYER_LANG_SELECT_CPU_HINT)"
 	
 	; Apply current selection to dialog
-	${For} $0 2 6
+	${For} $0 2 5
 		${If} $0 == $SelectedCPUType
 			!insertmacro INSTALLOPTIONS_WRITE "Page_CPU.ini" "Field $0" "State" "1"
 		${Else}
@@ -993,7 +991,7 @@ Function SelectCPUPage_Show
 
 	; Read new selection from dialog
 	StrCpy $SelectedCPUType 0
-	${For} $0 2 6
+	${For} $0 2 5
 		!insertmacro INSTALLOPTIONS_READ $1 "Page_CPU.ini" "Field $0" "State"
 		${IfThen} $1 == 1 ${|} StrCpy $SelectedCPUType $0 ${|}
 	${Next}
@@ -1002,21 +1000,21 @@ FunctionEnd
 Function SelectCPUPage_Validate
 	; Read new selection from dialog
 	StrCpy $2 0
-	${For} $0 2 6
+	${For} $0 2 5
 		!insertmacro INSTALLOPTIONS_READ $1 "Page_CPU.ini" "Field $0" "State"
 		${IfThen} $1 == 1 ${|} StrCpy $2 $0 ${|}
 	${Next}
 	
 	; Validate selection
 	${If} $2 < 2
-	${OrIf} $2 > 6
+	${OrIf} $2 > 5
 		MessageBox MB_ICONSTOP "Oups, invalid selection detected!"
 		Abort
 	${EndIf}
 FunctionEnd
 
 Function DetectCPUType
-	StrCpy $DetectedCPUType 6 ;generic
+	StrCpy $DetectedCPUType 5 ;generic
 	StrCpy $DetectedCPUCores 2
 
 	${IfNot} ${Silent}
@@ -1074,9 +1072,9 @@ Function DetectCPUType
 			StrCpy $DetectedCPUType 4
 		${EndIf}
 		; Bulldozer (SSE3 + SSSE3 + SSE4.2 + AVX + FMA4)
-		${If} ${CPUSupportsAll} "SSE3,SSSE3,SSE4.2,AVX1,FMA4"
-			StrCpy $DetectedCPUType 5
-		${EndIf}
+		;${If} ${CPUSupportsAll} "SSE3,SSSE3,SSE4.2,AVX1,FMA4"
+		;	StrCpy $DetectedCPUType 5	#5 is now generic, as 'bdver1' build got dropped
+		;${EndIf}
 	${EndIf}
 	
 	Banner::destroy

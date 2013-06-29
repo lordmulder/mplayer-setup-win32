@@ -197,7 +197,7 @@ Section "-Select Mirror"
 
 	; Randomize some more
 	${For} $1 1 42
-		${StdUtils.RandMax} $0 10
+		${StdUtils.RandMax} $0 11
 	${Next}
 
 	; Select the mirror now!
@@ -205,24 +205,26 @@ Section "-Select Mirror"
 		${Case} "0"
 			StrCpy $Update_MirrorURL "http://muldersoft.com/"
 		${Case} "1"
-			StrCpy $Update_MirrorURL "http://mulder.brhack.net/"
-		${Case} "2"
 			StrCpy $Update_MirrorURL "http://mulder.bplaced.net/"
-		${Case} "3"
+		${Case} "2"
 			StrCpy $Update_MirrorURL "http://mulder.cwsurf.de/"
-		${Case} "4"
+		${Case} "3"
 			StrCpy $Update_MirrorURL "http://mulder.6te.net/"
-		${Case} "5"
+		${Case} "4"
 			StrCpy $Update_MirrorURL "http://mulder.webuda.com/"
-		${Case} "6"
+		${Case} "5"
 			StrCpy $Update_MirrorURL "http://mulder.byethost13.com/"
+		${Case} "6"
+			StrCpy $Update_MirrorURL "http://muldersoft.kilu.de/"
 		${Case} "7"
-			StrCpy $Update_MirrorURL "http://lamexp.sourceforge.net/"
+			StrCpy $Update_MirrorURL "http://muldersoft.zxq.net/"
 		${Case} "8"
-			StrCpy $Update_MirrorURL "http://lordmulder.github.com/LameXP/"
+			StrCpy $Update_MirrorURL "http://lamexp.sourceforge.net/"
 		${Case} "9"
-			StrCpy $Update_MirrorURL "http://lord_mulder.bitbucket.org/"
+			StrCpy $Update_MirrorURL "http://lordmulder.github.com/LameXP/"
 		${Case} "10"
+			StrCpy $Update_MirrorURL "http://lord_mulder.bitbucket.org/"
+		${Case} "11"
 			StrCpy $Update_MirrorURL "http://www.tricksoft.de/"
 		${CaseElse}
 			Abort "This is not supposed to happen!"
