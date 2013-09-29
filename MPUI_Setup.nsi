@@ -253,7 +253,7 @@ Function .onInit
 	StrCpy $SelectedCPUType 0
 	StrCpy $DetectedCPUType 0
 	StrCpy $DetectedCPUCores 0
-	StrCpy $SelectedTweaks 0
+	StrCpy $SelectedTweaks 1
 	StrCpy $NotUpdateInstall 1
 
 	InitPluginsDir
@@ -522,7 +522,7 @@ SectionEnd
 
 Section "!SMPlayer $(MPLAYER_LANG_FRONT_END) v${SMPLAYER_VERSION}" SECID_SMPLAYER
 	SectionIn 1
-	${PrintProgress} "$(MPLAYER_LANG_STATUS_INST_CODECS)"
+	${PrintProgress} "$(MPLAYER_LANG_STATUS_INST_SMPLAYER)"
 
 	; SMPlayer files
 	SetOutPath "$INSTDIR"
