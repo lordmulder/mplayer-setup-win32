@@ -575,6 +575,7 @@ Section "!SMPlayer $(MPLAYER_LANG_FRONT_END) v${SMPLAYER_VERSION}" SECID_SMPLAYE
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui"            "style"                      "Plastique"
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "advanced"       "mplayer_additional_options" ""
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "smplayer"       "check_for_new_version"      "false"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "smplayer"       "check_if_upgraded"          "false"
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "update_checker" "enabled"                    "false"
 	
 	${If} ${Errors}
