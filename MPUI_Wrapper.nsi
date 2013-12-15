@@ -142,6 +142,8 @@ Section "-LaunchTheInstaller"
 	
 	InitPluginsDir
 	SetOutPath "$PLUGINSDIR"
+	
+	SetOverwrite on
 	File "/oname=${TempFileName}" "${MPLAYER_SRCFILE}"
 	
 	; --------
@@ -156,16 +158,19 @@ Section "-LaunchTheInstaller"
 	; --------
 
 	${Do}
+		SetOverwrite ifdiff
+		File "/oname=${TempFileName}" "${MPLAYER_SRCFILE}"
+		
 		DetailPrint "ExecShellWait: ${TempFileName}"
-		${StdUtils.ExecShellWait} $R1 "${TempFileName}" "open" '$R9'
-		DetailPrint "Result: $R1"
+		${StdUtils.ExecShellWaitEx} $R1 $R2 "${TempFileName}" "open" '$R9'
+		DetailPrint "Result: $R1 ($R2)"
 		
 		${IfThen} $R1 == "no_wait" ${|} Goto SetupCompleted ${|}
 		
-		${If} $R1 != "error"
+		${If} $R1 == "ok"
 			Sleep 333
 			HideWindow
-			${StdUtils.WaitForProc} $R1
+			${StdUtils.WaitForProcEx} $R1 $R2
 			Goto SetupCompleted
 		${EndIf}
 		
@@ -175,6 +180,9 @@ Section "-LaunchTheInstaller"
 	; --------
 
 	FallbackMode:
+
+	SetOverwrite ifdiff
+	File "/oname=${TempFileName}" "${MPLAYER_SRCFILE}"
 
 	ClearErrors
 	ExecShell "open" "${TempFileName}" '$R9' SW_SHOWNORMAL
