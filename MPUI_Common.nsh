@@ -122,7 +122,7 @@ FunctionEnd
 
 !macro _GetVirtualStorePath out path
 	StrCpy ${out} '${path}' "" 3
-	StrCpy ${out} '$LOCALAPPDATA\VirtualStore\$0'
+	StrCpy ${out} '$LOCALAPPDATA\VirtualStore\${out}'
 !macroend
 
 ; ----------------------------------------------------------------------------
