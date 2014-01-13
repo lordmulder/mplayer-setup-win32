@@ -1,12 +1,12 @@
  
  MPlayer for Windows (Install Script)
- Copyright (C) 2004-2013 LoRd_MuldeR <mulder2@gmx.de>
+ Copyright (C) 2004-2014 LoRd_MuldeR <mulder2@gmx.de>
  
  MPlayer - The Movie Player
- Copyright (C) 2000-2013 The MPlayer Team <http://www.mplayerhq.hu/>
+ Copyright (C) 2000-2014 The MPlayer Team <http://www.mplayerhq.hu/>
  
  SMPlayer - GUI front-end for MPlayer
- Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sf.net>
+ Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sf.net>
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
