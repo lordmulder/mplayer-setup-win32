@@ -1,9 +1,9 @@
 @echo off
 
 REM Build Number and other version info
-set "BUILD_NO=125"
-set "MPLAYER_REVISION=37199"
-set "SMPLAYER_VERSION=14.3.0 (SVN-r6219)"
+set "BUILD_NO=126"
+set "MPLAYER_REVISION=37242"
+set "SMPLAYER_VERSION=14.3.0 (SVN-r6270)"
 set "MPUI_VERSION=1.2-pre3 (Build 38)"
 set "CODECS_DATE=2011-01-31"
 
