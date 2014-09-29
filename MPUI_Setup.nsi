@@ -546,8 +546,8 @@ Section "!SMPlayer $(MPLAYER_LANG_FRONT_END) v${SMPLAYER_VERSION}" SECID_SMPLAYE
 	SetOutPath "$INSTDIR\shortcuts"
 	File "SMPlayer\shortcuts\*.keys"
 	SetOutPath "$INSTDIR\themes"
-	File /r "SMPlayer\themes\*.css"
-	File /r "SMPlayer\themes\*.png"
+	File /r "SMPlayer\themes\*.txt"
+	File /r "SMPlayer\themes\*.rcc"
 
 	; Set file access rights
 	${MakeFilePublic} "$INSTDIR\SMPlayer.ini"
@@ -658,7 +658,7 @@ Section "-ApplyTweaks"
 	${If} $0 != 0
 		${If} ${FileExists} "$INSTDIR\SMPlayer.ini"
 			WriteINIStr "$INSTDIR\SMPlayer.ini" "gui" "gui" "SkinGUI"
-			WriteINIStr "$INSTDIR\SMPlayer.ini" "gui" "iconset" "Gonzo"
+			WriteINIStr "$INSTDIR\SMPlayer.ini" "gui" "iconset" "Numix-remix"
 		${EndIf}
 	${EndIf}
 
