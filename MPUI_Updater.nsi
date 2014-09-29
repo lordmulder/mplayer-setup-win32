@@ -196,7 +196,7 @@ Section "-Select Mirror"
 	StrCpy $Update_MirrorURL "http://www.example.com/"
 
 	; Randomize some more
-	${For} $1 1 42
+	${For} $1 1 97
 		${StdUtils.RandMax} $0 11
 	${Next}
 
