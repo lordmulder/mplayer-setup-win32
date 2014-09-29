@@ -408,12 +408,14 @@ Section "-Clean Up"
 	Delete "$INSTDIR\*.m3u8"
 	Delete "$INSTDIR\*.tag"
 	RMDir /r "$INSTDIR\codecs"
+	RMDir /r "$INSTDIR\fonts"
 	RMDir /r "$INSTDIR\imageformats"
+	RMDir /r "$INSTDIR\legal_stuff"
+	RMDir /r "$INSTDIR\locale"
 	RMDir /r "$INSTDIR\mplayer"
 	RMDir /r "$INSTDIR\shortcuts"
 	RMDir /r "$INSTDIR\themes"
 	RMDir /r "$INSTDIR\translations"
-	RMDir /r "$INSTDIR\locale"
 	
 	; Now deal with Virtual Store
 	${GetVirtualStorePath} $0 "$INSTDIR"
@@ -552,6 +554,7 @@ Section "!SMPlayer $(MPLAYER_LANG_FRONT_END) v${SMPLAYER_VERSION}" SECID_SMPLAYE
 	SetOutPath "$INSTDIR\themes"
 	File /r "SMPlayer\themes\*.txt"
 	File /r "SMPlayer\themes\*.rcc"
+	File /r "SMPlayer\themes\*.css"
 
 	; Set file access rights
 	${MakeFilePublic} "$INSTDIR\SMPlayer.ini"
@@ -578,7 +581,7 @@ Section "!SMPlayer $(MPLAYER_LANG_FRONT_END) v${SMPLAYER_VERSION}" SECID_SMPLAYE
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "performance"    "priority"                   "1"
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "performance"    "frame_drop"                 "true"
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui"            "gui"                        "DefaultGUI"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui"            "iconset"                    "Oxygen-Refit"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui"            "iconset"                    "Numix-remix"
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui"            "style"                      "Plastique"
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "advanced"       "mplayer_additional_options" ""
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "smplayer"       "check_for_new_version"      "false"
@@ -661,8 +664,9 @@ Section "-ApplyTweaks"
 	IntOp $0 $SelectedTweaks & 1
 	${If} $0 != 0
 		${If} ${FileExists} "$INSTDIR\SMPlayer.ini"
-			WriteINIStr "$INSTDIR\SMPlayer.ini" "gui" "gui" "SkinGUI"
-			WriteINIStr "$INSTDIR\SMPlayer.ini" "gui" "iconset" "Numix-remix"
+			WriteINIStr "$INSTDIR\SMPlayer.ini" "gui" "gui"     "SkinGUI"
+			WriteINIStr "$INSTDIR\SMPlayer.ini" "gui" "iconset" "Gonzo"
+			WriteINIStr "$INSTDIR\SMPlayer.ini" "gui" "style"   "Plastique"
 		${EndIf}
 	${EndIf}
 
@@ -806,7 +810,7 @@ SectionEnd
 
 Section "$(MPLAYER_LANG_INST_AUTOUPDATE)" SECID_AUTOUPDATE
 	SectionIn 1 2
-	DetailPrint "$(MPLAYER_LANG_WRITING_REGISTRY)"
+	DetailPrint "$(MPLAYER_LANG_SCHEDULE_UPDATE)"
 	WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Run" "MPlayerForWindows_AutoUpdateV2" '"$INSTDIR\Updater.exe" /L=$LANGUAGE /AutoCheck'
 SectionEnd
 

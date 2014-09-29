@@ -109,3 +109,4 @@ LangString MPLAYER_LANG_UPD_STATUS_VERINFO       ${LANG_GERMAN} "Lese lokale Ver
 LangString MPLAYER_LANG_UPD_VERIFYING            ${LANG_GERMAN} "Überprüfe:"
 LangString MPLAYER_LANG_UPDATING_FONTCACHE       ${LANG_GERMAN} "Der Font-Cache wird gerade aktualisiert..."
 LangString MPLAYER_LANG_WRITING_REGISTRY         ${LANG_GERMAN} "Registrierungs-Informationen werden aktualisiert..."
+LangString MPLAYER_LANG_SCHEDULE_UPDATE          ${LANG_GERMAN} "Automatische Updates werden vorbereitet..."
