@@ -547,6 +547,8 @@ Section "!SMPlayer $(MPLAYER_LANG_FRONT_END) v${SMPLAYER_VERSION}" SECID_SMPLAYE
 	File "SMPlayer\QtScript4.dll"
 	File "SMPlayer\QtXml4.dll"
 	File "SMPlayer\QtDBus4.dll"
+	File "SMPlayer\libeay32.dll"
+	File "SMPlayer\ssleay32.dll"
 	File "SMPlayer\zlib1.dll"
 
 	; Additional SMPlayer files
