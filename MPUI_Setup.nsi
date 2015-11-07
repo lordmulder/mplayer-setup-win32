@@ -90,7 +90,10 @@ OutFile "${MPLAYER_OUTFILE}"
 SetCompressor /SOLID /FINAL LZMA
 SetCompressorDictSize 112
 
-!packhdr "$%TEMP%\exehead.tmp" '"${UPX_PATH}\upx.exe" --brute "$%TEMP%\exehead.tmp"'
+!tempfile PACKHDRTEMP
+!packhdr "${PACKHDRTEMP}" '"Utils\MT.exe" -manifest "Resources\Setup.manifest" -outputresource:"${PACKHDRTEMP};1"'
+
+#!packhdr "$%TEMP%\exehead.tmp" '"${UPX_PATH}\upx.exe" --brute "$%TEMP%\exehead.tmp"'
 
 
 ;--------------------------------------------------------------------------------

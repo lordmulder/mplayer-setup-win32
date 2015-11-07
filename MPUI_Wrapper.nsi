@@ -76,8 +76,8 @@ OutFile "${MPLAYER_OUTFILE}"
 
 ShowInstDetails show
 AutoCloseWindow true
+ShowInstDetails nevershow
 InstallDir ""
-
 
 ;--------------------------------
 ;Page Captions

@@ -76,8 +76,8 @@ Var Update_CurrentPkgDate
 Var Update_MirrorURL
 Var Update_LatestBuildNo
 Var Update_DownloadFileName
-Var Update_DownloadTicketId
 Var Update_DownloadAddress
+Var Update_DownloadChecksum
 
 ; ----------------------------------------------------------------------------
 
@@ -173,6 +173,33 @@ FunctionEnd
 
 ; ----------------------------------------------------------------------------
 
+!define VerfiyChecksum "!insertmacro _VerfiyChecksum"
+
+!macro _VerfiyChecksum filename expected_value
+	DetailPrint "$(MPLAYER_LANG_UPD_VERIFYING) ${filename}"
+
+	${StdUtils.HashFile} $9 "SHA3-384" '${filename}'
+	
+	${If}   "$9" == "error"
+	${OrIf} "$9" == "invalid"
+		Delete '${filename}'
+		MessageBox MB_ICONSTOP|MB_TOPMOST "$(MPLAYER_LANG_UPD_ERR_VERIFY)"
+		Abort "Failed to verify integrity!"
+	${EndIf}
+
+	DetailPrint "Expected checksum: ${expected_value}"
+	DetailPrint "Computed checksum: $9"
+
+	${IfNot} "$9" == "${expected_value}"
+		Delete '${filename}'
+		MessageBox MB_ICONSTOP|MB_TOPMOST "$(MPLAYER_LANG_UPD_ERR_VERIFY)"
+		Abort "Checksum does NOT match!"
+	${EndIf}
+!macroend
+
+
+; ----------------------------------------------------------------------------
+
 Section "-Read Version Info"
 	${SetStatus} "$(MPLAYER_LANG_UPD_STATUS_VERINFO)"
 	InitPluginsDir
@@ -197,7 +224,7 @@ Section "-Select Mirror"
 
 	; Randomize some more
 	${For} $1 1 97
-		${StdUtils.RandMax} $0 12
+		${StdUtils.RandMax} $0 13
 	${Next}
 
 	; Select the mirror now!
@@ -207,26 +234,28 @@ Section "-Select Mirror"
 		${Case} "1"
 			StrCpy $Update_MirrorURL "http://mulder.bplaced.net/"
 		${Case} "2"
-			StrCpy $Update_MirrorURL "http://mulder.cwsurf.de/"
-		${Case} "3"
 			StrCpy $Update_MirrorURL "http://mulder.6te.net/"
-		${Case} "4"
+		${Case} "3"
 			StrCpy $Update_MirrorURL "http://mulder.webuda.com/"
-		${Case} "5"
-			StrCpy $Update_MirrorURL "http://mulder.byethost13.com/"
-		${Case} "6"
-			StrCpy $Update_MirrorURL "http://muldersoft.kilu.de/"
-		${Case} "7"
-			StrCpy $Update_MirrorURL "http://muldersoft.zxq.net/"
-		${Case} "8"
+		${Case} "4"
 			StrCpy $Update_MirrorURL "http://mulder.pe.hu/"
+		${Case} "5"
+			StrCpy $Update_MirrorURL "http://muldersoft.square7.ch/"
+		${Case} "6"
+			StrCpy $Update_MirrorURL "http://muldersoft.co.nf/"
+		${Case} "7"
+			StrCpy $Update_MirrorURL "http://muldersoft.eu.pn/"
+		${Case} "8"
+			StrCpy $Update_MirrorURL "http://muldersoft.lima-city.de/"
 		${Case} "9"
-			StrCpy $Update_MirrorURL "http://lamexp.sourceforge.net/"
+			StrCpy $Update_MirrorURL "http://www.muldersoft.keepfree.de/"
 		${Case} "10"
-			StrCpy $Update_MirrorURL "http://lordmulder.github.com/LameXP/"
+			StrCpy $Update_MirrorURL "http://lamexp.sourceforge.net/"
 		${Case} "11"
-			StrCpy $Update_MirrorURL "http://lord_mulder.bitbucket.org/"
+			StrCpy $Update_MirrorURL "http://lordmulder.github.io/LameXP/"
 		${Case} "12"
+			StrCpy $Update_MirrorURL "http://lord_mulder.bitbucket.org/"
+		${Case} "13"
 			StrCpy $Update_MirrorURL "http://www.tricksoft.de/"
 		${CaseElse}
 			Abort "This is not supposed to happen!"
@@ -238,16 +267,16 @@ SectionEnd
 Section "-Download Update Info"
 	${SetStatus} "$(MPLAYER_LANG_UPD_STATUS_UPDINFO)"
 	
-	${DownloadFile.Get} "$(MPLAYER_LANG_UPD_STATUS_UPDINFO)" "$Update_MirrorURL/update.ver"     "$PLUGINSDIR\update.ver"
-	${DownloadFile.Get} "$(MPLAYER_LANG_UPD_STATUS_UPDINFO)" "$Update_MirrorURL/update.ver.sig" "$PLUGINSDIR\update.ver.sig"
+	${DownloadFile.Get} "$(MPLAYER_LANG_UPD_STATUS_UPDINFO)" "$Update_MirrorURL/update.ver"      "$PLUGINSDIR\update.ver"
+	${DownloadFile.Get} "$(MPLAYER_LANG_UPD_STATUS_UPDINFO)" "$Update_MirrorURL/update.ver.sig2" "$PLUGINSDIR\update.ver.sig"
 	
 	${VerfiySignature} "update.ver"
 	
 	ClearErrors
 	ReadINIStr $Update_LatestBuildNo    "$PLUGINSDIR\update.ver" "MPlayer for Windows" "BuildNo"
 	ReadINIStr $Update_DownloadFileName "$PLUGINSDIR\update.ver" "MPlayer for Windows" "DownloadFilename"
-	ReadINIStr $Update_DownloadTicketId "$PLUGINSDIR\update.ver" "MPlayer for Windows" "DownloadFilecode"
 	ReadINIStr $Update_DownloadAddress  "$PLUGINSDIR\update.ver" "MPlayer for Windows" "DownloadAddress"
+	ReadINIStr $Update_DownloadChecksum "$PLUGINSDIR\update.ver" "MPlayer for Windows" "DownloadChecksum"
 	
 	${If} ${Errors}
 		Delete "$PLUGINSDIR\update.ver"
@@ -272,10 +301,11 @@ SectionEnd
 Section "-Download Update"
 	${SetStatus} "$(MPLAYER_LANG_UPD_STATUS_DOWNLOAD)"
 	
-	${DownloadFile.Post} "file_name=$Update_DownloadFileName&file_code=$Update_DownloadTicketId" "$(MPLAYER_LANG_UPD_STATUS_DOWNLOAD)" "$Update_DownloadAddress" "$PLUGINSDIR\$Update_DownloadFileName"
-	${DownloadFile.Post} "sign_name=$Update_DownloadFileName"                                    "$(MPLAYER_LANG_UPD_STATUS_DOWNLOAD)" "$Update_DownloadAddress" "$PLUGINSDIR\$Update_DownloadFileName.sig"
+	#${DownloadFile.Post} "file_name=$Update_DownloadFileName&file_code=$Update_DownloadTicketId" "$(MPLAYER_LANG_UPD_STATUS_DOWNLOAD)" "$Update_DownloadAddress" "$PLUGINSDIR\$Update_DownloadFileName"
+	#${DownloadFile.Post} "sign_name=$Update_DownloadFileName"                                    "$(MPLAYER_LANG_UPD_STATUS_DOWNLOAD)" "$Update_DownloadAddress" "$PLUGINSDIR\$Update_DownloadFileName.sig"
 
-	${VerfiySignature} "$Update_DownloadFileName"
+	${DownloadFile.Get} "$(MPLAYER_LANG_UPD_STATUS_DOWNLOAD)" "$Update_DownloadAddress/$Update_DownloadFileName" "$PLUGINSDIR\$Update_DownloadFileName"
+	${VerfiyChecksum} "$Update_DownloadFileName" "$Update_DownloadChecksum"
 SectionEnd
 
 Section "-Install Update Now"
