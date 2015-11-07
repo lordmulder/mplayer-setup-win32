@@ -160,14 +160,14 @@ FunctionEnd
 		Delete "$PLUGINSDIR\$1"
 		${SetStatus} "$(MPLAYER_LANG_UPD_STATUS_FAILED)"
 		MessageBox MB_ICONSTOP|MB_TOPMOST "$(MPLAYER_LANG_UPD_ERR_GNUPG)"
-		Abort "Failed to verify signature!"
+		Abort "$(MPLAYER_LANG_UPD_STATUS_FAILED)"
 	${EndIf}
 	
 	${IfNot} "$9" == "0"
 		Delete "$PLUGINSDIR\$1"
 		${SetStatus} "$(MPLAYER_LANG_UPD_STATUS_FAILED)"
 		MessageBox MB_ICONSTOP|MB_TOPMOST "$(MPLAYER_LANG_UPD_ERR_VERIFY)"
-		Abort "Failed to verify signature!"
+		Abort "$(MPLAYER_LANG_UPD_STATUS_FAILED)"
 	${EndIf}
 !macroend
 
@@ -184,7 +184,7 @@ FunctionEnd
 	${OrIf} "$9" == "invalid"
 		Delete '${filename}'
 		MessageBox MB_ICONSTOP|MB_TOPMOST "$(MPLAYER_LANG_UPD_ERR_VERIFY)"
-		Abort "Failed to verify integrity!"
+		Abort "$(MPLAYER_LANG_UPD_STATUS_FAILED)"
 	${EndIf}
 
 	DetailPrint "Expected checksum: ${expected_value}"
@@ -193,7 +193,7 @@ FunctionEnd
 	${IfNot} "$9" == "${expected_value}"
 		Delete '${filename}'
 		MessageBox MB_ICONSTOP|MB_TOPMOST "$(MPLAYER_LANG_UPD_ERR_VERIFY)"
-		Abort "Checksum does NOT match!"
+		Abort "$(MPLAYER_LANG_UPD_STATUS_FAILED)"
 	${EndIf}
 !macroend
 
@@ -212,7 +212,7 @@ Section "-Read Version Info"
 	${If} ${Errors}
 		${SetStatus} "$(MPLAYER_LANG_UPD_STATUS_FAILED)"
 		MessageBox MB_TOPMOST|MB_ICONSTOP|MB_OK "$(MPLAYER_LANG_UPD_ERR_VERINFO)"
-		Abort
+		Abort "$(MPLAYER_LANG_UPD_STATUS_FAILED)"
 	${EndIf}
 	
 	DetailPrint "$(MPLAYER_LANG_UPD_INSTALLED_VER) $Update_CurrentPkgDate (Build #$Update_CurrentBuildNo)"
@@ -282,7 +282,7 @@ Section "-Download Update Info"
 		Delete "$PLUGINSDIR\update.ver"
 		${SetStatus} "$(MPLAYER_LANG_UPD_STATUS_FAILED)"
 		MessageBox MB_TOPMOST|MB_ICONSTOP|MB_OK "$(MPLAYER_LANG_UPD_ERR_UPDINFO)"
-		Abort
+		Abort "$(MPLAYER_LANG_UPD_STATUS_FAILED)"
 	${EndIf}
 	
 	Delete "$PLUGINSDIR\update.ver"
@@ -300,11 +300,8 @@ SectionEnd
 
 Section "-Download Update"
 	${SetStatus} "$(MPLAYER_LANG_UPD_STATUS_DOWNLOAD)"
-	
-	#${DownloadFile.Post} "file_name=$Update_DownloadFileName&file_code=$Update_DownloadTicketId" "$(MPLAYER_LANG_UPD_STATUS_DOWNLOAD)" "$Update_DownloadAddress" "$PLUGINSDIR\$Update_DownloadFileName"
-	#${DownloadFile.Post} "sign_name=$Update_DownloadFileName"                                    "$(MPLAYER_LANG_UPD_STATUS_DOWNLOAD)" "$Update_DownloadAddress" "$PLUGINSDIR\$Update_DownloadFileName.sig"
 
-	${DownloadFile.Get} "$(MPLAYER_LANG_UPD_STATUS_DOWNLOAD)" "$Update_DownloadAddress/$Update_DownloadFileName" "$PLUGINSDIR\$Update_DownloadFileName"
+	${DownloadFile.Popup} "$(MPLAYER_LANG_UPD_STATUS_DOWNLOAD)" "$Update_DownloadAddress/$Update_DownloadFileName" "$PLUGINSDIR\$Update_DownloadFileName"
 	${VerfiyChecksum} "$Update_DownloadFileName" "$Update_DownloadChecksum"
 SectionEnd
 

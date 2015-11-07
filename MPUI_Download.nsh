@@ -42,13 +42,19 @@ Var dl_tmp
 
 ; ----------------------------------------------------------------------------
 
-!define DownloadFile.Get  '!insertmacro _DownloadFile "get" ""'
-!define DownloadFile.Post '!insertmacro _DownloadFile "post"'
+!define DownloadFile.Get   '!insertmacro _DownloadFile "get"'
+!define DownloadFile.Popup '!insertmacro _DownloadFile "popup"'
 
 !define user_agent "Mozilla/5.0 (X11; Linux i686; rv:7.0.1) Gecko/20111106 IceCat/7.0.1"
 
-!macro _DownloadFile action dl_post status_txt dl_url destfile
+!macro _DownloadFile action status_txt dl_url destfile
 	StrCpy $errors 0
+
+	!if "${action}" != "get"
+		!if "${action}" != "popup"
+			!error "Invalid 'action' value has been specified!"
+		!endif
+	!endif
 
 	${Do}
 		${SetStatus} "${status_txt}"
@@ -56,8 +62,8 @@ Var dl_tmp
 		!if "${action}" == "get"
 			inetc::get /CONNECTTIMEOUT 30 /RECEIVETIMEOUT 30 /CANCELTEXT "$(^CancelBtn)" /USERAGENT "${user_agent}" /SILENT "${dl_url}" "${destfile}" /END
 		!endif
-		!if "${action}" == "post"
-			inetc::post "${dl_post}" /CONNECTTIMEOUT 30 /RECEIVETIMEOUT 30 /CANCELTEXT "$(^CancelBtn)" /USERAGENT "${user_agent}" /CAPTION "${status_txt}" /POPUP "" "${dl_url}" "${destfile}" /END
+		!if "${action}" == "popup"
+			inetc::get /CONNECTTIMEOUT 30 /RECEIVETIMEOUT 30 /CANCELTEXT "$(^CancelBtn)" /USERAGENT "${user_agent}" /CAPTION "${status_txt}" /POPUP "" "${dl_url}" "${destfile}" /END
 		!endif
 		Pop $dl_tmp
 

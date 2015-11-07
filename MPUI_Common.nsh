@@ -94,6 +94,7 @@ Function _Imp_PackAll
 	${IfNot} ${Errors}
 		${DoUntil} ${Errors}
 			${IfNot} "$2" == "Uninstall.exe"
+			${AndIfNot} "$2" == "Updater.exe"
 				DetailPrint "$(MPLAYER_LANG_COMPRESSING): $2"
 				NsExec::Exec '"$PLUGINSDIR\UPX.exe" --compress-icons=0 "$0\$2"'
 			${EndIf}

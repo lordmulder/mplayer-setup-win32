@@ -106,6 +106,7 @@ ReserveFile "${NSISDIR}\Plugins\CPUFeatures.dll"
 ReserveFile "${NSISDIR}\Plugins\InstallOptions.dll"
 ReserveFile "${NSISDIR}\Plugins\LangDLL.dll"
 ReserveFile "${NSISDIR}\Plugins\LockedList.dll"
+ReserveFile "${NSISDIR}\Plugins\LockedList64.dll"
 ReserveFile "${NSISDIR}\Plugins\nsDialogs.dll"
 ReserveFile "${NSISDIR}\Plugins\nsExec.dll"
 ReserveFile "${NSISDIR}\Plugins\StartMenu.dll"
@@ -844,7 +845,7 @@ SectionEnd
 ;--------------------------------------------------------------------------------
 
 Section "Uninstall"
-	SetOutPath "$INSTDIR"
+	SetOutPath "$TEMP"
 	${PrintProgress} "$(MPLAYER_LANG_STATUS_UNINSTALL)"
 
 	; Startmenu
@@ -955,9 +956,15 @@ FunctionEnd
 
 !macro LockedListPage_Function
 	!insertmacro MUI_HEADER_TEXT "$(MPLAYER_LANG_LOCKEDLIST_HEADER)" "$(MPLAYER_LANG_LOCKEDLIST_TEXT)"
+	
+	InitPluginsDir
+	File /oname=$PLUGINSDIR\LockedList64.dll `${NSISDIR}\Plugins\LockedList64.dll`
+	
 	LockedList::AddModule "\MPlayer.exe"
 	LockedList::AddModule "\SMPlayer.exe"
 	LockedList::AddModule "\MPUI.exe"
+	LockedList::AddModule "\QtCore4.dll"
+	
 	LockedList::Dialog /autonext /ignore "$(MPLAYER_LANG_IGNORE)" /heading "$(MPLAYER_LANG_LOCKEDLIST_HEADING)" /noprograms "$(MPLAYER_LANG_LOCKEDLIST_NOPROG)" /searching  "$(MPLAYER_LANG_LOCKEDLIST_SEARCH)" /colheadings "$(MPLAYER_LANG_LOCKEDLIST_COLHDR1)" "$(MPLAYER_LANG_LOCKEDLIST_COLHDR2)"
 	Pop $R0
 !macroend
