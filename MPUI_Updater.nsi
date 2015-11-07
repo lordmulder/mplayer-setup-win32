@@ -285,6 +285,9 @@ Section "-Download Update Info"
 		Abort "$(MPLAYER_LANG_UPD_STATUS_FAILED)"
 	${EndIf}
 	
+	StrCpy $0 "$Update_DownloadAddress" "" -1
+	${IfNotThen} "$0" == "/" ${|} StrCpy $Update_DownloadAddress "$Update_DownloadAddress/" ${|}
+	
 	Delete "$PLUGINSDIR\update.ver"
 	DetailPrint "$(MPLAYER_LANG_UPD_LATEST_VER) Build #$Update_LatestBuildNo"
 SectionEnd
@@ -301,7 +304,7 @@ SectionEnd
 Section "-Download Update"
 	${SetStatus} "$(MPLAYER_LANG_UPD_STATUS_DOWNLOAD)"
 
-	${DownloadFile.Popup} "$(MPLAYER_LANG_UPD_STATUS_DOWNLOAD)" "$Update_DownloadAddress/$Update_DownloadFileName" "$PLUGINSDIR\$Update_DownloadFileName"
+	${DownloadFile.Popup} "$(MPLAYER_LANG_UPD_STATUS_DOWNLOAD)" "$Update_DownloadAddress$Update_DownloadFileName" "$PLUGINSDIR\$Update_DownloadFileName"
 	${VerfiyChecksum} "$Update_DownloadFileName" "$Update_DownloadChecksum"
 SectionEnd
 
