@@ -91,11 +91,16 @@ Function _Imp_PackAll
 	ClearErrors
 	FindFirst $1 $2 "$0\$1"
 
-	${DoUntil} ${Errors}
-		DetailPrint "$(MPLAYER_LANG_COMPRESSING): $2"
-		NsExec::Exec '"$PLUGINSDIR\UPX.exe" --compress-icons=0 "$0\$2"'
-		FindNext $1 $2
-	${Loop}
+	${IfNot} ${Errors}
+		${DoUntil} ${Errors}
+			${IfNot} "$2" == "Uninstall.exe"
+				DetailPrint "$(MPLAYER_LANG_COMPRESSING): $2"
+				NsExec::Exec '"$PLUGINSDIR\UPX.exe" --compress-icons=0 "$0\$2"'
+			${EndIf}
+			FindNext $1 $2
+		${Loop}
+		FindClose $1
+	${EndIf}
 
 	Pop $2
 	Pop $1
