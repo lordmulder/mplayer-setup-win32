@@ -8,7 +8,7 @@ set "MPUI_VERSION=1.2-pre3 (Build 38)"
 set "CODECS_DATE=2011-01-31"
 
 REM Path to NSIS, Unicode version highly recommended!
-set "MAKE_NSIS=D:\NSIS\_Unicode\makensis.exe"
+set "MAKE_NSIS=C:\Program Files (x86)\NSIS\Unicode\makensis.exe"
 
 REM Path to UPX executable compressor program
 set "UPX_PATH=%~dp0\Utils\UPX.exe"
