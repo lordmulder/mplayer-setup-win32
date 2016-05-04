@@ -3,7 +3,7 @@
 REM Build Number and other version info
 set "BUILD_NO=134"
 set "MPLAYER_REVISION=37853"
-set "SMPLAYER_VERSION=16.1.0 (SVN-r7558)"
+set "SMPLAYER_VERSION=16.4.0 (SVN-r7558)"
 set "MPUI_VERSION=1.2-pre3 (Build 38)"
 set "CODECS_DATE=2011-01-31"
 
