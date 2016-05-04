@@ -1148,18 +1148,29 @@ FunctionEnd
 ; CHECK FOR UPDATE MODE
 ;--------------------------------------------------------------------------------
 
+!macro SetControlEnabled item_id enable
+	FindWindow $0 "#32770" "" $HWNDPARENT
+	${IfNot} $0 == 0
+		GetDlgItem $1 $0 ${item_id}
+		EnableWindow $1 ${enable}
+	${EndIf}
+!macroend
+
+!macro SkipToNextPage
+	GetDlgItem $0 $HWNDPARENT 1
+	System::Call "User32::PostMessage(i $HWNDPARENT, i ${WM_COMMAND}, i 1, i $R0)"
+!macroend
+
 !macro EnablePathEditable flag show_msg
+	!insertmacro SetControlEnabled 1019 ${flag}
+	!insertmacro SetControlEnabled 1001 ${flag}
 	${IfNot} $NotUpdateInstall == ${flag}
 		!if ${show_msg} == 1
 			MessageBox MB_OK|MB_ICONINFORMATION "$(MPLAYER_LANG_FORCE_UPDATE)" /SD IDOK
 		!endif
 		StrCpy $NotUpdateInstall ${flag}
+		!insertmacro SkipToNextPage
 	${EndIf}
-	FindWindow $1 "#32770" "" $HWNDPARENT
-	GetDlgItem $2 $1 1019
-	EnableWindow $2 ${flag}
-	GetDlgItem $2 $1 1001
-	EnableWindow $2 ${flag}
 !macroend
 
 Function CheckForUpdate
