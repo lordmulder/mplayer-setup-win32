@@ -637,7 +637,7 @@ Section "-Create Shortcuts"
 		${CreateWebLink} "$SMPROGRAMS\$StartMenuFolder\$(MPLAYER_LANG_SHORTCUT_SITE_MPLAYER).url" "http://www.mplayerhq.hu/"
 
 		${If} ${FileExists} "$SMPROGRAMS\$StartMenuFolder\SMPlayer.lnk"
-			${StdUtils.InvokeShellVerb} $R1 "$SMPROGRAMS\$StartMenuFolder" "SMPlayer.lnk" ${StdUtils.Const.ISV_PinToTaskbar}
+			${StdUtils.InvokeShellVerb} $R1 "$SMPROGRAMS\$StartMenuFolder" "SMPlayer.lnk" ${StdUtils.Const.ShellVerb.PinToTaskbar}
 			DetailPrint 'Pin: "$SMPROGRAMS\$StartMenuFolder\SMPlayer.lnk" -> $R1'
 		${EndIf}
 	!insertmacro MUI_STARTMENU_WRITE_END
@@ -845,7 +845,7 @@ Section "Uninstall"
 	${IfNot} "$StartMenuFolder" == ""
 		SetShellVarContext current
 		${If} ${FileExists} "$SMPROGRAMS\$StartMenuFolder\SMPlayer.lnk"
-			${StdUtils.InvokeShellVerb} $R1 "$SMPROGRAMS\$StartMenuFolder" "SMPlayer.lnk" ${StdUtils.Const.ISV_UnpinFromTaskbar}
+			${StdUtils.InvokeShellVerb} $R1 "$SMPROGRAMS\$StartMenuFolder" "SMPlayer.lnk" ${StdUtils.Const.ShellVerb.UnpinFromTaskbar}
 			DetailPrint 'Unpin: "$SMPROGRAMS\$StartMenuFolder\SMPlayer.lnk" -> $R1'
 		${EndIf}
 		${If} ${FileExists} "$SMPROGRAMS\$StartMenuFolder\*.*"
@@ -856,7 +856,7 @@ Section "Uninstall"
 		${EndIf}
 		SetShellVarContext all
 		${If} ${FileExists} "$SMPROGRAMS\$StartMenuFolder\SMPlayer.lnk"
-			${StdUtils.InvokeShellVerb} $R1 "$SMPROGRAMS\$StartMenuFolder" "SMPlayer.lnk" ${StdUtils.Const.ISV_UnpinFromTaskbar}
+			${StdUtils.InvokeShellVerb} $R1 "$SMPROGRAMS\$StartMenuFolder" "SMPlayer.lnk" ${StdUtils.Const.ShellVerb.UnpinFromTaskbar}
 			DetailPrint 'Unpin: "$SMPROGRAMS\$StartMenuFolder\SMPlayer.lnk" -> $R1'
 		${EndIf}
 		${If} ${FileExists} "$SMPROGRAMS\$StartMenuFolder\*.*"
