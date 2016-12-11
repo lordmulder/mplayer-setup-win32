@@ -224,7 +224,7 @@ Section "-Select Mirror"
 
 	; Randomize some more
 	${For} $1 1 97
-		${StdUtils.RandMax} $0 13
+		${StdUtils.RandMax} $0 15
 	${Next}
 
 	; Select the mirror now!
@@ -257,6 +257,10 @@ Section "-Select Mirror"
 			StrCpy $Update_MirrorURL "http://lord_mulder.bitbucket.org/"
 		${Case} "13"
 			StrCpy $Update_MirrorURL "http://www.tricksoft.de/"
+		${Case} "14"
+			StrCpy $Update_MirrorURL "http://repo.or.cz/LameXP.git/blob_plain/gh-pages:/",
+		${Case} "15"
+			StrCpy $Update_MirrorURL "http://gitlab.com/lamexp/lamexp/raw/gh-pages/",
 		${CaseElse}
 			Abort "This is not supposed to happen!"
 	${EndSelect}
