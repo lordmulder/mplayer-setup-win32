@@ -41,6 +41,15 @@
 
 ; ----------------------------------------------------------------------------
 
+!define ExtractSubDir "!insertmacro _ExtractSubDir"
+
+!macro _ExtractSubDir BaseDir SubDir
+	SetOutPath "$INSTDIR\${SubDir}"
+	File /r "${BaseDir}\${SubDir}\*.*"
+!macroend
+
+; ----------------------------------------------------------------------------
+
 !define CreateWebLink "!insertmacro _CreateWebLink"
 
 !macro _CreateWebLink ShortcutFile TargetURL
