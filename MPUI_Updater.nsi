@@ -336,6 +336,12 @@ Section "-Install Update Now"
 	${Loop}
 
 	Delete /REBOOTOK "$PLUGINSDIR\$Update_DownloadFileName"
+
+	${If} ${FileExists} "$PLUGINSDIR\$Update_DownloadFileName"
+		File "/oname=$PLUGINSDIR\update-helper.exe" "Utils\AutoDel.exe"
+		Exec '"$PLUGINSDIR\update-helper.exe" "$PLUGINSDIR\$Update_DownloadFileName"'
+		Delete /REBOOTOK "$PLUGINSDIR\update-helper.exe"
+	${EndIf}
 SectionEnd
 
 ; ----------------------------------------------------------------------------
