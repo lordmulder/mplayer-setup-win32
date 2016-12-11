@@ -465,14 +465,9 @@ Section "!MPlayer r${MPLAYER_REVISION}" SECID_MPLAYER
 	File "Resources\AppRegGUI.exe"
 
 	; Other MPlayer-related files
-	File "Builds\MPlayer-generic\dsnative.dll"
-	SetOutPath "$INSTDIR\mplayer"
-	File "Builds\MPlayer-generic\mplayer\config"
-	File "Builds\MPlayer-generic\mplayer\subfont.ttf"
-	SetOutPath "$INSTDIR\fonts"
-	File "Builds\MPlayer-generic\fonts\fonts.conf"
-	SetOutPath "$INSTDIR\fonts\conf.d"
-	File "Builds\MPlayer-generic\fonts\conf.d\*.conf"
+	File "Builds\MPlayer-generic\*.dll"
+	${ExtractSubDir} "Builds\MPlayer-generic" "mplayer"
+	${ExtractSubDir} "Builds\MPlayer-generic" "fonts"
 
 	; Documents
 	SetOutPath "$INSTDIR"
@@ -497,6 +492,7 @@ Section "!MPlayer r${MPLAYER_REVISION}" SECID_MPLAYER
 	SetFileAttributes "$INSTDIR\version.tag" FILE_ATTRIBUTE_READONLY
 
 	; Set file access rights
+	${MakePathPublic} "$INSTDIR"
 	${MakeFilePublic} "$INSTDIR\mplayer\config"
 	${MakeFilePublic} "$INSTDIR\fonts\fonts.conf"
 SectionEnd
@@ -839,6 +835,11 @@ Section "Uninstall"
 	SetOutPath "$TEMP"
 	${PrintProgress} "$(MPLAYER_LANG_STATUS_UNINSTALL)"
 
+	; Validate uninstall path
+	${IfThen} "$INSTDIR" == "" ${|} Abort ${|}
+	StrCpy $0 "$INSTDIR" "" -2
+	${IfThen} $0 == ":\" ${|} Abort ${|}
+
 	; Startmenu
 	!insertmacro MUI_STARTMENU_GETFOLDER Application $StartMenuFolder
 	${IfNot} "$StartMenuFolder" == ""
@@ -871,25 +872,7 @@ Section "Uninstall"
 	Delete /REBOOTOK "$DESKTOP\SMPlayer.lnk"
 	
 	; Files
-	Delete /REBOOTOK "$INSTDIR\*.exe"
-	Delete /REBOOTOK "$INSTDIR\*.dll"
-	Delete /REBOOTOK "$INSTDIR\*.ini"
-	Delete /REBOOTOK "$INSTDIR\*.txt"
-	Delete /REBOOTOK "$INSTDIR\*.html"
-	Delete /REBOOTOK "$INSTDIR\*.htm"
-	Delete /REBOOTOK "$INSTDIR\*.ass"
-	Delete /REBOOTOK "$INSTDIR\*.m3u8"
-	Delete /REBOOTOK "$INSTDIR\*.tag"
-	RMDir /r "$INSTDIR\codecs"
-	RMDir /r "$INSTDIR\fonts"
-	RMDir /r "$INSTDIR\imageformats"
-	RMDir /r "$INSTDIR\legal_stuff"
-	RMDir /r "$INSTDIR\locale"
-	RMDir /r "$INSTDIR\mplayer"
-	RMDir /r "$INSTDIR\shortcuts"
-	RMDir /r "$INSTDIR\themes"
-	RMDir /r "$INSTDIR\translations"
-	RMDir "$INSTDIR"
+	RMDir /r "$INSTDIR"
 
 	; Virtual Store
 	${GetVirtualStorePath} $0 "$INSTDIR"
@@ -954,7 +937,7 @@ FunctionEnd
 	LockedList::AddModule "\MPlayer.exe"
 	LockedList::AddModule "\SMPlayer.exe"
 	LockedList::AddModule "\MPUI.exe"
-	LockedList::AddModule "\Qt5Core.dll"
+	LockedList::AddModule "${NSISDIR}\Qt5Core.dll"
 	
 	LockedList::Dialog /autonext /ignore "$(MPLAYER_LANG_IGNORE)" /heading "$(MPLAYER_LANG_LOCKEDLIST_HEADING)" /noprograms "$(MPLAYER_LANG_LOCKEDLIST_NOPROG)" /searching  "$(MPLAYER_LANG_LOCKEDLIST_SEARCH)" /colheadings "$(MPLAYER_LANG_LOCKEDLIST_COLHDR1)" "$(MPLAYER_LANG_LOCKEDLIST_COLHDR2)"
 	Pop $R0

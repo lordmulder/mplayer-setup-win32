@@ -120,6 +120,7 @@ FunctionEnd
 ; ----------------------------------------------------------------------------
   
 !define MakeFilePublic "!insertmacro _MakeFilePublic"
+!define MakePathPublic "!insertmacro _MakePathPublic"
 
 !macro _MakeFilePublic filename
 	${IfNot} ${FileExists} "${filename}"
@@ -128,7 +129,11 @@ FunctionEnd
 		FileClose $R0
 		Pop $R0
 	${EndIf}
-	AccessControl::GrantOnFile "${filename}" "(S-1-1-0)" "FullAccess"
+	AccessControl::GrantOnFile "${filename}" "(BU)" "FullAccess"
+!macroend
+
+!macro _MakePathPublic path
+	AccessControl::GrantOnFile "${path}" "(BU)" "GenericRead + GenericWrite"
 !macroend
 
 ; ----------------------------------------------------------------------------
