@@ -425,17 +425,9 @@ Section "-Clean Up"
 	
 	; Now deal with Virtual Store
 	${GetVirtualStorePath} $0 "$INSTDIR"
-	Delete "$0\*.exe"
-	Delete "$0\*.dll"
-	Delete "$0\*.ini"
-	Delete "$0\*.txt"
-	Delete "$0\*.html"
-	Delete "$0\*.htm"
-	Delete "$0\*.ass"
-	Delete "$0\*.m3u8"
-	Delete "$0\*.tag"
-	Delete "$0\mplayer\config"
-	Delete "$0\mplayer\*.conf"
+	${If} ${FileExists} "$0\*.*"
+		RMDir /r "$0"
+	${EndIf}
 SectionEnd
 
 Section "!MPlayer r${MPLAYER_REVISION}" SECID_MPLAYER
@@ -552,6 +544,8 @@ Section "!SMPlayer $(MPLAYER_LANG_FRONT_END) v${SMPLAYER_VERSION}" SECID_SMPLAYE
 	; Set file access rights
 	${MakeFilePublic} "$INSTDIR\SMPlayer.ini"
 	${MakeFilePublic} "$INSTDIR\SMPlayer_files.ini"
+	${MakeFilePublic} "$INSTDIR\player_info.ini"
+	${MakeFilePublic} "$INSTDIR\playlist.ini"
 	${MakeFilePublic} "$INSTDIR\favorites.m3u8"
 	${MakeFilePublic} "$INSTDIR\radio.m3u8"
 	${MakeFilePublic} "$INSTDIR\tv.m3u8"
@@ -561,25 +555,28 @@ Section "!SMPlayer $(MPLAYER_LANG_FRONT_END) v${SMPLAYER_VERSION}" SECID_SMPLAYE
 	; Setup initial config
 	${StrRep} $0 "$INSTDIR\MPlayer.exe" "\" "/"
 	ClearErrors
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "config_version"             "4"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "mplayer_bin"                "$0"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "driver\vo"                  "direct3d"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "autosync"                   "true"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "autosync_factor"            "30"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "use_audio_equalizer"        "false"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "use_scaletempo"             "0"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "osd"                        "1"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "file_settings_method"       "normal"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "performance"    "threads"                    "$DetectedCPUCores"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "performance"    "priority"                   "1"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "performance"    "frame_drop"                 "true"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui"            "gui"                        "DefaultGUI"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui"            "iconset"                    "Numix-remix"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui"            "style"                      "Plastique"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "advanced"       "mplayer_additional_options" ""
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "smplayer"       "check_for_new_version"      "false"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "smplayer"       "check_if_upgraded"          "false"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "update_checker" "enabled"                    "false"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "autosync"                      "true"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "autosync_factor"               "30"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "config_version"                "4"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "driver\vo"                     "direct3d"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "file_settings_method"          "normal"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "mplayer_bin"                   "$0"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "osd"                           "1"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "use_audio_equalizer"           "false"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "use_scaletempo"                "0"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "advanced"       "mplayer_additional_options"    ""
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui"            "gui"                           "DefaultGUI"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui"            "iconset"                       "Numix-remix"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui"            "style"                         "Plastique"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "mplayer_info"   "is_mplayer2"                   "false"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "mplayer_info"   "mplayer_detected_version"      "${MPLAYER_REVISION}"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "mplayer_info"   "mplayer_user_supplied_version" "-1"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "performance"    "frame_drop"                    "true"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "performance"    "priority"                      "1"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "performance"    "threads"                       "$DetectedCPUCores"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "smplayer"       "check_for_new_version"         "false"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "smplayer"       "check_if_upgraded"             "false"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "update_checker" "enabled"                       "false"
 	
 	${If} ${Errors}
 		${IfCmd} MessageBox MB_TOPMOST|MB_ICONSTOP|MB_DEFBUTTON2|MB_OKCANCEL "$(MPLAYER_LANG_CONFIG_SMPLAYER)" IDCANCEL ${||} Abort ${|}
@@ -808,19 +805,25 @@ Section "$(MPLAYER_LANG_INST_AUTOUPDATE)" SECID_AUTOUPDATE
 SectionEnd
 
 Section "-Protect Files"
-	SetFileAttributes "$INSTDIR\MPlayer.exe" FILE_ATTRIBUTE_READONLY
-	SetFileAttributes "$INSTDIR\dsnative.dll" FILE_ATTRIBUTE_READONLY
-	SetFileAttributes "$INSTDIR\MPUI.exe" FILE_ATTRIBUTE_READONLY
-	SetFileAttributes "$INSTDIR\SMPlayer.exe" FILE_ATTRIBUTE_READONLY
-	SetFileAttributes "$INSTDIR\Updater.exe" FILE_ATTRIBUTE_READONLY
-	SetFileAttributes "$INSTDIR\QtCore4.dll" FILE_ATTRIBUTE_READONLY
-	SetFileAttributes "$INSTDIR\QtGui4.dll" FILE_ATTRIBUTE_READONLY
-	SetFileAttributes "$INSTDIR\QtNetwork4.dll" FILE_ATTRIBUTE_READONLY
-	SetFileAttributes "$INSTDIR\QtXml4.dll" FILE_ATTRIBUTE_READONLY
-	SetFileAttributes "$INSTDIR\dsnative.dll" FILE_ATTRIBUTE_READONLY
-	SetFileAttributes "$INSTDIR\libgcc_s_dw2-1.dll" FILE_ATTRIBUTE_READONLY
-	SetFileAttributes "$INSTDIR\mingwm10.dll" FILE_ATTRIBUTE_READONLY
-	SetFileAttributes "$INSTDIR\zlib1.dll" FILE_ATTRIBUTE_READONLY
+	SetFileAttributes "$INSTDIR\AppRegGUI.exe"       FILE_ATTRIBUTE_READONLY
+	SetFileAttributes "$INSTDIR\mplayer.exe"         FILE_ATTRIBUTE_READONLY
+	SetFileAttributes "$INSTDIR\MPUI.exe"            FILE_ATTRIBUTE_READONLY
+	SetFileAttributes "$INSTDIR\smplayer.exe"        FILE_ATTRIBUTE_READONLY
+	SetFileAttributes "$INSTDIR\Updater.exe"         FILE_ATTRIBUTE_READONLY
+	
+	SetFileAttributes "$INSTDIR\dsnative.dll"        FILE_ATTRIBUTE_READONLY
+	SetFileAttributes "$INSTDIR\libeay32.dll"        FILE_ATTRIBUTE_READONLY
+	SetFileAttributes "$INSTDIR\libgcc_s_dw2-1.dll"  FILE_ATTRIBUTE_READONLY
+	SetFileAttributes "$INSTDIR\libstdc++-6.dll"     FILE_ATTRIBUTE_READONLY
+	SetFileAttributes "$INSTDIR\libwinpthread-1.dll" FILE_ATTRIBUTE_READONLY
+	SetFileAttributes "$INSTDIR\Qt5Core.dll"         FILE_ATTRIBUTE_READONLY
+	SetFileAttributes "$INSTDIR\Qt5Gui.dll"          FILE_ATTRIBUTE_READONLY
+	SetFileAttributes "$INSTDIR\Qt5Network.dll"      FILE_ATTRIBUTE_READONLY
+	SetFileAttributes "$INSTDIR\Qt5Script.dll"       FILE_ATTRIBUTE_READONLY
+	SetFileAttributes "$INSTDIR\Qt5Widgets.dll"      FILE_ATTRIBUTE_READONLY
+	SetFileAttributes "$INSTDIR\Qt5Xml.dll"          FILE_ATTRIBUTE_READONLY
+	SetFileAttributes "$INSTDIR\ssleay32.dll"        FILE_ATTRIBUTE_READONLY
+	SetFileAttributes "$INSTDIR\zlib1.dll"           FILE_ATTRIBUTE_READONLY
 SectionEnd
 
 Section "-Finished"
@@ -951,7 +954,7 @@ FunctionEnd
 	LockedList::AddModule "\MPlayer.exe"
 	LockedList::AddModule "\SMPlayer.exe"
 	LockedList::AddModule "\MPUI.exe"
-	LockedList::AddModule "\QtCore4.dll"
+	LockedList::AddModule "\Qt5Core.dll"
 	
 	LockedList::Dialog /autonext /ignore "$(MPLAYER_LANG_IGNORE)" /heading "$(MPLAYER_LANG_LOCKEDLIST_HEADING)" /noprograms "$(MPLAYER_LANG_LOCKEDLIST_NOPROG)" /searching  "$(MPLAYER_LANG_LOCKEDLIST_SEARCH)" /colheadings "$(MPLAYER_LANG_LOCKEDLIST_COLHDR1)" "$(MPLAYER_LANG_LOCKEDLIST_COLHDR2)"
 	Pop $R0
