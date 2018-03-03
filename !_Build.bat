@@ -1,11 +1,13 @@
 @echo off
 
 REM Build Number and other version info
-set "BUILD_NO=136"
-set "MPLAYER_REVISION=37905"
-set "SMPLAYER_VERSION=16.11.0 (SVN-r8243)"
-set "MPUI_VERSION=1.2-pre3 (Build 38)"
-set "CODECS_DATE=2011-01-31"
+call "%~dp0\!_Version.bat"
+if "%BUILD_NO%"==""         echo BUILD_NO is not defined!         & pause & goto:eof
+if "%MPLAYER_REVISION%"=="" echo MPLAYER_REVISION is not defined! & pause & goto:eof
+if "%SMPLAYER_VERSION%"=="" echo SMPLAYER_VERSION is not defined! & pause & goto:eof
+if "%MPUI_VERSION%"==""     echo MPUI_VERSION is not defined!     & pause & goto:eof
+if "%CODECS_DATE%"==""      echo CODECS_DATE is not defined!      & pause & goto:eof
+if "%BUILD_NO%"==""         echo BUILD_NO is not defined!         & pause & goto:eof
 
 REM Prerequisites base path
 set "PREREQUISITES_DIR=E:\Source\Prerequisites"

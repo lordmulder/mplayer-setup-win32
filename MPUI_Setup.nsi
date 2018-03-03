@@ -553,7 +553,7 @@ Section "!SMPlayer $(MPLAYER_LANG_FRONT_END) v${SMPLAYER_VERSION}" SECID_SMPLAYE
 	ClearErrors
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "autosync"                      "true"
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "autosync_factor"               "30"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "config_version"                "4"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "config_version"                "5"
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "driver\vo"                     "direct3d"
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "file_settings_method"          "normal"
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "mplayer_bin"                   "$0"
