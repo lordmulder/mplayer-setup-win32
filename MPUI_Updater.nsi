@@ -258,9 +258,9 @@ Section "-Select Mirror"
 		${Case} "13"
 			StrCpy $Update_MirrorURL "http://www.tricksoft.de/"
 		${Case} "14"
-			StrCpy $Update_MirrorURL "http://repo.or.cz/LameXP.git/blob_plain/gh-pages:/",
+			StrCpy $Update_MirrorURL "http://repo.or.cz/LameXP.git/blob_plain/gh-pages:/"
 		${Case} "15"
-			StrCpy $Update_MirrorURL "http://gitlab.com/lamexp/lamexp/raw/gh-pages/",
+			StrCpy $Update_MirrorURL "http://gitlab.com/lamexp/lamexp/raw/gh-pages/"
 		${CaseElse}
 			Abort "This is not supposed to happen!"
 	${EndSelect}
