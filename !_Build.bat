@@ -57,6 +57,9 @@ REM Create outputfolder, if not exists yet
 mkdir "%~dp0\.Compile" 2> NUL
 mkdir "%~dp0\.Release" 2> NUL
 
+REM Generate docs
+call "%~dp0\Docs\minify.cmd"
+
 REM Build update tool
 "%NSIS_PATH%\makensis.exe" "/DMPLAYER_BUILDNO=%BUILD_NO%" "/DMPLAYER_DATE=%ISO_DATE%" "/DUPX_PATH=%UPX_PATH%" "/DMPLAYER_OUTFILE=%~dp0\.Compile\Updater.exe" "%~dp0\MPUI_Updater.nsi"
 if %ERRORLEVEL% NEQ 0 (
