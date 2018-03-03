@@ -1,6 +1,6 @@
 ; ///////////////////////////////////////////////////////////////////////////////
 ; // MPlayer for Windows - Install Script
-; // Copyright (C) 2004-2016 LoRd_MuldeR <MuldeR2@GMX.de>
+; // Copyright (C) 2004-2018 LoRd_MuldeR <MuldeR2@GMX.de>
 ; //
 ; // This program is free software; you can redistribute it and/or modify
 ; // it under the terms of the GNU General Public License as published by
@@ -158,7 +158,7 @@ VIAddVersionKey "Comments" "This program is free software; you can redistribute 
 VIAddVersionKey "CompanyName" "Free Software Foundation"
 VIAddVersionKey "FileDescription" "MPlayer for Windows (Build #${MPLAYER_BUILDNO})"
 VIAddVersionKey "FileVersion" "${PRODUCT_VERSION_DATE}.${MPLAYER_BUILDNO}"
-VIAddVersionKey "LegalCopyright" "Copyright 2000-2016 The MPlayer Project"
+VIAddVersionKey "LegalCopyright" "Copyright 2000-2018 The MPlayer Project"
 VIAddVersionKey "LegalTrademarks" "GNU"
 VIAddVersionKey "OriginalFilename" "MPUI-Setup.exe"
 VIAddVersionKey "ProductName" "MPlayer for Windows"
