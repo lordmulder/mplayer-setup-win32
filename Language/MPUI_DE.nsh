@@ -1,6 +1,6 @@
 ; ///////////////////////////////////////////////////////////////////////////////
 ; // MPlayer for Windows - Install Script
-; // Copyright (C) 2004-2014 LoRd_MuldeR <MuldeR2@GMX.de>
+; // Copyright (C) 2004-2018 LoRd_MuldeR <MuldeR2@GMX.de>
 ; //
 ; // This program is free software; you can redistribute it and/or modify
 ; // it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ LangString MPLAYER_LANG_APPLYING_TWEAKS          ${LANG_GERMAN} "Anpassungen wer
 LangString MPLAYER_LANG_AUTO_UPDATE              ${LANG_GERMAN} "Auto-Update"
 LangString MPLAYER_LANG_BIN_CODECS               ${LANG_GERMAN} "Binäre Codecs"
 LangString MPLAYER_LANG_COMPRESS_FILES           ${LANG_GERMAN} "Programmdateien optimieren"
-LangString MPLAYER_LANG_COMPRESSING              ${LANG_GERMAN} "Komprimiere"
+LangString MPLAYER_LANG_COMPRESSING              ${LANG_GERMAN} "Optimiere:"
 LangString MPLAYER_LANG_CONFIG_MPUI              ${LANG_GERMAN} "Fehler beim Schreiben der MPUI Konfigurationsdatei!"
 LangString MPLAYER_LANG_CONFIG_SMPLAYER          ${LANG_GERMAN} "Fehler beim Schreiben der SMPlayer Konfigurationsdatei!"
 LangString MPLAYER_LANG_DETECTING                ${LANG_GERMAN} "CPU-Typ wird ermittelt..."
