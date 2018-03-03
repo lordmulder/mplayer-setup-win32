@@ -93,7 +93,7 @@ SetCompressorDictSize 112
 !tempfile PACKHDRTEMP
 !packhdr "${PACKHDRTEMP}" '"Utils\MT.exe" -manifest "Resources\Setup.manifest" -outputresource:"${PACKHDRTEMP};1"'
 
-#!packhdr "$%TEMP%\exehead.tmp" '"${UPX_PATH}\upx.exe" --brute "$%TEMP%\exehead.tmp"'
+!packhdr "$%TEMP%\exehead.tmp" '"${UPX_PATH}\upx.exe" --brute "$%TEMP%\exehead.tmp"'
 
 
 ;--------------------------------------------------------------------------------
@@ -682,7 +682,7 @@ Section "$(MPLAYER_LANG_COMPRESS_FILES)"
 	SectionIn 1 2
 	${PrintProgress} "$(MPLAYER_LANG_STATUS_INST_COMPRESS)"
 	
-	File "/oname=$PLUGINSDIR\UPX.exe" "Utils\UPX.exe"
+	File "/oname=$PLUGINSDIR\UPX.exe" "${UPX_PATH}\UPX.exe"
 	
 	${PackAll} "$INSTDIR" "*.exe"
 	${PackAll} "$INSTDIR" "*.dll"
