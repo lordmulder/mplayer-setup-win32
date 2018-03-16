@@ -563,7 +563,7 @@ Section "!SMPlayer $(MPLAYER_LANG_FRONT_END) v${SMPLAYER_VERSION}" SECID_SMPLAYE
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "advanced"       "mplayer_additional_options"    ""
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui"            "gui"                           "DefaultGUI"
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui"            "iconset"                       "Numix-remix"
-	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui"            "style"                         "Plastique"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "gui"            "qt_style"                      "WindowsVista"
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "mplayer_info"   "is_mplayer2"                   "false"
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "mplayer_info"   "mplayer_detected_version"      "${MPLAYER_REVISION}"
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "mplayer_info"   "mplayer_user_supplied_version" "-1"
@@ -651,8 +651,7 @@ Section "-ApplyTweaks"
 	${If} $0 != 0
 		${If} ${FileExists} "$INSTDIR\SMPlayer.ini"
 			WriteINIStr "$INSTDIR\SMPlayer.ini" "gui" "gui"     "SkinGUI"
-			WriteINIStr "$INSTDIR\SMPlayer.ini" "gui" "iconset" "Gonzo"
-			WriteINIStr "$INSTDIR\SMPlayer.ini" "gui" "style"   "Plastique"
+			WriteINIStr "$INSTDIR\SMPlayer.ini" "gui" "iconset" "Modern"
 		${EndIf}
 	${EndIf}
 
