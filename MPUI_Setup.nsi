@@ -365,7 +365,9 @@ FunctionEnd
 ;--------------------------------------------------------------------------------
 
 Section "-Check Current Version"
-	${If} ${FileExists} "$INSTDIR\version.tag"
+	${StdUtils.TestParameter} $0 "Update"
+	${IfNot} "$0" == "true"
+	${AndIf} ${FileExists} "$INSTDIR\version.tag"
 		ReadINIStr $0 "$INSTDIR\version.tag" "mplayer_version" "build_no"
 		${If} $0 > ${MPLAYER_BUILDNO}
 			MessageBox MB_OK|MB_ICONEXCLAMATION|MB_TOPMOST "$(MPLAYER_LANG_CAN_NOT_UPDATE)"
@@ -1155,8 +1157,8 @@ FunctionEnd
 !macroend
 
 Function CheckForUpdate
-	${StdUtils.GetParameter} $0 "Update" "?"
-	${IfNot} "$0" == "?"
+	${StdUtils.TestParameter} $0 "Update"
+	${If} "$0" == "true"
 		!insertmacro EnablePathEditable 0 0
 		Return
 	${EndIf}
