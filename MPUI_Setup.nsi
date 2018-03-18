@@ -1196,9 +1196,9 @@ FunctionEnd
 Function RunAppFunction
 	!insertmacro DisableNextButton $R0
 	${If} ${FileExists} "$INSTDIR\SMPlayer.exe"
-		${StdUtils.ExecShellAsUser} $R0 "$INSTDIR\SMPlayer.exe" "open" "http://lounge-office.rautemusik.fm/"
+		${StdUtils.ExecShellAsUser} $R0 "$INSTDIR\SMPlayer.exe" "open" "https://www.youtube.com/watch?v=SkVqJ1SGeL0"
 	${Else}
-		${StdUtils.ExecShellAsUser} $R0 "$INSTDIR\MPUI.exe" "open" "http://lounge-office.rautemusik.fm/"
+		${StdUtils.ExecShellAsUser} $R0 "$INSTDIR\MPUI.exe" "open" "http://www.caminandes.com/download/03_caminandes_llamigos_1080p.mp4"
 	${EndIf}
 FunctionEnd
 
