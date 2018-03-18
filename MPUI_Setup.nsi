@@ -1145,7 +1145,7 @@ FunctionEnd
 !macro EnablePathEditable flag show_msg
 	!insertmacro SetControlEnabled 1019 ${flag}
 	!insertmacro SetControlEnabled 1001 ${flag}
-	${IfNot} $NotUpdateInstall == ${flag}
+	${IfNot} $NotUpdateInstall = ${flag}
 		!if ${show_msg} == 1
 			MessageBox MB_OK|MB_ICONINFORMATION "$(MPLAYER_LANG_FORCE_UPDATE)" /SD IDOK
 		!endif
@@ -1162,7 +1162,8 @@ Function CheckForUpdate
 	${EndIf}
 	
 	${If} ${FileExists} "$INSTDIR\MPlayer.exe"
-		${If} ${FileExists} "$INSTDIR\version.tag"
+		${If} $NotUpdateInstall = 1
+		${AndIf} ${FileExists} "$INSTDIR\version.tag"
 			ReadINIStr $0 "$INSTDIR\version.tag" "mplayer_version" "build_no"
 			${If} $0 > ${MPLAYER_BUILDNO}
 				MessageBox MB_OK|MB_ICONEXCLAMATION "$(MPLAYER_LANG_CAN_NOT_UPDATE)"
