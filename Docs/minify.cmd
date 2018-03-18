@@ -13,4 +13,4 @@ if not exist "%HTML_COMPRESSOR_PATH%\htmlcompressor-1.5.3.jar" (
 
 "%JAVA_HOME%\bin\java.exe" -jar "%HTML_COMPRESSOR_PATH%\htmlcompressor-1.5.3.jar" --compress-css -o "%~dp0\Readme.html" "%~dp0\Readme.FULL.html"
 
-pause
+REM pause
