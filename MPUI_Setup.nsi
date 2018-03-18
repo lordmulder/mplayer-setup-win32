@@ -661,33 +661,37 @@ Section "-ApplyTweaks"
 	DetailPrint "$(MPLAYER_LANG_APPLYING_TWEAKS)"
 
 	IntOp $0 $SelectedTweaks & 1
-	${If} $0 != 0
-		${If} ${FileExists} "$INSTDIR\SMPlayer.ini"
-			WriteINIStr "$INSTDIR\SMPlayer.ini" "gui" "gui"      "SkinGUI"
-			WriteINIStr "$INSTDIR\SMPlayer.ini" "gui" "qt_style" "Fusion"
-			WriteINIStr "$INSTDIR\SMPlayer.ini" "gui" "iconset"  "Modern"
-		${EndIf}
+	${If} $0 <> 0
+	${AndIf} ${FileExists} "$INSTDIR\SMPlayer.ini"
+		DetailPrint "SMPlayer: Enable 'gui=SkinGUI'"
+		WriteINIStr "$INSTDIR\SMPlayer.ini" "gui" "gui"      "SkinGUI"
+		WriteINIStr "$INSTDIR\SMPlayer.ini" "gui" "qt_style" "Fusion"
+		WriteINIStr "$INSTDIR\SMPlayer.ini" "gui" "iconset"  "Modern"
 	${EndIf}
 
 	IntOp $0 $SelectedTweaks & 2
-	${If} $0 != 0
-		${If} ${FileExists} "$INSTDIR\MPUI.ini"
-			WriteINIStr "$INSTDIR\MPUI.ini" "MPUI" "Params" "-vo gl:yuv=3 -lavdopts threads=$DetectedCPUCores"
-		${EndIf}
-		${If} ${FileExists} "$INSTDIR\SMPlayer.ini"
-			WriteINIStr "$INSTDIR\SMPlayer.ini" "%General" "driver\vo" "gl:yuv=3"
-		${EndIf}
+	${If} $0 <> 0
+	${AndIf} ${FileExists} "$INSTDIR\MPUI.ini"
+		DetailPrint "MPUI: Enable '-vo gl'"
+		WriteINIStr "$INSTDIR\MPUI.ini" "MPUI" "Params" "-vo gl -lavdopts threads=$DetectedCPUCores"
+	${EndIf}
+	${If} $0 <> 0
+	${AndIf} ${FileExists} "$INSTDIR\SMPlayer.ini"
+		DetailPrint "SMPlayer: Enable '-vo gl'"
+		WriteINIStr "$INSTDIR\SMPlayer.ini" "%General" "driver\vo" "gl"
 	${EndIf}
 
 	IntOp $0 $SelectedTweaks & 4
-	${If} $0 != 0
-		${If} ${FileExists} "$INSTDIR\MPUI.ini"
-			ReadINIStr $1 "$INSTDIR\MPUI.ini" "MPUI" "Params"
-			WriteINIStr "$INSTDIR\MPUI.ini" "MPUI" "Params" "$1 -af volnorm=2"
-		${EndIf}
-		${If} ${FileExists} "$INSTDIR\SMPlayer.ini"
-			WriteINIStr "$INSTDIR\SMPlayer.ini" "defaults" "initial_volnorm" "true"
-		${EndIf}
+	${If} $0 <> 0
+	${AndIf} ${FileExists} "$INSTDIR\MPUI.ini"
+		DetailPrint "MPUI: Enable '-af volnorm=2'"
+		ReadINIStr $1 "$INSTDIR\MPUI.ini" "MPUI" "Params"
+		WriteINIStr "$INSTDIR\MPUI.ini" "MPUI" "Params" "$1 -af volnorm=2"
+	${EndIf}
+	${If} $0 <> 0
+	${AndIf} ${FileExists} "$INSTDIR\SMPlayer.ini"
+		DetailPrint "SMPlayer: Enable 'initial_volnorm=true'"
+		WriteINIStr "$INSTDIR\SMPlayer.ini" "defaults" "initial_volnorm" "true"
 	${EndIf}
 SectionEnd
 
@@ -1100,7 +1104,7 @@ Function SetTweaksPage_Show
 	StrCpy $0 1
 	${For} $1 2 4
 		IntOp $2 $0 & $SelectedTweaks
-		${If} $2 != 0
+		${If} $2 <> 0
 			!insertmacro INSTALLOPTIONS_WRITE "Page_Tweaks.ini" "Field $1" "State" "1"
 		${Else}
 			!insertmacro INSTALLOPTIONS_WRITE "Page_Tweaks.ini" "Field $1" "State" "0"
@@ -1120,9 +1124,10 @@ Function SetTweaksPage_Show
 
 	; Read new selection from dialog
 	StrCpy $0 1
+	StrCpy $SelectedTweaks 0
 	${For} $1 2 4
 		!insertmacro INSTALLOPTIONS_READ $2 "Page_Tweaks.ini" "Field $1" "State"
-		${IfThen} $2 == 1 ${|} IntOp $SelectedTweaks $SelectedTweaks | $0 ${|}
+		${IfThen} $2 = 1 ${|} IntOp $SelectedTweaks $SelectedTweaks | $0 ${|}
 		IntOp $0 $0 << 1
 	${Next}
 FunctionEnd
