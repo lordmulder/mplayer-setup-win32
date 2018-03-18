@@ -650,8 +650,9 @@ Section "-ApplyTweaks"
 	IntOp $0 $SelectedTweaks & 1
 	${If} $0 != 0
 		${If} ${FileExists} "$INSTDIR\SMPlayer.ini"
-			WriteINIStr "$INSTDIR\SMPlayer.ini" "gui" "gui"     "SkinGUI"
-			WriteINIStr "$INSTDIR\SMPlayer.ini" "gui" "iconset" "Modern"
+			WriteINIStr "$INSTDIR\SMPlayer.ini" "gui" "gui"      "SkinGUI"
+			WriteINIStr "$INSTDIR\SMPlayer.ini" "gui" "qt_style" "Fusion"
+			WriteINIStr "$INSTDIR\SMPlayer.ini" "gui" "iconset"  "Modern"
 		${EndIf}
 	${EndIf}
 
