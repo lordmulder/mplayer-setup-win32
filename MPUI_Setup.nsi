@@ -663,7 +663,7 @@ Section "-ApplyTweaks"
 	IntOp $0 $SelectedTweaks & 1
 	${If} $0 <> 0
 	${AndIf} ${FileExists} "$INSTDIR\SMPlayer.ini"
-		DetailPrint "SMPlayer: Enable 'gui=SkinGUI'"
+		DetailPrint "SMPlayer: Enable tweak 'gui=SkinGUI'"
 		WriteINIStr "$INSTDIR\SMPlayer.ini" "gui" "gui"      "SkinGUI"
 		WriteINIStr "$INSTDIR\SMPlayer.ini" "gui" "qt_style" "Fusion"
 		WriteINIStr "$INSTDIR\SMPlayer.ini" "gui" "iconset"  "Modern"
@@ -672,25 +672,25 @@ Section "-ApplyTweaks"
 	IntOp $0 $SelectedTweaks & 2
 	${If} $0 <> 0
 	${AndIf} ${FileExists} "$INSTDIR\MPUI.ini"
-		DetailPrint "MPUI: Enable '-vo gl'"
+		DetailPrint "MPUI: Enable tweak '-vo gl'"
 		WriteINIStr "$INSTDIR\MPUI.ini" "MPUI" "Params" "-vo gl -lavdopts threads=$DetectedCPUCores"
 	${EndIf}
 	${If} $0 <> 0
 	${AndIf} ${FileExists} "$INSTDIR\SMPlayer.ini"
-		DetailPrint "SMPlayer: Enable '-vo gl'"
+		DetailPrint "SMPlayer: Enable tweak '-vo gl'"
 		WriteINIStr "$INSTDIR\SMPlayer.ini" "%General" "driver\vo" "gl"
 	${EndIf}
 
 	IntOp $0 $SelectedTweaks & 4
 	${If} $0 <> 0
 	${AndIf} ${FileExists} "$INSTDIR\MPUI.ini"
-		DetailPrint "MPUI: Enable '-af volnorm=2'"
+		DetailPrint "MPUI: Enable tweak '-af volnorm=2'"
 		ReadINIStr $1 "$INSTDIR\MPUI.ini" "MPUI" "Params"
 		WriteINIStr "$INSTDIR\MPUI.ini" "MPUI" "Params" "$1 -af volnorm=2"
 	${EndIf}
 	${If} $0 <> 0
 	${AndIf} ${FileExists} "$INSTDIR\SMPlayer.ini"
-		DetailPrint "SMPlayer: Enable 'initial_volnorm=true'"
+		DetailPrint "SMPlayer: Enable tweak 'initial_volnorm=true'"
 		WriteINIStr "$INSTDIR\SMPlayer.ini" "defaults" "initial_volnorm" "true"
 	${EndIf}
 SectionEnd
