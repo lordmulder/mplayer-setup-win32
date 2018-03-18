@@ -367,6 +367,7 @@ FunctionEnd
 Section "-Check Current Version"
 	${StdUtils.TestParameter} $0 "Update"
 	${IfNot} "$0" == "true"
+	${AndIf} ${FileExists} "$INSTDIR\MPlayer.exe"
 	${AndIf} ${FileExists} "$INSTDIR\version.tag"
 		ReadINIStr $0 "$INSTDIR\version.tag" "mplayer_version" "build_no"
 		${If} $0 > ${MPLAYER_BUILDNO}
