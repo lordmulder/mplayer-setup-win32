@@ -364,6 +364,16 @@ FunctionEnd
 ; INSTALL SECTIONS
 ;--------------------------------------------------------------------------------
 
+Section "-Check Current Version"
+	${If} ${FileExists} "$INSTDIR\version.tag"
+		ReadINIStr $0 "$INSTDIR\version.tag" "mplayer_version" "build_no"
+		${If} $0 > ${MPLAYER_BUILDNO}
+			MessageBox MB_OK|MB_ICONEXCLAMATION|MB_TOPMOST "$(MPLAYER_LANG_CAN_NOT_UPDATE)"
+			Quit
+		${EndIf}
+	${EndIf}
+SectionEnd
+
 Section "-Clean Up"
 	${PrintProgress} "$(MPLAYER_LANG_STATUS_INST_CLEAN)"
 
@@ -1152,6 +1162,16 @@ Function CheckForUpdate
 	${EndIf}
 	
 	${If} ${FileExists} "$INSTDIR\MPlayer.exe"
+		${If} ${FileExists} "$INSTDIR\version.tag"
+			ReadINIStr $0 "$INSTDIR\version.tag" "mplayer_version" "build_no"
+			${If} $0 > ${MPLAYER_BUILDNO}
+				MessageBox MB_OK|MB_ICONEXCLAMATION "$(MPLAYER_LANG_CAN_NOT_UPDATE)"
+				Quit
+			${EndIf}
+			${If} $0 = ${MPLAYER_BUILDNO}
+				${IfCmd} MessageBox MB_YESNO|MB_ICONEXCLAMATION "$(MPLAYER_LANG_CONFIRM_UPDATE)" /SD IDYES IDNO ${||} Quit ${|}
+			${EndIf}
+		${EndIf}
 		!insertmacro EnablePathEditable 0 1
 		Return
 	${EndIf}
