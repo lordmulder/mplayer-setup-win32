@@ -9,20 +9,12 @@ if "%MPUI_VERSION%"==""     echo MPUI_VERSION is not defined!     & pause & goto
 if "%CODECS_DATE%"==""      echo CODECS_DATE is not defined!      & pause & goto:eof
 if "%BUILD_NO%"==""         echo BUILD_NO is not defined!         & pause & goto:eof
 
-REM Prerequisites base path
-set "PREREQUISITES_DIR=E:\Source\Prerequisites"
-
-REM Path to NSIS, Unicode version highly recommended!
-set "NSIS_PATH=%PREREQUISITES_DIR%\NSIS"
-
-REM Path to UPX executable compressor program
-set "UPX_PATH=%PREREQUISITES_DIR%\UPX"
-
-REM Path to 7-Zip tools
-set "SEVENZ_PATH=%PREREQUISITES_DIR%\SevenZip"
-
-REM Path to VerPatch tool
-set "VPATCH_PATH=%PREREQUISITES_DIR%\VerPatch"
+REM BSetup prerequisites path
+call "%~dp0\!_Paths.bat"
+if "%NSIS_PATH%"==""   echo NSIS_PATH is not defined!   & pause & goto:eof
+if "%UPX_PATH%"==""    echo UPX_PATH is not defined!    & pause & goto:eof
+if "%SEVENZ_PATH%"=="" echo SEVENZ_PATH is not defined! & pause & goto:eof
+if "%VPATCH_PATH%"=="" echo VPATCH_PATH is not defined! & pause & goto:eof
 
 REM --------------------------------------------------------------------------
 REM Do NOT modify any lines below!
