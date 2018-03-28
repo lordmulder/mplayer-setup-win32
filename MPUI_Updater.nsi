@@ -222,32 +222,30 @@ Section "-Select Mirror"
 	${SetStatus} "$(MPLAYER_LANG_UPD_STATUS_MIRROR)"
 	StrCpy $Update_MirrorURL "http://www.example.com/"
 
-	; Randomize some more
-	${For} $1 1 97
-		${StdUtils.RandMax} $0 15
-	${Next}
+	; Randomize!
+	${StdUtils.RandMax} $0 15
 
 	; Select the mirror now!
 	${Select} $0
-		${Case} "0"
+		${Case}  "0"
 			StrCpy $Update_MirrorURL "http://muldersoft.com/"
-		${Case} "1"
+		${Case}  "1"
 			StrCpy $Update_MirrorURL "http://mulder.bplaced.net/"
-		${Case} "2"
+		${Case}  "2"
 			StrCpy $Update_MirrorURL "http://mulder.6te.net/"
-		${Case} "3"
+		${Case}  "3"
 			StrCpy $Update_MirrorURL "http://mulder.000webhostapp.com/"
-		${Case} "4"
+		${Case}  "4"
 			StrCpy $Update_MirrorURL "http://mulder.pe.hu/"
-		${Case} "5"
+		${Case}  "5"
 			StrCpy $Update_MirrorURL "http://muldersoft.square7.ch/"
-		${Case} "6"
+		${Case}  "6"
 			StrCpy $Update_MirrorURL "http://muldersoft.co.nf/"
-		${Case} "7"
+		${Case}  "7"
 			StrCpy $Update_MirrorURL "http://muldersoft.lima-city.de/"
-		${Case} "8"
+		${Case}  "8"
 			StrCpy $Update_MirrorURL "http://www.muldersoft.keepfree.de/"
-		${Case} "9"
+		${Case}  "9"
 			StrCpy $Update_MirrorURL "http://lamexp.sourceforge.net/"
 		${Case} "10"
 			StrCpy $Update_MirrorURL "http://muldersoft.sourceforge.net/"
