@@ -77,7 +77,7 @@ if %ERRORLEVEL% NEQ 0 (
 )
 
 REM Build installer wrapper
-call "%SEVENZ_PATH%\7zSDex.cmd" "%~dp0\.Release\MPUI.%ISO_DATE%.sfx" "%~dp0\.Release\MPUI.%ISO_DATE%.exe" "MPlayer for Windows" "MPUI-Setup-r%BUILD_NO%"
+call "%SEVENZ_PATH%\7zSDex.cmd" "%~dp0\.Release\MPUI.%ISO_DATE%.sfx" "%~dp0\.Release\MPUI.%ISO_DATE%.exe" "MPlayer for Windows" "mpui-install-r%BUILD_NO%"
 if %ERRORLEVEL% NEQ 0 (
 	pause
 	goto:eof
