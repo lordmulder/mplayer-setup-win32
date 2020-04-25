@@ -1,6 +1,6 @@
 ; ///////////////////////////////////////////////////////////////////////////////
 ; // MPlayer for Windows - Install Script
-; // Copyright (C) 2004-2019 LoRd_MuldeR <MuldeR2@GMX.de>
+; // Copyright (C) 2004-2020 LoRd_MuldeR <MuldeR2@GMX.de>
 ; //
 ; // This program is free software; you can redistribute it and/or modify
 ; // it under the terms of the GNU General Public License as published by
@@ -457,15 +457,18 @@ Section "!MPlayer r${MPLAYER_REVISION}" SECID_MPLAYER
 	; MPlayer.exe
 	${Select} $SelectedCPUType
 		${Case} "2"
+			DetailPrint "$(MPLAYER_LANG_SELECTED_TYPE): x64 (x86-64)"
+			File "Builds\MPlayer-x86_64\MPlayer.exe"
+		${Case} "3"
 			DetailPrint "$(MPLAYER_LANG_SELECTED_TYPE): core2"
 			File "Builds\MPlayer-core2\MPlayer.exe"
-		${Case} "3"
+		${Case} "4"
 			DetailPrint "$(MPLAYER_LANG_SELECTED_TYPE): corei7"
 			File "Builds\MPlayer-corei7\MPlayer.exe"
-		${Case} "4"
+		${Case} "5"
 			DetailPrint "$(MPLAYER_LANG_SELECTED_TYPE): k8-sse3"
 			File "Builds\MPlayer-k8-sse3\MPlayer.exe"
-		${Case} "5"
+		${Case} "6"
 			DetailPrint "$(MPLAYER_LANG_SELECTED_TYPE): generic"
 			File "Builds\MPlayer-generic\MPlayer.exe"
 		${CaseElse}
@@ -594,18 +597,18 @@ SectionEnd
 
 Section "!$(MPLAYER_LANG_BIN_CODECS) (${CODECS_DATE})"
 	SectionIn 1
-	${PrintProgress} "$(MPLAYER_LANG_STATUS_INST_CODECS)"
-
-	SetOutPath "$INSTDIR\codecs"
-	
-	File "Codecs\*.0"
-	File "Codecs\*.acm"
-	File "Codecs\*.ax"
-	File "Codecs\*.dll"
-	File "Codecs\*.qtx"
-	File "Codecs\*.so"
-	File "Codecs\*.vwp"
-	File "Codecs\*.xa"
+	${If} $SelectedCPUType > 2
+		${PrintProgress} "$(MPLAYER_LANG_STATUS_INST_CODECS)"
+		SetOutPath "$INSTDIR\codecs"
+		File "Codecs\*.0"
+		File "Codecs\*.acm"
+		File "Codecs\*.ax"
+		File "Codecs\*.dll"
+		File "Codecs\*.qtx"
+		File "Codecs\*.so"
+		File "Codecs\*.vwp"
+		File "Codecs\*.xa"
+	${EndIf}
 SectionEnd
 
 Section "-Write Uninstaller"
@@ -976,22 +979,28 @@ FunctionEnd
 Function SelectCPUPage_Show
 	; Detect CPU type, if not detected yet
 	${If} $DetectedCPUType < 2
-	${OrIf} $DetectedCPUType > 5
+	${OrIf} $DetectedCPUType > 6
 		Call DetectCPUType
 		!insertmacro INSTALLOPTIONS_READ $0 "Page_CPU.ini" "Field $DetectedCPUType" "Text"
-		!insertmacro INSTALLOPTIONS_WRITE "Page_CPU.ini" "Field $DetectedCPUType" "Text" "$0  <---"
+		!insertmacro INSTALLOPTIONS_WRITE   "Page_CPU.ini" "Field $DetectedCPUType" "Text" "$0 <-- recommended"
 	${EndIf}
 
 	; Make sure the current selection is valid
 	${IfThen} $SelectedCPUType < 2 ${|} StrCpy $SelectedCPUType $DetectedCPUType ${|}
-	${IfThen} $SelectedCPUType > 5 ${|} StrCpy $SelectedCPUType $DetectedCPUType ${|}
+	${IfThen} $SelectedCPUType > 6 ${|} StrCpy $SelectedCPUType $DetectedCPUType ${|}
+
+	; Disable 64-Bit build on the 32-Bit system
+	${IfNot} ${RunningX64}
+		!insertmacro INSTALLOPTIONS_WRITE "Page_CPU.ini" "Field 2" "Flags" "DISABLED"
+		${IfThen} $SelectedCPUType < 3 ${|} StrCpy $SelectedCPUType 3 ${|}
+	${EndIf}
 
 	; Translate
 	!insertmacro INSTALLOPTIONS_WRITE "Page_CPU.ini" "Field 1" "Text" "$(MPLAYER_LANG_SELECT_CPU_TYPE)"
-	!insertmacro INSTALLOPTIONS_WRITE "Page_CPU.ini" "Field 6" "Text" "$(MPLAYER_LANG_SELECT_CPU_HINT)"
+	!insertmacro INSTALLOPTIONS_WRITE "Page_CPU.ini" "Field 7" "Text" "$(MPLAYER_LANG_SELECT_CPU_HINT)"
 	
 	; Apply current selection to dialog
-	${For} $0 2 5
+	${For} $0 2 6
 		${If} $0 == $SelectedCPUType
 			!insertmacro INSTALLOPTIONS_WRITE "Page_CPU.ini" "Field $0" "State" "1"
 		${Else}
@@ -1005,7 +1014,7 @@ Function SelectCPUPage_Show
 
 	; Read new selection from dialog
 	StrCpy $SelectedCPUType 0
-	${For} $0 2 5
+	${For} $0 2 6
 		!insertmacro INSTALLOPTIONS_READ $1 "Page_CPU.ini" "Field $0" "State"
 		${IfThen} $1 == 1 ${|} StrCpy $SelectedCPUType $0 ${|}
 	${Next}
@@ -1014,21 +1023,28 @@ FunctionEnd
 Function SelectCPUPage_Validate
 	; Read new selection from dialog
 	StrCpy $2 0
-	${For} $0 2 5
+	${For} $0 2 6
 		!insertmacro INSTALLOPTIONS_READ $1 "Page_CPU.ini" "Field $0" "State"
 		${IfThen} $1 == 1 ${|} StrCpy $2 $0 ${|}
 	${Next}
-	
+
 	; Validate selection
 	${If} $2 < 2
-	${OrIf} $2 > 5
+	${OrIf} $2 > 6
+		MessageBox MB_ICONSTOP "Oups, invalid selection detected!"
+		Abort
+	${EndIf}
+
+	; Make sure we cannot select 64-Bit on the 32-Bit system
+	${IfNot} ${RunningX64}
+	${AndIf} $2 < 3
 		MessageBox MB_ICONSTOP "Oups, invalid selection detected!"
 		Abort
 	${EndIf}
 FunctionEnd
 
 Function DetectCPUType
-	StrCpy $DetectedCPUType 5 ;generic
+	StrCpy $DetectedCPUType 6 ;generic
 	StrCpy $DetectedCPUCores 2
 
 	${IfNot} ${Silent}
@@ -1067,30 +1083,30 @@ Function DetectCPUType
 		Return
 	${EndIf}
 
-	; Select the "best" model for Intel's
-	${If} ${CPUIsIntel}
-		; Core2 (SSE3 + SSSE3)
-		${If} ${CPUSupportsAll} "SSE3,SSSE3"
-			StrCpy $DetectedCPUType 2 ;
+	${If} ${RunningX64}
+		; On 64-Bit system we prefer the x64 build
+		StrCpy $DetectedCPUType 2
+	${Else}
+		; Select the "best" model for Intel's
+		${If} ${CPUIsIntel}
+			; Core2 (SSE3 + SSSE3)
+			${If} ${CPUSupportsAll} "SSE3,SSSE3"
+				StrCpy $DetectedCPUType 3
+			${EndIf}
+			; Nehalem (SSE3 + SSSE3 + SSE4.2)
+			${If} ${CPUSupportsAll} "SSE3,SSSE3,SSE4.2"
+				StrCpy $DetectedCPUType 4
+			${EndIf}
 		${EndIf}
-		; Nehalem (SSE3 + SSSE3 + SSE4.2)
-		${If} ${CPUSupportsAll} "SSE3,SSSE3,SSE4.2"
-			StrCpy $DetectedCPUType 3
+		; Select the "best" model for AMD's
+		${If} ${CPUIsAMD}
+			; K8+SSE3 (3DNow! + SSE3)
+			${If} ${CPUSupportsAll} "3DNOW,SSE3"
+				StrCpy $DetectedCPUType 5
+			${EndIf}
 		${EndIf}
 	${EndIf}
 
-	; Select the "best" model for AMD's
-	${If} ${CPUIsAMD}
-		; K8+SSE3 (3DNow! + SSE3)
-		${If} ${CPUSupportsAll} "3DNOW,SSE3"
-			StrCpy $DetectedCPUType 4
-		${EndIf}
-		; Bulldozer (SSE3 + SSSE3 + SSE4.2 + AVX + FMA4)
-		;${If} ${CPUSupportsAll} "SSE3,SSSE3,SSE4.2,AVX1,FMA4"
-		;	StrCpy $DetectedCPUType 5	#5 is now generic, as 'bdver1' build got dropped
-		;${EndIf}
-	${EndIf}
-	
 	Banner::destroy
 FunctionEnd
 
