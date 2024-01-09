@@ -28,8 +28,10 @@
 /SMPlayer/*.m3u8
 /SMPlayer/*.txt
 /SMPlayer/__old__
+/SMPlayer/bearer
 /SMPlayer/docs
 /SMPlayer/file_settings
+/SMPlayer/iconengines
 /SMPlayer/imageformats
 /SMPlayer/mplayer
 /SMPlayer/mpv
@@ -37,5 +39,6 @@
 /SMPlayer/platforms
 /SMPlayer/screenshots
 /SMPlayer/shortcuts
+/SMPlayer/styles
 /SMPlayer/themes
 /SMPlayer/translations

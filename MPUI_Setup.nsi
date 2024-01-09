@@ -1,6 +1,6 @@
 ; ///////////////////////////////////////////////////////////////////////////////
 ; // MPlayer for Windows - Install Script
-; // Copyright (C) 2004-2020 LoRd_MuldeR <MuldeR2@GMX.de>
+; // Copyright (C) 2004-2024 LoRd_MuldeR <MuldeR2@GMX.de>
 ; //
 ; // This program is free software; you can redistribute it and/or modify
 ; // it under the terms of the GNU General Public License as published by
@@ -543,13 +543,17 @@ Section "!SMPlayer $(MPLAYER_LANG_FRONT_END) v${SMPLAYER_VERSION}" SECID_SMPLAYE
 
 	; SMPlayer program files
 	SetOutPath "$INSTDIR"
-	File "SMPlayer\*.exe"
+	File "SMPlayer\smplayer.exe"
+	File "SMPlayer\yt-dlp_x86.exe"
 	File "SMPlayer\*.dll"
 
 	; Additional SMPlayer files
+	${ExtractSubDir} "SMPlayer" "bearer"
+	${ExtractSubDir} "SMPlayer" "iconengines"
 	${ExtractSubDir} "SMPlayer" "imageformats"
 	${ExtractSubDir} "SMPlayer" "platforms"
 	${ExtractSubDir} "SMPlayer" "shortcuts"
+	${ExtractSubDir} "SMPlayer" "styles"
 	${ExtractSubDir} "SMPlayer" "themes"
 	${ExtractSubDir} "SMPlayer" "translations"
 
@@ -565,7 +569,8 @@ Section "!SMPlayer $(MPLAYER_LANG_FRONT_END) v${SMPLAYER_VERSION}" SECID_SMPLAYE
 	${MakeFilePublic} "$INSTDIR\shortcuts\default.keys"
 	
 	; Setup initial config
-	${StrRep} $0 "$INSTDIR\MPlayer.exe" "\" "/"
+	${StrRep} $0 "$INSTDIR\MPlayer.exe"    "\" "/"
+	${StrRep} $1 "$INSTDIR\yt-dlp_x86.exe" "\" "/"
 	ClearErrors
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "autosync"                      "true"
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "%General"       "autosync_factor"               "30"
@@ -588,8 +593,9 @@ Section "!SMPlayer $(MPLAYER_LANG_FRONT_END) v${SMPLAYER_VERSION}" SECID_SMPLAYE
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "performance"    "threads"                       "$DetectedCPUCores"
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "smplayer"       "check_for_new_version"         "false"
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "smplayer"       "check_if_upgraded"             "false"
+	WriteINIStr "$INSTDIR\SMPlayer.ini" "streaming"      "streaming\youtube\ytdl_bin"    "$1"
 	WriteINIStr "$INSTDIR\SMPlayer.ini" "update_checker" "enabled"                       "false"
-	
+
 	${If} ${Errors}
 		${IfCmd} MessageBox MB_TOPMOST|MB_ICONSTOP|MB_DEFBUTTON2|MB_OKCANCEL "$(MPLAYER_LANG_CONFIG_SMPLAYER)" IDCANCEL ${||} Abort ${|}
 	${EndIf}

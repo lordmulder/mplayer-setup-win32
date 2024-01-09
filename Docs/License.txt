@@ -1,11 +1,11 @@
 MPlayer for Windows (only install script)
-Copyright (C) 2004-2020 LoRd_MuldeR <mulder2@gmx.de>
+Copyright (C) 2004-2024 LoRd_MuldeR <mulder2@gmx.de>
 
 MPlayer - The Movie Player
-Copyright (C) 2000-2020 The MPlayer Team <http://www.mplayerhq.hu/>
+Copyright (C) 2000-2024 The MPlayer Team <http://www.mplayerhq.hu/>
 
 SMPlayer - GUI front-end for MPlayer
-Copyright (C) 2006-2020 Ricardo Villalba <rvm@users.sf.net>
+Copyright (C) 2006-2024 Ricardo Villalba <rvm@users.sf.net>
 
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or(at your option) any later version.
 
